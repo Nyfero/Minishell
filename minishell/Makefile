@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/01/22 15:08:05 by gsap             ###   ########.fr        #
+#    Updated: 2022/01/26 15:15:47 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ RM = rm -rf
 
 SRCS_PATH = srcs
 
-SRCS = $(addprefix $(SRCS_PATH)/,main.c)
+SRCS = $(addprefix $(SRCS_PATH)/,main.c echo.c pwd.c)
 
 OBJS_PATH = objs/
 
@@ -59,7 +59,7 @@ $(LIBFT):
 $(OBJS_PATH):
 	@ mkdir -p $(OBJS_PATH)
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)/$(NAME).h
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)/$(NAME).h Makefile
 	@ $(CC) $(CFLAGS) -I $(INC) -c $< -o $@
 
 clean:

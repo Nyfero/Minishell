@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/22 14:22:30 by gsap             ###   ########.fr       */
+/*   Updated: 2022/01/26 17:46:25 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,17 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
-# include "../libft/inc/libft.h"
 # include <readline/history.h>
-#include <readline/readline.h>
+# include <readline/readline.h>
+# include "../libft/inc/libft.h"
 
+# define TRUE 1
+# define FALSE 0
+
+//	echo.c
+void	ft_echo(int flag, char *str);
+
+//	pwd.c
+void	ft_pwd(void);
 
 #endif

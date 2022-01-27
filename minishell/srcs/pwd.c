@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/26 17:46:59 by gsap             ###   ########.fr       */
+/*   Created: 2022/01/26 15:12:58 by gsap              #+#    #+#             */
+/*   Updated: 2022/01/26 15:35:02 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(void)
+void	ft_pwd(void)
 {
-	char	*inpt;
+	char	cwd[10000];
 
-	while (1)
-	{
-		inpt = readline("> ");
-		/*if (!check_builtin(inpt))
-			check_path(inpt);*/
-		if (ft_strncmp(inpt, "exit", 5) == 0)
-			break;
-		if (ft_strncmp(inpt, "pwd", 4) == 0)
-			ft_pwd();
-		if (ft_strncmp(inpt, "echo", 5) == 0)
-			ft_echo(0, inpt);
-		if (inpt && *inpt)
-			add_history(inpt);
-		free(inpt);
-		rl_on_new_line();
-	}
-	free(inpt);
-	rl_clear_history();
-	return (0);
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		perror("getcwd() error");
+	else
+		printf("%s\n", cwd);
 }
