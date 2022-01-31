@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/27 14:23:02 by gsap             ###   ########.fr       */
+/*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
+/*   Updated: 2022/01/31 17:52:06 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char *str)
-{
-	ft_putendl_fd(str, 1);
-	return ;
-}
+/*
+**	Pour gerer les ; il faut creer un tableau de line et faite un split sur ;
+*/
 
-void	ft_echo_n(char *str)
+t_line	*parsing(char *inpt)
 {
-	ft_putstr_fd(str, 1);
-	return ;
+	t_line	*line;
+	char	**tmp;
+	int		i;
+
+	i = 0;
+	line = NULL;
+	tmp = ft_split_minishell(inpt, '|');
+	printf("%d\n", ft_lstrlen(tmp));
+	while (tmp[i])
+	{
+		minishell_addlist(&line, tmp[i]);
+		i++;
+	}
+	ft_free_ls(tmp);
+	return (line);
 }

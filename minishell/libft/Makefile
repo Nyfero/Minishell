@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2021/09/09 11:54:19 by gsap             ###   ########.fr        #
+#    Updated: 2022/01/31 12:26:13 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,14 +54,17 @@ all: $(NAME)
 
 $(NAME): $(OBJS_PATH) $(OBJS)
 	@ $(AR) $(NAME) $(OBJS)
-	@ ranlib $(NAME)
+	@ echo "\n$(CYAN)"
+	ranlib $(NAME)
+	@ echo "$(END)"
 	@ echo "$(GREEN)\n		--- $(NAME) created ---\n$(END)"
 
 $(OBJS_PATH):
 	@ mkdir -p $(OBJS_PATH)
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)
-	@ $(CC) $(CFLAGS) -I $(INC) -c $< -o $@
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC) Makefile
+	$(CC) $(CFLAGS) -I $(INC) -c $< -o $@
+	@ echo "$(GREEN)[ OK ] $(CYAN)${<:.s=.o}$(END)$(END)"
 
 clean:
 	@ $(RM) $(OBJS_PATH)

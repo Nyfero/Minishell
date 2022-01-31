@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/27 14:23:02 by gsap             ###   ########.fr       */
+/*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
+/*   Updated: 2022/01/27 11:47:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char *str)
+void	init_signal(void)
 {
-	ft_putendl_fd(str, 1);
-	return ;
+	struct sigaction	sint;
+	struct sigaction	squit;
+
+	sint.sa_handler = &handle_sigint;
+	sint.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sint, NULL);
+	squit.sa_handler = &handle_sigquit;
+	squit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &squit, NULL);
 }
 
-void	ft_echo_n(char *str)
+void	handle_sigint(int sig)
 {
-	ft_putstr_fd(str, 1);
-	return ;
+	if (sig == 0)
+		;
+	printf("\n> ");
+}
+
+void	handle_sigquit(int sig)
+{
+	if (sig == 0)
+		;
 }
