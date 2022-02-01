@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/31 18:16:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/01 16:06:21 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
+//	ft_error.c
+int		ft_error(char *err);
+
 //	ft_list.c
 void	minishell_addlist(t_line **list, char *inpt);
 t_line	*minishell_create_list(char *inpt);
@@ -54,6 +57,7 @@ void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
 t_line	*parsing(char *inpt);
+int		check_builtin(char *str);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
@@ -64,8 +68,7 @@ void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 
 //	echo.c
-void	ft_echo(char *str);
-void	ft_echo_n(char *str);
+void	ft_echo(char **str);
 
 //	pwd.c
 void	ft_pwd(void);

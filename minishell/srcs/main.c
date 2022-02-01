@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/31 18:18:23 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/01 16:03:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,23 @@ int main(void)
 	init_signal();
 	while (1)
 	{
-		inpt = readline("> ");
-
-		/*if (!check_builtin(inpt))
-			check_path(inpt);*/
+		inpt = readline("Prompt> ");
+		// check si le fd 0 est fermé (ctr + D)
 		if (!inpt && !*inpt)
 		{
 			if (read(0, buf, 1) == 0)
-			{
-				printf("exit\n");
 				break;
-			}
 		}
 		else
-			line = parsing(inpt);
-		while (line)
 		{
-			printf("cmd = %s\n", line->cmd);
-			line = line->next;
-		}
-		minishell_del_list(line);
-		if (ft_strncmp(inpt, "exit", 5) == 0)
-			break;
-		if (ft_strncmp(inpt, "pwd", 4) == 0)
-			ft_pwd();
-		if (ft_strncmp(inpt, "echo", 5) == 0)
-			ft_echo(inpt);
-		if (ft_strncmp(inpt, "echo -n", 8) == 0)
-			ft_echo_n(inpt);
-		if (inpt && *inpt)
+			line = parsing(inpt);
+			// renvoie 1 si exit est trouvé, 0 sinon et exécute le builtin
+			if (check_builtin(line->cmd))
+				break;
 			add_history(inpt);
+			minishell_del_list(line);
+		}
 		free(inpt);
-		rl_on_new_line();
 	}
 	free(inpt);
 	rl_clear_history();

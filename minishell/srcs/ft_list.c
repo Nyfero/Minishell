@@ -6,11 +6,15 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/01/31 18:16:44 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/01 14:48:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+**	Créer line ou rajoute un maillon a line
+*/
 
 void	minishell_addlist(t_line **line, char *inpt)
 {
@@ -35,6 +39,10 @@ void	minishell_addlist(t_line **line, char *inpt)
 	}
 }
 
+/*
+**	Initialisation du maillon
+*/
+
 t_line	*minishell_create_list(char *inpt)
 {
 	t_line	*line;
@@ -46,6 +54,10 @@ t_line	*minishell_create_list(char *inpt)
 	line->cmd = ft_strdup(inpt);
 	return (line);
 }
+
+/*
+**	Met tous les attributs de line a 0
+*/
 
 t_line	*set_list_null(t_line *line)
 {

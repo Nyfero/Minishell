@@ -6,13 +6,13 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/01/31 17:45:02 by gsap             ###   ########.fr        #
+#    Updated: 2022/02/01 15:50:39 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --suppressions=.ignore_readline -q ./minishell
 
-# Colors
+#	Colors
 GREY = \e[90m
 RED = \e[91m
 GREEN = \e[92m
@@ -22,14 +22,21 @@ PURPLE = \e[95m
 CYAN = \e[96m
 END = \e[39m
 
-#	includes
+#	Includes
 INC = inc/
 
 LIBFT_DIR = libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# compilation
+#	Folders
+SRCS_PATH = srcs
+
+#	Files
+FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_list.c \
+	ft_parsing.c ft_error.c
+
+#	Compilation
 NAME = minishell
 
 CC = clang
@@ -38,16 +45,13 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -rf
 
-SRCS_PATH = srcs
-
-SRCS = $(addprefix $(SRCS_PATH)/,main.c echo.c pwd.c handle_signal.c \
-	ft_split_minishell.c ft_list.c ft_parsing.c)
+SRCS = $(addprefix $(SRCS_PATH)/, $(FILES))
 
 OBJS_PATH = objs/
 
 OBJS = $(patsubst $(SRCS_PATH)%.c,	$(OBJS_PATH)%.o, $(SRCS))
 
-# rules
+#	Rules
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_PATH) $(OBJS) $(INC)/minishell.h
