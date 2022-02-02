@@ -6,18 +6,20 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/01 16:03:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 11:29:30 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	char	*inpt;
 	char	buf[2];
 	t_line	*line;
+	t_env	*env;
 
+	ft_getenv(&env, envp);
 	init_signal();
 	while (1)
 	{

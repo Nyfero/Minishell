@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/01 16:06:21 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 11:15:11 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*var;
+	struct s_env	*next;
+}	t_env;
+
 //	ft_error.c
 int		ft_error(char *err);
 
@@ -58,6 +65,7 @@ void	minishell_del_list(t_line *line);
 //	ft_parsing.c
 t_line	*parsing(char *inpt);
 int		check_builtin(char *str);
+int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);

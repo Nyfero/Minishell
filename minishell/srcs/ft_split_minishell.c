@@ -6,31 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/01 11:09:21 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 11:10:22 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	not_in_quotes(char const *s)
-{
-	int	s_qt;
-	int	d_qt;
-
-	s_qt = 0;
-	d_qt = 0;
-	while (*s)
-	{
-		if (*s == 39)
-			s_qt++;
-		if (*s == 34)
-			d_qt++;
-		s++;
-	}
-	if (s_qt % 2 == 0 && d_qt % 2 == 0)
-		return (1);
-	return (0);
-}
 
 static char	**ft_alloc_tmp(char const *s, char c)
 {
