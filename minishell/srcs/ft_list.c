@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/01 14:48:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 13:08:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	minishell_addlist(t_line **line, char *inpt)
 	{
 		ptr = *line;
 		while (ptr->next)
-		ptr = ptr->next;
+			ptr = ptr->next;
 		ptr->next = minishell_create_list(inpt);
 		if (!ptr->next)
 			exit(7);

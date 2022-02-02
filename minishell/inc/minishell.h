@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 11:15:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 17:37:38 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,16 @@ typedef struct s_env
 {
 	char			*name;
 	char			*var;
+	int				flags;
 	struct s_env	*next;
 }	t_env;
+
+//	ft_env.c
+void	ft_env(t_env *env);
+
+//	ft_env_func.c
+void	init_env(t_env **env, char **envp);
+void	create_env_list(t_env **env, char *str);
 
 //	ft_error.c
 int		ft_error(char *err);
@@ -64,7 +72,7 @@ void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
 t_line	*parsing(char *inpt);
-int		check_builtin(char *str);
+int		check_builtin(char *str, t_env *env);
 int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c

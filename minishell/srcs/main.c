@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 11:29:30 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 17:23:10 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@ int main(int argc, char **argv, char **envp)
 	t_line	*line;
 	t_env	*env;
 
-	ft_getenv(&env, envp);
+	(void)argc;
+	(void)argv;
+	env = NULL;
+	init_env(&env, envp);
+	write(1, "1\n", 2);
+	// while (env)
+	// {
+	// 	printf("%s%s\n", env->name, env->var);
+	// 	env = env->next;
+	// }
 	init_signal();
 	while (1)
 	{
@@ -34,7 +43,7 @@ int main(int argc, char **argv, char **envp)
 		{
 			line = parsing(inpt);
 			// renvoie 1 si exit est trouvé, 0 sinon et exécute le builtin
-			if (check_builtin(line->cmd))
+			if (check_builtin(line->cmd, env))
 				break;
 			add_history(inpt);
 			minishell_del_list(line);

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 11:23:04 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/02 15:23:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ t_line	*parsing(char *inpt)
 		i++;
 	}
 	ft_free_ls(tmp);
-	/*while (line)
+	t_line *ptr = line;
+	while (ptr)
 	{
-		printf("cmd =>%s\n", line->cmd);
-		line = line->next;
-	}*/
+		printf("cmd =>%s\n", ptr->cmd);
+		ptr = ptr->next;
+	}
 	return (line);
 }
 
-int		check_builtin(char *str)
+int		check_builtin(char *str, t_env *env)
 {
 	char	**tmp;
 	int		i;
@@ -48,6 +49,8 @@ int		check_builtin(char *str)
 	tmp = ft_split_minishell(str, ' ');
 	while (tmp[i])
 	{
+		if (ft_strncmp(tmp[i], "env", 4) == 0)
+			ft_env(env);
 		/*if (ft_strncmp(tmp[i], "cd", 3) == 0)
 			ft_cd(tmp, env);*/
 		if (ft_strncmp(tmp[i], "exit", 5) == 0)
@@ -60,10 +63,6 @@ int		check_builtin(char *str)
 	}
 	return (0);
 }
-
-tmp[0] = cd;
-tmp[1] = ../tmp;
-tmp[2] = 0;
 
 int	not_in_quotes(char const *s)
 {
