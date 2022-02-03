@@ -1,47 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 19:07:50 by gsap             ###   ########.fr       */
+/*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
+/*   Updated: 2022/02/03 17:39:29 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(char **str, t_env **env)
+int	ft_export(char **str, t_env **env)
 {
 	t_env	*ptr;
 	int		i;
 
-	if (ft_lstrlen(str) > 1 )
+	if (!*env)
+		return (1);
+	i = 1;
+	if (!str[i])
+		ft_export_no_arg(env);
+	else
 	{
-		i = 1;
+		ptr = *env;
+		while (ptr->next)
+			ptr = ptr->next;
 		while (str[i])
 		{
-			if (ft_strncmp(str[i], "env", 4) == 0)
-				i++;
-			else
-			{
-				printf("env: '%s' %s\n", str[i], WR_PATH);
-				return (1);
-			}
-		}
-	}
-	ptr = *env;
-	i = 0;
-	printf("addresse de env %p\n", *env);
-	while (ptr)
-	{
-		if (ptr->flags == 0)
-		{
-			printf("%d=>%s%s\n", i, ptr->name, ptr->var);
+			ptr->next = create_env_maillon(str[i], 0);
+			ptr = ptr->next;
 			i++;
 		}
-		ptr = ptr->next;
 	}
 	return (0);
+}
+
+void	ft_export_no_arg(t_env **env)
+{
+	t_env	*ptr;
+
+	ptr = *env;
+	while (ptr)
+	{
+		if (ptr->flags < 2)
+			printf("declare -x %s\"%s\"\n", ptr->name, ptr->var);
+		ptr = ptr->next;
+	}
+	return ;
 }

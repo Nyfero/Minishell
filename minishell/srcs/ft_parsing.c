@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 14:22:51 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 19:09:10 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,28 @@ t_line	*parsing(char *inpt)
 	return (line);
 }
 
-int		check_builtin(char *str, t_env *env)
+int	check_builtin(char *str, t_env *env)
 {
 	char	**tmp;
-	int		i;
+	int		ret;
 
-	i = 0;
+	ret = 0;
 	tmp = ft_split_minishell(str, ' ');
-	while (tmp[i])
-	{
-		if (ft_strncmp(tmp[i], "env", 4) == 0)
-			ft_env(env);
-		if (ft_strncmp(tmp[i], "unset", 6) == 0)
-			ft_unset(tmp, &env);
-		/*if (ft_strncmp(tmp[i], "cd", 3) == 0)
-			ft_cd(tmp, env);*/
-		if (ft_strncmp(tmp[i], "exit", 5) == 0)
-			return (1);
-		if (ft_strncmp(tmp[i], "pwd", 4) == 0)
-			ft_pwd();
-		if (ft_strncmp(tmp[i], "echo", 5) == 0)
-			ft_echo(tmp);
-		i++;
-	}
+	if (ft_strncmp(tmp[0], "env", 4) == 0)
+		ret = ft_env(tmp, &env);
+	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
+		ret = ft_unset(tmp, &env);
+	else if (ft_strncmp(tmp[0], "export", 7) == 0)
+		ret = ft_export(tmp, &env);
+	/*else if (ft_strncmp(tmp[0], "cd", 3) == 0)
+		ret = ft_cd(tmp, env);*/
+	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
+		return (1);
+	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
+		ret = ft_pwd();
+	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
+		ret = ft_echo(tmp);
+	printf("ret = %d\n", ret);
 	return (0);
 }
 

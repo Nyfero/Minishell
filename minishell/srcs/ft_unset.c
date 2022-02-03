@@ -6,41 +6,45 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 15:31:19 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 19:14:54 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-**	gestion d'erreur et a mettre au propre
+**	gestion d'erreur et a mettre au propre NIQUE LE PREMIER ELEMENT
 */
 
-void	ft_unset(char **str, t_env **env)
+int	ft_unset(char **str, t_env **env)
 {
 	t_env	*ptr;
 	t_env	*remove;
 	char	*tmp;
 	int		len;
 	int		i;
-	int		ret;
 
-	ret = 0;
-	if (!*env)
-		return ;
+	if (!env)
+		return (1);
 	i = 1;
+	printf("addresse de env : %p\n", *env);
 	while (str[i])
 	{
 		ptr = *env;
 		tmp = ft_strjoin(str[i], "=");
 		if (!tmp)
-			return ;
+			return (1);
 		len = ft_strlen(tmp) + 1;
 		if (ft_strncmp(tmp, ptr->name, len) == 0)
 		{
-			*env = ptr->next;
-			ptr->next = NULL;
-			free(ptr);
+			remove = ptr->next;
+			printf("test perso %s\n", (*env)->name);
+			printf("2e test %s\n", (*env)->next->name);
+			printf("addresse de env %p\n", *env);
+			*env = remove;
+			printf("addresse de env %p\n", *env);
+			//ptr->next = NULL;
+			//free(ptr);
 		}
 		else
 		{
@@ -59,4 +63,10 @@ void	ft_unset(char **str, t_env **env)
 		free(tmp);
 		i++;
 	}
+	return (0);
 }
+
+// void	del_env_maillon(t_env **env, t_env *ptr)
+// {
+//
+// }

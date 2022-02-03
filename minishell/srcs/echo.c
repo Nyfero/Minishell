@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/01 16:51:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 17:24:45 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ static int	check_flags(char **str)
 	return (ft_error("NO ARG"));
 }
 
-void	ft_echo(char **str)
+int	ft_echo(char **str)
 {
 	int	i;
 	int	j;
 
 	j = check_flags(str);
 	if (j == -1)
-		return ;
+		return (0);
 	i = j + 1;
 	while (str[i])
 	{
@@ -58,5 +58,5 @@ void	ft_echo(char **str)
 	}
 	if (j == 0)
 		printf("\n");
-	return ;
+	return (0);
 }
