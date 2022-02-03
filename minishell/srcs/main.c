@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 17:23:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 14:20:32 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = NULL;
 	init_env(&env, envp);
-	write(1, "1\n", 2);
-	// while (env)
-	// {
-	// 	printf("%s%s\n", env->name, env->var);
-	// 	env = env->next;
-	// }
-	init_signal();
+	//init_signal();
 	while (1)
 	{
 		inpt = readline("Prompt> ");

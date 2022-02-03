@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 17:37:38 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 13:49:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,18 @@
 # include <readline/readline.h>
 # include "../libft/inc/libft.h"
 
+//	message d'erreur CD
+# define WR_PATH "cd: no such file or directory: "
+# define WR_ABS_PATH ":No such file or directory"
+# define OLDPWD_UNSET "cd: OLDPWD not set"
+
+//	message d'erreur
+
+
 # define TRUE 1
 # define FALSE 0
 
+// stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
 	char			*infile;
@@ -46,6 +55,7 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
+//structure pour stocker l'environnement
 typedef struct s_env
 {
 	char			*name;
@@ -54,12 +64,16 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+//	ft_unset.c
+void	ft_unset(char **str, t_env **env);
+
 //	ft_env.c
 void	ft_env(t_env *env);
 
 //	ft_env_func.c
 void	init_env(t_env **env, char **envp);
 void	create_env_list(t_env **env, char *str);
+t_env	*create_env_maillon(char *str, int flags);
 
 //	ft_error.c
 int		ft_error(char *err);

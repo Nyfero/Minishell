@@ -6,17 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 17:47:09 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 11:52:40 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*static t_env	*ft_test(t_env *env)
-{
-	printf("%s%s\n", env->name, env->var);
-	return (env->next);
-}*/
 
 void	init_env(t_env **env, char **envp)
 {
@@ -35,14 +29,25 @@ void	init_env(t_env **env, char **envp)
 	}
 }
 
-/*
-**	A mettre au propre et faire les unset et export
-*/
-
 void	create_env_list(t_env **env, char *str)
 {
-	t_env	*tmp;
 	t_env	*ptr;
+
+	if (!*env)
+		*env = create_env_maillon(str, 0);
+	else
+	{
+		ptr = *env;
+		while (ptr->next != NULL)
+			ptr = ptr->next;
+		ptr->next = create_env_maillon(str, 0);
+	}
+	return ;
+}
+
+t_env	*create_env_maillon(char *str, int flags)
+{
+	t_env	*tmp;
 	int		i;
 	int		j;
 
@@ -55,21 +60,13 @@ void	create_env_list(t_env **env, char *str)
 	i = 0;
 	while (str[i] != '=')
 		i++;
+	i++;
 	j = i;
 	while (str[j])
 		j++;
-	tmp->name = ft_substr(str, 0, i + 1);
-	tmp->var = ft_substr(str, i + 1, j);
-	tmp->flags = 0;
+	tmp->name = ft_substr(str, 0, i);
+	tmp->var = ft_substr(str, i, j);
+	tmp->flags = flags;
 	tmp->next = NULL;
-	if (!*env)
-		*env = tmp;
-	else
-	{
-		ptr = *env;
-		while (ptr->next != NULL)
-			ptr = ptr->next;
-		ptr->next = tmp;
-	}
-	return ;
+	return (tmp);
 }

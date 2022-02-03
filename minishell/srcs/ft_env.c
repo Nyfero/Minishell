@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 15:22:18 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 10:18:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	ft_env(t_env *env)
 	ptr = env;
 	while (ptr)
 	{
-		printf("%s%s\n", ptr->name, ptr->var);
+		if (ptr->flags == 0)
+			printf("%s%s\n", ptr->name, ptr->var);
 		ptr = ptr->next;
 	}
 	return ;

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 15:23:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 14:22:51 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ t_line	*parsing(char *inpt)
 		i++;
 	}
 	ft_free_ls(tmp);
-	t_line *ptr = line;
-	while (ptr)
-	{
-		printf("cmd =>%s\n", ptr->cmd);
-		ptr = ptr->next;
-	}
 	return (line);
 }
 
@@ -51,6 +45,8 @@ int		check_builtin(char *str, t_env *env)
 	{
 		if (ft_strncmp(tmp[i], "env", 4) == 0)
 			ft_env(env);
+		if (ft_strncmp(tmp[i], "unset", 6) == 0)
+			ft_unset(tmp, &env);
 		/*if (ft_strncmp(tmp[i], "cd", 3) == 0)
 			ft_cd(tmp, env);*/
 		if (ft_strncmp(tmp[i], "exit", 5) == 0)
