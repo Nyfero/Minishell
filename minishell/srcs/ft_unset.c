@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 19:14:54 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/04 10:47:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	ft_unset(char **str, t_env **env)
 
 	if (!env)
 		return (1);
-	i = 1;
+	i = 0;
 	printf("addresse de env : %p\n", *env);
-	while (str[i])
+	while (str[++i])
 	{
 		ptr = *env;
 		tmp = ft_strjoin(str[i], "=");
@@ -41,7 +41,7 @@ int	ft_unset(char **str, t_env **env)
 			printf("test perso %s\n", (*env)->name);
 			printf("2e test %s\n", (*env)->next->name);
 			printf("addresse de env %p\n", *env);
-			*env = remove;
+			env = &remove;
 			printf("addresse de env %p\n", *env);
 			//ptr->next = NULL;
 			//free(ptr);
@@ -61,7 +61,6 @@ int	ft_unset(char **str, t_env **env)
 			}
 		}
 		free(tmp);
-		i++;
 	}
 	return (0);
 }
