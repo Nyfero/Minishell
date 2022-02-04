@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 19:09:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/04 16:37:50 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # include "../libft/inc/libft.h"
 
 //	message d'erreur
-# define WR_PATH ": No such file or directory: "
-# define OLDPWD_UNSET "cd: OLDPWD not set"
+# define WR_PATH ": No such file or directory"
+# define OLDPWD_UNSET "OLDPWD not set"
 
 # define TRUE 1
 # define FALSE 0
@@ -51,7 +51,6 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
-//structure pour stocker l'environnement
 typedef struct s_env
 {
 	char			*name;
@@ -59,6 +58,12 @@ typedef struct s_env
 	int				flags;
 	struct s_env	*next;
 }	t_env;
+/*
+**	flags:
+**	0 affichage env, export et echo
+**	1 affichage export et echo
+**	2 affichage echo
+*/
 
 //	ft_error.c
 int		ft_error(char *err);
@@ -71,7 +76,7 @@ void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
 t_line	*parsing(char *inpt);
-int		check_builtin(char *str, t_env *env);
+int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c
@@ -98,9 +103,11 @@ void	ft_export_no_arg(t_env **env);
 
 //	ft_unset.c
 int		ft_unset(char **str, t_env **env);
+void	del_env_maillon(t_env *ptr, t_env **env);
 
 //	ft_env.c
 int		ft_env(char **str, t_env **env);
+int		ft_env_arg(char **str);
 
 //	ft_env_func.c
 void	init_env(t_env **env, char **envp);

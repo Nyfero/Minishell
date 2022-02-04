@@ -6,9 +6,10 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/03 16:17:13 by gsap             ###   ########.fr        #
+#    Updated: 2022/02/04 10:52:34 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --suppressions=.ignore_readline -q ./minishell
 
