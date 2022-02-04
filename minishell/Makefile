@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
+#    By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/02 12:01:29 by jgourlin         ###   ########.fr        #
+#    Updated: 2022/02/02 12:06:37 by jgourlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --suppressions=.ignore_readline -q ./minishell
 
@@ -34,7 +35,7 @@ SRCS_PATH = srcs
 
 #	Files
 FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_list.c \
-	ft_parsing.c ft_error.c amour.c
+	ft_parsing.c ft_error.c
 
 #	Compilation
 NAME = minishell
