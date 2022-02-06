@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 11:52:40 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/04 10:54:06 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,11 @@ t_env	*create_env_maillon(char *str, int flags)
 	i = 0;
 	while (str[i] != '=')
 		i++;
-	i++;
-	j = i;
+	j = i + 1;
 	while (str[j])
 		j++;
 	tmp->name = ft_substr(str, 0, i);
-	tmp->var = ft_substr(str, i, j);
+	tmp->var = ft_substr(str, i + 1, j);
 	tmp->flags = flags;
 	tmp->next = NULL;
 	return (tmp);

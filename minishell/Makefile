@@ -6,7 +6,7 @@
 #    By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/04 10:34:54 by jgourlin         ###   ########.fr        #
+#    Updated: 2022/02/06 11:56:21 by jgourlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS_PATH = srcs
 
 #	Files
 FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_list_cmd.c \
-	ft_parsing.c ft_error.c ft_env_func.c ft_env.c ft_unset.c ft_export.c
+	ft_parsing.c ft_error.c ft_env_func.c ft_env.c ft_unset.c ft_export.c \
+	cd.c
 
 #	Compilation
 NAME = minishell
