@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/02 11:15:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/03 19:09:20 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@
 # include <readline/readline.h>
 # include "../libft/inc/libft.h"
 
+//	message d'erreur
+# define WR_PATH ": No such file or directory: "
+# define OLDPWD_UNSET "cd: OLDPWD not set"
+
 # define TRUE 1
 # define FALSE 0
 
+// stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
 	char			*infile;
@@ -46,10 +51,12 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
+//structure pour stocker l'environnement
 typedef struct s_env
 {
 	char			*name;
 	char			*var;
+	int				flags;
 	struct s_env	*next;
 }	t_env;
 
@@ -64,7 +71,7 @@ void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
 t_line	*parsing(char *inpt);
-int		check_builtin(char *str);
+int		check_builtin(char *str, t_env *env);
 int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c
@@ -75,10 +82,29 @@ void	init_signal(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 
+/********************************/
+/*---------BUILTIN--------------*/
+/********************************/
+
 //	echo.c
-void	ft_echo(char **str);
+int		ft_echo(char **str);
 
 //	pwd.c
-void	ft_pwd(void);
+int		ft_pwd(void);
+
+//	ft_export.c
+int		ft_export(char **str, t_env **env);
+void	ft_export_no_arg(t_env **env);
+
+//	ft_unset.c
+int		ft_unset(char **str, t_env **env);
+
+//	ft_env.c
+int		ft_env(char **str, t_env **env);
+
+//	ft_env_func.c
+void	init_env(t_env **env, char **envp);
+void	create_env_list(t_env **env, char *str);
+t_env	*create_env_maillon(char *str, int flags);
 
 #endif

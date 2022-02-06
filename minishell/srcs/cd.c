@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/04 10:31:54 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:17:23 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 char	*ft_get_var(char *search, t_env *env)
 {
 	if (!env)
-		return (0);
+		return (0);//bash: cd: "search" not set
 	if (!ft_strncmp(env->name, search, ft_strlen(search) + 1))
 		return (env->var);
-	return (ft_get_path(search, env));
+	return (ft_get_path(search, env->next));
 }
 
 //bash: cd: OLDPWD not set
@@ -30,11 +30,11 @@ int	ft_cd_alpha(char *str, t_env *env)
 	if (str == '-')
 	{
 		//if () Verifier si OLDPWD existe 
-		else if ()//OLDPWD existe
+		else if ()//OLDPWD existe -- ft_get_var("OLDPWD", env) ?
 		{
-			if ()//OLDPWD non valide
+			if ()//OLDPWD non valide -- ft_valid_path
 			{
-
+				//bash: cd: xcfghjk/vghj: No such file or directory
 			}
 			else
 			{
@@ -44,11 +44,23 @@ int	ft_cd_alpha(char *str, t_env *env)
 	}
 	else if (!str || str == '~' || str == "")
 	{
-		if ()//check home existe
+		if ()//check home existe  -- ft_get_var("HOME", env) ?
 		{
-			
+			if ()//home non valide -- ft_valid_path
+			{
+				//bash: cd: xcfghjk/vghj: No such file or directory
+			}
+			else
+			{
+				
+			}
 		}
 	}
+	else ()//check_path valide -- ft_valid_path
+	{
+		
+	}
+	
 }
 
 int	ft_cd(char **str, t_env *env)
