@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 11:44:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 15:47:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,12 @@
 
 int	ft_export(char **str, t_env **env)
 {
-	t_env	*ptr;
-	int		i;
-
 	if (!*env)
 		return (1);
-	i = 1;
-	if (!str[i])
+	if (!str[1])
 		ft_export_no_arg(env);
 	else
-	{
-		ptr = *env;
-		while (ptr->next)
-			ptr = ptr->next;
-		while (str[i])
-		{
-			if (check_valid_export(str[i]) == 0)
-			{
-				if (format_key_value(str[i]) == 0)
-					ptr->next = create_env_maillon(str[i], 0);
-				else
-					ptr->next = create_env_maillon(str[i], 1);
-				ptr = ptr->next;
-			}
-			//message d'erreur en fonction de l'arg (soit invalide soit --)
-			i++;
-		}
-	}
+		return (ft_export_arg(str, env));
 	return (0);
 }
 
@@ -67,41 +46,46 @@ void	ft_export_no_arg(t_env **env)
 	return ;
 }
 
-int	check_valid_export(char *str)
+int	ft_export_arg(char **str, t_env **env)
 {
+	t_env	*ptr;
 	int		i;
 
-	i = -1;
-	if (ft_isdigit(str[0]) || str[0] == '=')
-	{
-		printf("export: '%s': not a valid identifier\n", str);
-		return (1);
-	}
+	i = 0;
+	ptr = *env;
+	while (ptr->next)
+		ptr = ptr->next;
 	while (str[++i])
 	{
-		if (ft_isalnum(str[i]) == 0 && str[i] != '=')
-		{
-			if (i == 0 && str[i] == '#')
-				;
-			else
-			{
-				printf("export: '%s': not a valid identifier\n", str);
-				return (1);
-			}
-		}
+		printf("str=%s\n", str[i]);
+		export_replace_or_create(str[i], env, ptr);
 	}
 	return (0);
 }
 
-int	format_key_value(char *str)
+void	export_replace_or_create(char *str, t_env **env, t_env *ptr)
 {
-	int	i;
-	int	compt;
+	char	**ls;
+	t_env	*tmp;
 
-	i = -1;
-	compt = 1;
-	while (str[++i])
-		if (str[i] == '=')
-			compt = 0;
-	return (compt);
+	if (check_valid_export(str) == 0)
+	{
+		if (format_key_value(str) == 0)
+		{
+			ls = ft_split_minishell(str, '=');
+			tmp = ft_get_var(ls[0], *env);
+			if (tmp == 0)
+				ptr->next = create_env_maillon(str, 0);
+			else
+				tmp = mod_env_maillon(str, tmp, 0);
+			ft_free_ls(ls);
+		}
+		else
+		{
+			tmp = ft_get_var(str, *env);
+			if (tmp == 0)
+				ptr->next = create_env_maillon(str, 1);
+		}
+		ptr = ptr->next;
+	}
 }

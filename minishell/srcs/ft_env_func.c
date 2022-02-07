@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/04 10:54:06 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 16:17:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,21 @@
 void	init_env(t_env **env, char **envp)
 {
 	int		i;
-
-	if (!envp)
-	{
-		printf("NO ENV\n");
-		return ;
-	}
-	i = 0;
-	while (envp[i])
-	{
-		create_env_list(env, envp[i]);
-		i++;
-	}
-}
-
-void	create_env_list(t_env **env, char *str)
-{
 	t_env	*ptr;
 
-	if (!*env)
-		*env = create_env_maillon(str, 0);
-	else
+	i = -1;
+	while (envp[++i])
 	{
-		ptr = *env;
-		while (ptr->next != NULL)
-			ptr = ptr->next;
-		ptr->next = create_env_maillon(str, 0);
+		if (!*env)
+			*env = create_env_maillon(envp[i], 0);
+		else
+		{
+			ptr = *env;
+			while (ptr->next != NULL)
+				ptr = ptr->next;
+			ptr->next = create_env_maillon(envp[i], 0);
+		}
 	}
-	return ;
 }
 
 t_env	*create_env_maillon(char *str, int flags)
@@ -68,4 +55,19 @@ t_env	*create_env_maillon(char *str, int flags)
 	tmp->flags = flags;
 	tmp->next = NULL;
 	return (tmp);
+}
+
+t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
+{
+	int	i;
+
+	if (ptr->var)
+		free(ptr->var);
+	ptr->var = NULL;
+	ptr->flags = flags;
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	ptr->var = ft_substr(str, i + 1, ft_strlen(str) - (i + 1));
+	return (ptr);
 }
