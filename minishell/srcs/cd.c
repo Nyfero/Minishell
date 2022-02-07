@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/07 17:16:26 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:41:34 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ t_env	*ft_get_var(char *search, t_env *env)
 **cd "" = rien (juste gerer les PWD OLDPWD)
 */
 
-int	ft_cd_path(char *path, t_env *env, char *str)
+//int	ft_cd_chenv(char*path, t_env *env)
+//{
+//	t_env	*temp;
+//
+//	temp = ft_get_var("PWD");
+//}
+
+int	ft_cd_path(char *path, t_env **env, char *str)
 {
 //	DIR	*fd;
 
@@ -75,12 +82,14 @@ int	ft_cd_path(char *path, t_env *env, char *str)
 		printf("cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
-	printf("END FT_CD_PATH\n");
 
+	printf("END FT_CD_PATH\n");
+	//changer OLDPWD
+	//changer PWD
 	return (0);
 }
 
-int	ft_cd_alpha(char *str, t_env *env)
+int	ft_cd_alpha(char *str, t_env **env)
 {
 	t_env	*res;
 
@@ -89,10 +98,10 @@ int	ft_cd_alpha(char *str, t_env *env)
 /*if (!str || str == '~' || str == "" || str == "--")*/
 	if (!str || !ft_strncmp(str, "--", 3))
 	{
-		res = ft_get_var("HOME", env);
+		res = ft_get_var("HOME", *env);
 		if (res)//check home existe
 		{
-			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
+//			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
 			ft_cd_path(res->var, env, str);
 		}
 		else
@@ -103,7 +112,7 @@ int	ft_cd_alpha(char *str, t_env *env)
 	}
 	else if (!ft_strncmp(str, "-", 2))
 	{
-		res = ft_get_var("OLDPWD", env);
+		res = ft_get_var("OLDPWD", *env);
 		if (!res)/*Verifier si OLDPWD existe*/ 
 		{
 			printf("cd: OLDPWD not set\n\n"); /*OLDPWD n'existe pas*/
@@ -111,7 +120,7 @@ int	ft_cd_alpha(char *str, t_env *env)
 		}
 		else /*OLDPWD existe*/ 
 		{
-			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
+//			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
 			ft_cd_path(res->var, env, str);
 		}
 	}
@@ -128,7 +137,7 @@ int	ft_cd_alpha(char *str, t_env *env)
 	return (0);
 }
 
-int	ft_cd(char **str, t_env *env)
+int	ft_cd(char **str, t_env **env)
 {
 	int	i;
 	(void)env;

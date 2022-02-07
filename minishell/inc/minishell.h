@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 11:51:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 17:41:49 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,6 @@ void	create_env_list(t_env **env, char *str);
 t_env	*create_env_maillon(char *str, int flags);
 
 //	cd.c
-int		ft_cd(char **str, t_env *env);
+int		ft_cd(char **str, t_env **env);
 
 #endif

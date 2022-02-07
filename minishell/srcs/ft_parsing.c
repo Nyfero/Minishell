@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 16:18:42 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:41:33 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_builtin(char *str, t_env **env)
 	else if (ft_strncmp(tmp[0], "export", 7) == 0)
 		ret = ft_export(tmp, env);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
-		ret = ft_cd(tmp, *env);
+		ret = ft_cd(tmp, env);
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		return (1);
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
