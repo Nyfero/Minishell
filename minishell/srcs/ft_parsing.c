@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 10:13:25 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 17:17:11 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@
 **	Pour gerer les ; il faut creer un tableau de line et faite un split sur ;
 */
 
-t_line	*parsing(char *inpt)
+t_line	**parsing(char *inpt)
 {
-	t_line	*line;
+	t_line	**line;
 	char	**tmp;
 	int		i;
 
-	i = 0;
+	if (!inpt)
+		return (0);
+	i = -1;
 	line = NULL;
-	tmp = ft_split_minishell(inpt, '|');
-	while (tmp[i])
-	{
-		minishell_addlist(&line, tmp[i]);
-		i++;
-	}
+	tmp = ft_split_minishell(inpt, ';');
+	line = ft_calloc(sizeof(t_line *), ft_lstrlen(tmp) + 1);
+	if (!line)
+		return (0);
+	while (tmp[++i])
+		minishell_addlist(line[i], tmp[i]);
 	ft_free_ls(tmp);
 	return (line);
 }

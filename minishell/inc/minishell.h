@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 11:51:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 17:14:40 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,8 @@
 # include <readline/readline.h>
 # include "../libft/inc/libft.h"
 
-//	message d'erreur
-# define WR_PATH ": No such file or directory"
-# define OLDPWD_UNSET "OLDPWD not set"
-
-# define TRUE 1
-# define FALSE 0
-
 // stock une commande et pointe sur la commande suivante
-typedef struct s_line
+typedef struct s_exec
 {
 	char			*infile;
 	char			*outfile;
@@ -48,6 +41,12 @@ typedef struct s_line
 	int				indir;
 	int				outdir;
 	char			**env;
+	struct s_exec	*next;
+}	t_exec;
+
+typedef struct s_line
+{
+	struct s_exec	*exec;
 	struct s_line	*next;
 }	t_line;
 
@@ -69,13 +68,13 @@ typedef struct s_env
 int		ft_error(char *err);
 
 //	ft_list.c
-void	minishell_addlist(t_line **list, char *inpt);
+void	minishell_addlist(t_line *list, char *inpt);
 t_line	*minishell_create_list(char *inpt);
 t_line	*set_list_null(t_line *list);
 void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
-t_line	*parsing(char *inpt);
+t_line	**parsing(char *inpt);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
 
@@ -100,6 +99,10 @@ int		ft_pwd(void);
 //	ft_export.c
 int		ft_export(char **str, t_env **env);
 void	ft_export_no_arg(t_env **env);
+int		ft_export_arg(char **str, t_env **env);
+void	export_replace_or_create(char *str, t_env **env, t_env *ptr);
+
+//	ft_export_utils.c
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
 
@@ -113,10 +116,11 @@ int		ft_env_arg(char **str);
 
 //	ft_env_func.c
 void	init_env(t_env **env, char **envp);
-void	create_env_list(t_env **env, char *str);
 t_env	*create_env_maillon(char *str, int flags);
+t_env	*mod_env_maillon(char *str, t_env *ptr, int flags);
 
 //	cd.c
 int		ft_cd(char **str, t_env *env);
+t_env	*ft_get_var(char *search, t_env *env);
 
 #endif
