@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 10:54:40 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 11:51:53 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		ft_pwd(void);
 //	ft_export.c
 int		ft_export(char **str, t_env **env);
 void	ft_export_no_arg(t_env **env);
-int		check_valid_export(char *str, t_env **env);
+int		check_valid_export(char *str);
 int		format_key_value(char *str);
 
 //	ft_unset.c
@@ -117,7 +117,6 @@ void	create_env_list(t_env **env, char *str);
 t_env	*create_env_maillon(char *str, int flags);
 
 //	cd.c
-
-int	ft_cd(char **str, t_env *env);
+int		ft_cd(char **str, t_env *env);
 
 #endif
