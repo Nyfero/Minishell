@@ -24,11 +24,10 @@ char	*ft_get_var(char *search, t_env *env)
 
 //!ft_strncmp(str, "--", 3) || !ft_strncmp(str, "~", 1) || !ft_strncmp(str, "", 1)
 
-//bash: cd: OLDPWD not set
-//bash: cd: sdfgyhuikjv: No such file or directory
-//bash: cd: --: invalid option
+//bash: cd: OLDPWD not set												erreur = 1
+//bash: cd: sdfgyhuikjv: No such file or directory 						erreur = 1
 //jgourlin@e2r4p15:~$ cd -re
-//bash: cd: -r: invalid option     afficher premiere lettre apes '-'
+//bash: cd: -r: invalid option     afficher premiere lettre apes '-' e	rreur = 2
 
 //verifier si path valide apres car meme sortie cd?
 
@@ -89,7 +88,7 @@ int	ft_cd_alpha(char *str, t_env *env)
 
 	i = 0;
 	while (str[i])
-		printf("str[1] == %d\n", str[i++]);
+		printf("str[i] == %d\n", str[i++]);
 	return (0);
 	
 }
@@ -112,7 +111,7 @@ int	ft_cd(char **str, t_env *env)
 		return (1);
 	}
 	ft_cd_alpha(str[1], env);
-	printf("\n");
+printf("\n");
 	return (0);
 	
 	
