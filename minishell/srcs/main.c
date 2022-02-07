@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 17:02:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 18:06:25 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char	*inpt;
-	t_line	**line;
+	t_line	*line;
 	t_env	*env;
 
 	(void)argc;
@@ -35,13 +35,12 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			line = parsing(inpt);
-			write(1, "1\n", 2);
-			if (*line)
+			if (line)
 			{
-				if (check_builtin((*line)->cmd, &env))
+				if (check_builtin(line->cmd, &env))
 					break ;
 				add_history(inpt);
-				minishell_del_list(*line);
+				minishell_del_list(line);
 			}
 		}
 		free(inpt);
