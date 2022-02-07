@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 18:06:25 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 18:28:37 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 				if (check_builtin(line->cmd, &env))
 					break ;
 				add_history(inpt);
-				minishell_del_list(line);
+				deallocate(&line);
 			}
 		}
 		free(inpt);

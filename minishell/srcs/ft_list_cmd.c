@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 18:05:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 18:28:47 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,34 @@ t_line	*minishell_create_list(char *inpt)
 	line = malloc(sizeof(t_line));
 	if (!line)
 		return (NULL);
-	line = set_list_null(line);
-	line->cmd = ft_strdup(inpt);
-	return (line);
-}
-
-/*
-**	Met tous les attributs de line a 0
-*/
-
-t_line	*set_list_null(t_line *line)
-{
 	line->infile = NULL;
 	line->outfile = NULL;
 	line->cmd = NULL;
 	line->indir = 0;
 	line->outdir = 0;
 	line->env = NULL;
+	line->cmd = ft_strdup(inpt);
+	if (!line->cmd)
+		return (0);
 	return (line);
 }
 
-void	minishell_del_list(t_line *line)
+void deallocate(t_line** root)
+{
+	t_line	*curr;
+	t_line	*aux;
+
+	curr = *root;
+	while (curr != NULL)
+	{
+		aux = curr;
+		curr = curr->next;
+		free(aux);
+	}
+	*root = NULL;
+}
+
+/*void	minishell_del_list(t_line *line)
 {
 	t_line	*tmp;
 
@@ -79,11 +86,13 @@ void	minishell_del_list(t_line *line)
 		return ;
 	while (line)
 	{
-		tmp = line->next;
+		tmp = NULL;
+		if (line->next)
+			tmp = line->next;
 		line->next = NULL;
 		if (line->cmd)
 			free(line->cmd);
 		free(line);
 		line = tmp;
 	}
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 18:04:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 18:29:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int		ft_error(char *err);
 //	ft_list.c
 void	minishell_addlist(t_line **list, char *inpt);
 t_line	*minishell_create_list(char *inpt);
-t_line	*set_list_null(t_line *list);
-void	minishell_del_list(t_line *line);
+void 	deallocate(t_line** root);
+//void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
 t_line	*parsing(char *inpt);

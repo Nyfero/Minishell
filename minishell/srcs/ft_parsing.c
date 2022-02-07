@@ -6,15 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 18:06:44 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 18:07:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-**	Pour gerer les ; il faut creer un tableau de line et faite un split sur ;
-*/
 
 t_line	*parsing(char *inpt)
 {
