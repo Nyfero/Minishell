@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 10:58:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 11:44:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_export(char **str, t_env **env)
 			ptr = ptr->next;
 		while (str[i])
 		{
-			if (check_valid_export(str[i], env) == 0)
+			if (check_valid_export(str[i]) == 0)
 			{
 				if (format_key_value(str[i]) == 0)
 					ptr->next = create_env_maillon(str[i], 0);
@@ -58,18 +58,18 @@ void	ft_export_no_arg(t_env **env)
 	ptr = *env;
 	while (ptr)
 	{
-		if (ptr->flags < 2)
+		if (ptr->flags == 0)
 			printf("declare -x %s=\"%s\"\n", ptr->name, ptr->var);
+		else if (ptr->flags == 1)
+			printf("declare -x %s\n", ptr->name);
 		ptr = ptr->next;
 	}
 	return ;
 }
 
-int	check_valid_export(char *str, t_env **env)
+int	check_valid_export(char *str)
 {
-	//t_env	*ptr;
 	int		i;
-	(void)env;
 
 	i = -1;
 	if (ft_isdigit(str[0]) || str[0] == '=')
@@ -79,16 +79,17 @@ int	check_valid_export(char *str, t_env **env)
 	}
 	while (str[++i])
 	{
-		if (!(ft_isalnum(str[i])) && str[i] != '=')
+		if (ft_isalnum(str[i]) == 0 && str[i] != '=')
 		{
-			printf("export: '%s': not a valid identifier\n", str);
-			return (1);
+			if (i == 0 && str[i] == '#')
+				;
+			else
+			{
+				printf("export: '%s': not a valid identifier\n", str);
+				return (1);
+			}
 		}
 	}
-	/*while (ptr)
-	{
-		if (ft_strncmp(str, ptr->name, ft_strlen))
-	}*/
 	return (0);
 }
 
