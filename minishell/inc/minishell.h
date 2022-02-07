@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/06 11:57:31 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/07 10:54:40 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int		ft_pwd(void);
 //	ft_export.c
 int		ft_export(char **str, t_env **env);
 void	ft_export_no_arg(t_env **env);
+int		check_valid_export(char *str, t_env **env);
+int		format_key_value(char *str);
 
 //	ft_unset.c
 int		ft_unset(char **str, t_env **env);

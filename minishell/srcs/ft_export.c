@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/04 16:47:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 10:58:20 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,17 @@ int	ft_export(char **str, t_env **env)
 		ptr = *env;
 		while (ptr->next)
 			ptr = ptr->next;
-		while (str[i]/* && bool_check_valid(str[i], env)*/)
+		while (str[i])
 		{
-			ptr->next = create_env_maillon(str[i], 0);
-			ptr = ptr->next;
+			if (check_valid_export(str[i], env) == 0)
+			{
+				if (format_key_value(str[i]) == 0)
+					ptr->next = create_env_maillon(str[i], 0);
+				else
+					ptr->next = create_env_maillon(str[i], 1);
+				ptr = ptr->next;
+			}
+			//message d'erreur en fonction de l'arg (soit invalide soit --)
 			i++;
 		}
 	}
@@ -58,10 +65,42 @@ void	ft_export_no_arg(t_env **env)
 	return ;
 }
 
-/*int	bool_check_valid(char *str, t_env **env)
+int	check_valid_export(char *str, t_env **env)
 {
-	t_env	*ptr;
+	//t_env	*ptr;
 	int		i;
+	(void)env;
 
+	i = -1;
+	if (ft_isdigit(str[0]) || str[0] == '=')
+	{
+		printf("export: '%s': not a valid identifier\n", str);
+		return (1);
+	}
+	while (str[++i])
+	{
+		if (!(ft_isalnum(str[i])) && str[i] != '=')
+		{
+			printf("export: '%s': not a valid identifier\n", str);
+			return (1);
+		}
+	}
+	/*while (ptr)
+	{
+		if (ft_strncmp(str, ptr->name, ft_strlen))
+	}*/
+	return (0);
+}
 
-}*/
+int	format_key_value(char *str)
+{
+	int	i;
+	int	compt;
+
+	i = -1;
+	compt = 1;
+	while (str[++i])
+		if (str[i] == '=')
+			compt = 0;
+	return (compt);
+}

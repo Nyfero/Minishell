@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 17:22:40 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 11:04:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	minishell_addlist(t_line **line, char *inpt)
 	t_line	*ptr;
 
 	if (!(line && inpt))
-		exit(5);
+		return ;
 	if (!*line)
 	{
 		*line = minishell_create_list(inpt);
 		if (!*line)
-			exit(6);
+			return ;
 	}
 	else
 	{
@@ -35,8 +35,9 @@ void	minishell_addlist(t_line **line, char *inpt)
 			ptr = ptr->next;
 		ptr->next = minishell_create_list(inpt);
 		if (!ptr->next)
-			exit(7);
+			return ;
 	}
+	return ;
 }
 
 /*
@@ -79,9 +80,9 @@ void	minishell_del_list(t_line *line)
 	while (line)
 	{
 		tmp = line->next;
+		line->next = NULL;
 		free(line->cmd);
 		free(line);
-		line = NULL;
 		line = tmp;
 	}
 }
