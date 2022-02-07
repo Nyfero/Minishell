@@ -43,7 +43,5 @@ long int	ft_atoi(const char *str)
 	}
 	while (*str >= '0' && *str <= '9')
 		res = (res * 10) + (*str++ - 48);
-	if (*str != 0)
-		return (2147483648);
 	return (long_value(j, res));
 }
