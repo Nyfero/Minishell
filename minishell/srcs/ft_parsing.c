@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/08 11:07:51 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:52:40 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ t_line	*parsing(char *inpt)
 
 	if (!inpt)
 		return (0);
-	i = 0;
+	i = -1;
 	line = NULL;
 	tmp = ft_split_minishell(inpt, '|');
-	while (tmp[i])
-	{
+	while (tmp[++i])
 		minishell_addlist(&line, tmp[i]);
-		i++;
-	}
 	ft_free_ls(tmp);
 	return (line);
 }
@@ -39,6 +36,8 @@ int	check_builtin(char *str, t_env **env)
 
 	ret = 0;
 	tmp = ft_split_minishell(str, ' ');
+	for (int i = 0; tmp[i]; i++)
+		printf("tmp[%d] =>%s\n", i, tmp[i]);
 	if (ft_strncmp(tmp[0], "env", 4) == 0)
 		ret = ft_env(tmp, env);
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
@@ -48,11 +47,15 @@ int	check_builtin(char *str, t_env **env)
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
 		ret = ft_cd(tmp, env);
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
+	{
+		ft_free_ls(tmp);	
 		return (1);
+	}
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
 		ret = ft_pwd();
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ret = ft_echo(tmp);
+	ft_free_ls(tmp);
 	return (0);
 }
 

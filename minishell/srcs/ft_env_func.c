@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 16:17:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/08 15:17:31 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_env	*create_env_maillon(char *str, int flags)
 	int		i;
 	int		j;
 
-	tmp = malloc(sizeof(t_env));
+	tmp = ft_calloc(sizeof(t_env), 1);
 	if (!tmp)
 	{
 		printf("MALLOC FAILED\n");

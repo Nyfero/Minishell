@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/03 17:23:47 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/08 15:07:22 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	**ft_alloc_tmp(char const *s, char c)
 		while (*s && (*s != c))
 			s++;
 	}
-	tmp = (char **)malloc(sizeof(char **) * (i + 1));
+	tmp = ft_calloc(sizeof(char **), i + 1);
 	if (!tmp)
 		return (NULL);
 	tmp[i] = NULL;
@@ -76,7 +76,7 @@ static char	**ft_split_tmp(char const *s, char c, char **split)
 		}
 		if (i > 0)
 		{
-			split[j] = (char *)malloc(sizeof(char) * (i + 1));
+			split[j] = ft_calloc(sizeof(char), i + 1);
 			if (!split[j])
 				return (ft_free_split(split, j));
 			split[j] = ft_assign_tmp(s, split[j], i);

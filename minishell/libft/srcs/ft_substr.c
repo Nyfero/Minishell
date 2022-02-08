@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 16:28:16 by gsap              #+#    #+#             */
-/*   Updated: 2021/05/27 11:58:02 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/08 15:32:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ char	*ft_le_bon_malloc(char const *s, size_t len)
 	char	*tmp;
 
 	if (ft_strlen(s) > len)
-		tmp = malloc(sizeof(char) * (len + 1));
+		tmp = ft_calloc(sizeof(char), len + 1);
 	else
-		tmp = malloc(sizeof(char) * (ft_strlen(s) + 1));
+		tmp = ft_calloc(sizeof(char), ft_strlen(s) + 1);
 	if (!tmp)
 		return (NULL);
 	return (tmp);
@@ -47,7 +47,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	else
 	{
-		str = (char *)malloc(sizeof(char *) * 1);
+		str = ft_calloc(sizeof(char *), 1);
 		str[0] = 0;
 	}
 	return (str);

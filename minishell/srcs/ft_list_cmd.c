@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 18:28:47 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/08 15:05:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_line	*minishell_create_list(char *inpt)
 {
 	t_line	*line;
 
-	line = malloc(sizeof(t_line));
+	line = ft_calloc(sizeof(t_line), 1);
 	if (!line)
 		return (NULL);
 	line->infile = NULL;
@@ -73,6 +73,7 @@ void deallocate(t_line** root)
 	{
 		aux = curr;
 		curr = curr->next;
+		free(aux->cmd);
 		free(aux);
 	}
 	*root = NULL;
