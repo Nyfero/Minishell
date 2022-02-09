@@ -1,50 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_cmd.c                                      :+:      :+:    :+:   */
+/*   ft_line_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/09 12:20:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/09 16:09:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-**	Créer line ou rajoute un maillon a line
-*/
-
-void	minishell_addlist(t_line **line, char *inpt)
+void	create_list_line(t_line **line, int len)
 {
 	t_line	*ptr;
+	int		i;
 
-	if (!(line && inpt))
+	if (len == 0)
 		return ;
-	if (!*line)
+	i = -1;
+	while (++i < len)
 	{
-		*line = minishell_create_list(inpt);
 		if (!*line)
-			return ;
+		{
+			*line = create_line();
+			if (!*line)
+				return ;
+		}
+		else
+		{
+			ptr = *line;
+			while (ptr->next)
+				ptr = ptr->next;
+			ptr->next = create_line();
+			if (!ptr->next)
+				return ;
+		}
 	}
-	else
-	{
-		ptr = *line;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = minishell_create_list(inpt);
-		if (!ptr->next)
-			return ;
-	}
-	return ;
 }
 
-/*
-**	Initialisation du maillon
-*/
-
-t_line	*minishell_create_list(char *inpt)
+t_line	*create_line(void)
 {
 	t_line	*line;
 
@@ -57,8 +53,7 @@ t_line	*minishell_create_list(char *inpt)
 	line->indir = 0;
 	line->outdir = 0;
 	line->env = NULL;
-	if (!line->cmd)
-		return (0);
+	line->next = NULL;
 	return (line);
 }
 
@@ -77,22 +72,3 @@ void deallocate(t_line** root)
 	}
 	*root = NULL;
 }
-
-/*void	minishell_del_list(t_line *line)
-{
-	t_line	*tmp;
-
-	if (!line)
-		return ;
-	while (line)
-	{
-		tmp = NULL;
-		if (line->next)
-			tmp = line->next;
-		line->next = NULL;
-		if (line->cmd)
-			free(line->cmd);
-		free(line);
-		line = tmp;
-	}
-}*/

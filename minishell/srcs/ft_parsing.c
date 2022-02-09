@@ -6,33 +6,88 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/09 13:23:38 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/09 18:20:46 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_line	*parsing(char *inpt)
+void	parsing(t_line **line, t_env ** env, char const *inpt)
 {
-	t_line	*line;
 	char	**tmp;
+	char	*expand;
 	int		i;
 
 	if (!inpt)
-		return (0);
+		return ;
 	i = -1;
-	line = NULL;
-	tmp = ft_split_minishell(inpt, '|');
-	while (tmp[++i])
-	{
-		minishell_addlist(&line);
-
-	}
+	//here-doc first
+	expand = ft_expand(inpt, env);
+	printf("expand =>%s\n", expand);
+	if (!expand)
+		return ;
+	tmp = ft_split_minishell(expand, '|');
+	create_list_line(line, ft_lstrlen(tmp));
+	//expand $
+	//check outdir
+	//check indir
 	ft_free_ls(tmp);
-	return (line);
 }
 
-void	infile_parsing(char *inpt, t_line *line)
+/*
+**	A mettre au propre
+*/
+
+char	*ft_expand(char const *inpt, t_env ** env)
+{
+	char	**dup;
+	char	*tmp;
+	char	*expand;
+	t_env	*ptr;
+	int		i;
+	int		j;
+
+	dup = ft_split_minishell(inpt, ' ');
+	i = -1;
+	expand = NULL;
+	while (dup[++i])
+	{
+		j = -1;
+		while (++j < 3)
+		{
+			if (dup[i][j] == '$')
+			{
+				if (dup[i][j + 1] && dup[i][1] != '<' && dup[i][j + 1] != '$')
+				{
+					ptr = ft_get_var(&dup[i][j + 1], *env);
+					if (ptr)
+					{
+						tmp = ft_substr(dup[i], 0, j);
+						tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
+						free(dup[i]);
+						dup[i] = tmp;
+					}
+					else
+					{
+						tmp = ft_substr(dup[i], 0, j);
+						free(dup[i]);
+						dup[i] = tmp;
+					}
+				}
+			}
+		}
+		if (i > 0)
+		{
+			expand = ft_strjoin_and_free_s1(expand, " ");
+			expand = ft_strjoin_and_free_all(expand, dup[i]);
+		}
+		else
+			expand = ft_strdup(dup[i]);
+	}
+	return (expand);
+}
+
+/*void	infile_parsing(char *inpt, t_line *line)
 {
 	int		i;
 
@@ -66,7 +121,7 @@ void	outfile_parsing(char *inpt, t_line	*line)
 			parsing_simple_outdir(&inpt[i + 1], line);
 		i++;
 	}
-}
+}*/
 
 int	check_builtin(char *str, t_env **env)
 {

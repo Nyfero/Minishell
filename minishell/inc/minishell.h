@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/09 13:24:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/09 17:07:53 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,22 @@ void	init_signal(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 
+//	ft_tools.c
+int	ft_file_access(char	*str);
+
 /********************************/
 /*---------PARSING--------------*/
 /********************************/
 
-//	ft_list.c
-void	minishell_addlist(t_line **list, char *inpt);
-t_line	*minishell_create_list(char *inpt);
+//	ft_line_func.c
+void	create_list_line(t_line **line, int len);
+t_line	*create_line(void);
 void 	deallocate(t_line** root);
 //void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
-t_line	*parsing(char *inpt);
+void	parsing(t_line **line, t_env ** env, char const *inpt);
+char	*ft_expand(char const *inpt, t_env ** env);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
 
