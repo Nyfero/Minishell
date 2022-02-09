@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 			write(1, "1\n", 2);
 			if (line)
 			{
-				if (check_builtin(line->cmd, &env))
+				if (check_builtin(line->exec->cmd, &env))
 					break ;
 				add_history(inpt);
 				minishell_del_list(line);
@@ -47,6 +47,6 @@ int	main(int argc, char **argv, char **envp)
 		free(inpt);
 	}
 	free(inpt);
-	rl_clear_history();
+	clear_history();
 	return (0);
 }

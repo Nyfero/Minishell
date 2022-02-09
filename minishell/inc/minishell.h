@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 17:44:13 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:28:25 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
+
+//t_tools.c
+int	ft_file_access(char	*str);
 
 //	handle_signal.c
 void	init_signal(void);

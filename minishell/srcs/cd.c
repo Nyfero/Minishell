@@ -53,7 +53,7 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	(void)str;
 //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Partie visiblement USELESS
 //	printf("path = -%s-\n", path);
-/*	if (!path[0])
+/*	if (!path[0])// utile cas OLDPWD="" ou cd ""
 //	{
 //		printf("path vide\n" );
 //		return (0);
@@ -86,6 +86,10 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	printf("END FT_CD_PATH\n");
 	//changer OLDPWD
 	//changer PWD
+	//si PWD unset deplacement normal -> OLDPWD = flags 1 var = ""
+	//mais repasse flags 0 apres
+	// creer flags 3 == 1 mais passe a 0 apres ?
+
 	return (0);
 }
 
