@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/08 15:05:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/09 12:20:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ t_line	*minishell_create_list(char *inpt)
 	line->indir = 0;
 	line->outdir = 0;
 	line->env = NULL;
-	line->cmd = ft_strdup(inpt);
 	if (!line->cmd)
 		return (0);
 	return (line);

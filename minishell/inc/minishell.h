@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/08 11:06:15 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:24:53 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef struct s_line
 	char			**env;
 	struct s_line	*next;
 }	t_line;
+/*
+**	indir flags:
+**	0 no < or <<
+**	1 = <
+**	2 = <<
+**	3 = << et <
+**	outdir same things
+*/
 
 typedef struct s_env
 {
@@ -68,6 +76,19 @@ typedef struct s_env
 //	ft_error.c
 int		ft_error(char *err);
 
+
+//	ft_split_minishell.c
+char	**ft_split_minishell(char const *s, char c);
+
+//	handle_signal.c
+void	init_signal(void);
+void	handle_sigint(int sig);
+void	handle_sigquit(int sig);
+
+/********************************/
+/*---------PARSING--------------*/
+/********************************/
+
 //	ft_list.c
 void	minishell_addlist(t_line **list, char *inpt);
 t_line	*minishell_create_list(char *inpt);
@@ -78,14 +99,6 @@ void 	deallocate(t_line** root);
 t_line	*parsing(char *inpt);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
-
-//	ft_split_minishell.c
-char	**ft_split_minishell(char const *s, char c);
-
-//	handle_signal.c
-void	init_signal(void);
-void	handle_sigint(int sig);
-void	handle_sigquit(int sig);
 
 /********************************/
 /*---------BUILTIN--------------*/
