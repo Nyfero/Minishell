@@ -6,16 +6,35 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/09 15:31:51 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/09 16:40:45 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" 
 
+/*
+** errno == 13 -> pas acces aux droits
+** errno == 20 -> pas un dossier
+*/
+
+int	ft_dir_access(char *str)
+{
+	DIR*	fd;
+	
+	fd = opendir(str);
+	if (fd || errno == 13)
+	{
+		if (fd)
+			closedir(fd);
+		return (-1);
+	}
+	return (0);
+}
+
 int	ft_file_access(char	*str)
 {
-	if (!str || access(str, F_OK) == -1)
-		return (0);
+	if (ft_dir_access(str) == -1)
+		return (-1);
 	if (!access(str, F_OK | R_OK | W_OK | X_OK))
 		return (8);
 	else if (!access(str, F_OK | R_OK | W_OK))
