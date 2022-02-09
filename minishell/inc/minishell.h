@@ -32,8 +32,15 @@
 # include <readline/readline.h>
 # include "../libft/inc/libft.h"
 
+//	message d'erreur
+# define WR_PATH ": No such file or directory"
+# define OLDPWD_UNSET "OLDPWD not set"
+
+# define TRUE 1
+# define FALSE 0
+
 // stock une commande et pointe sur la commande suivante
-typedef struct s_exec
+typedef struct s_line
 {
 	char			*infile;
 	char			*outfile;
@@ -41,12 +48,6 @@ typedef struct s_exec
 	int				indir;
 	int				outdir;
 	char			**env;
-	struct s_exec	*next;
-}	t_exec;
-
-typedef struct s_line
-{
-	struct s_exec	*exec;
 	struct s_line	*next;
 }	t_line;
 
@@ -68,20 +69,20 @@ typedef struct s_env
 int		ft_error(char *err);
 
 //	ft_list.c
-void	minishell_addlist(t_line *list, char *inpt);
+void	minishell_addlist(t_line **list, char *inpt);
 t_line	*minishell_create_list(char *inpt);
-t_line	*set_list_null(t_line *list);
-void	minishell_del_list(t_line *line);
+void 	deallocate(t_line** root);
+//void	minishell_del_list(t_line *line);
 
 //	ft_parsing.c
-t_line	**parsing(char *inpt);
+t_line	*parsing(char *inpt);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
 
-//t_tools.c
+//	ft_tools.c
 int	ft_file_access(char	*str);
 
 //	handle_signal.c

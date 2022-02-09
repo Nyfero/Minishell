@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 17:37:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/07 18:28:47 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,27 @@
 **	Créer line ou rajoute un maillon a line
 */
 
-void	minishell_addlist(t_line *line, char *inpt)
+void	minishell_addlist(t_line **line, char *inpt)
 {
 	t_line	*ptr;
-	int		i;
-	char	**tmp;
 
 	if (!(line && inpt))
 		return ;
-	tmp = ft_split_minishell(inpt, '|');
-	i = -1;
-	while (tmp[++i])
+	if (!*line)
 	{
-		if (!line)
-		{
-			line = minishell_create_list(tmp[i]);
-			if (!line)
-				return ;
-		}
-		else
-		{
-			ptr = line;
-			while (ptr->next)
-				ptr = ptr->next;
-			ptr->next = minishell_create_list(tmp[i]);
-			if (!ptr->next)
-				return ;
-		}
+		*line = minishell_create_list(inpt);
+		if (!*line)
+			return ;
 	}
-	ft_free_ls(tmp);
+	else
+	{
+		ptr = *line;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = minishell_create_list(inpt);
+		if (!ptr->next)
+			return ;
+	}
 	return ;
 }
 
@@ -59,29 +51,34 @@ t_line	*minishell_create_list(char *inpt)
 	line = malloc(sizeof(t_line));
 	if (!line)
 		return (NULL);
-	line->exec = set_line_exec(inpt);
+	line->infile = NULL;
+	line->outfile = NULL;
+	line->cmd = NULL;
+	line->indir = 0;
+	line->outdir = 0;
+	line->env = NULL;
+	line->cmd = ft_strdup(inpt);
+	if (!line->cmd)
+		return (0);
 	return (line);
 }
 
-/*
-**	Met tous les attributs de line a 0
-*/
-
-t_exec	*set_list_null(t_line *line)
+void deallocate(t_line** root)
 {
-	t_exec	*tmp;
+	t_line	*curr;
+	t_line	*aux;
 
-	tmp = ft_calloc(sizeof(t_exec), 1);
-	tmp->infile = NULL;
-	tmp->outfile = NULL;
-	tmp->cmd = ft_strdup(inpt);
-	tmp->indir = 0;
-	tmp->outdir = 0;
-	tmp->env = NULL;
-	return (tmp);
+	curr = *root;
+	while (curr != NULL)
+	{
+		aux = curr;
+		curr = curr->next;
+		free(aux);
+	}
+	*root = NULL;
 }
 
-void	minishell_del_list(t_line *line)
+/*void	minishell_del_list(t_line *line)
 {
 	t_line	*tmp;
 
@@ -89,11 +86,13 @@ void	minishell_del_list(t_line *line)
 		return ;
 	while (line)
 	{
-		tmp = line->next;
+		tmp = NULL;
+		if (line->next)
+			tmp = line->next;
 		line->next = NULL;
 		if (line->cmd)
 			free(line->cmd);
 		free(line);
 		line = tmp;
 	}
-}
+}*/

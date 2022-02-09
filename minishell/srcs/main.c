@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 17:46:06 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/08 11:05:56 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			line = *parsing(inpt);
-			write(1, "1\n", 2);
+			line = parsing(inpt);
 			if (line)
 			{
 				if (check_builtin(line->exec->cmd, &env))
 					break ;
 				add_history(inpt);
-				minishell_del_list(line);
+				deallocate(&line);
 			}
 		}
 		free(inpt);

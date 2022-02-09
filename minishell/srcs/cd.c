@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/07 17:41:34 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:02:26 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,31 @@ t_env	*ft_get_var(char *search, t_env *env)
 
 int	ft_cd_path(char *path, t_env **env, char *str)
 {
-//	DIR	*fd;
+	DIR	*fd;
 
 	(void)path;
 	(void)env;
 	(void)str;
 //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Partie visiblement USELESS
 //	printf("path = -%s-\n", path);
+<<<<<<< HEAD
 /*	if (!path[0])// utile cas OLDPWD="" ou cd ""
 //	{
 //		printf("path vide\n" );
 //		return (0);
 //	}
+=======
+	if (!path[0])
+	{
+		printf("path vide\n" );
+		return (0);
+	}
+>>>>>>> 5a93dba4873d9129e0a54403bc50550d453bd2e0
 	fd = opendir(path);
 	if (fd == 0 && errno == 20)
 	{
 //		printf("OPEN\n");
-//		printf("errno = %d\n", errno);
+		printf("errno = %d\n", errno);
 		printf("cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
@@ -86,12 +94,25 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	printf("END FT_CD_PATH\n");
 	//changer OLDPWD
 	//changer PWD
+<<<<<<< HEAD
 	//si PWD unset deplacement normal -> OLDPWD = flags 1 var = ""
 	//mais repasse flags 0 apres
 	// creer flags 3 == 1 mais passe a 0 apres ?
 
+=======
+
+	//si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
+	//sinon add fin avec = t_env	*create_env_maillon(char *str, int flags)
+>>>>>>> 5a93dba4873d9129e0a54403bc50550d453bd2e0
 	return (0);
 }
+
+//PWD unset -> OLDPWD n'est pus visible env mais dans export si
+//cd - = error unset
+// si var = NULL et flags 
+
+// il revient apres normal dans env et export
+
 
 int	ft_cd_alpha(char *str, t_env **env)
 {
