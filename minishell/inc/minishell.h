@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/09 17:07:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 17:15:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ t_line	*create_line(void);
 void 	deallocate(t_line** root);
 //void	minishell_del_list(t_line *line);
 
+//	ft_here_doc.c
+char	*handle_here_doc(char const *str);
+int		check_here_doc(char *dup, int i);
+char	*read_here_doc(char *str, int i);
+char	*get_limiteur(const char *str);
+
 //	ft_parsing.c
 void	parsing(t_line **line, t_env ** env, char const *inpt);
 char	*ft_expand(char const *inpt, t_env ** env);
@@ -136,6 +142,7 @@ int		ft_env_arg(char **str);
 void	init_env(t_env **env, char **envp);
 t_env	*create_env_maillon(char *str, int flags);
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags);
+char	**env_to_str(t_env **env);
 
 //	cd.c
 int		ft_cd(char **str, t_env **env);

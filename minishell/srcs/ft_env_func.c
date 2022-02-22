@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/08 15:17:31 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 17:14:31 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,30 @@ t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 		i++;
 	ptr->var = ft_substr(str, i + 1, ft_strlen(str) - (i + 1));
 	return (ptr);
+}
+
+char	**env_to_str(t_env **env)
+{
+	char	**tmp;
+	t_env	*ptr;
+	int		i;
+
+	i = 0;
+	ptr = *env;
+	while (ptr->next)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	tmp = ft_calloc(sizeof(char *), i + 1);
+	i = 0;
+	ptr = *env;
+	while (ptr->next)
+	{
+		tmp[i] = ft_strjoin(ptr->name, "=");
+		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
+		ptr = ptr->next;
+		i++;
+	}
+	return (tmp);
 }

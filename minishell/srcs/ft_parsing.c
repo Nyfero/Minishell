@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/22 10:56:58 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 11:42:36 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	parsing(t_line **line, t_env ** env, char const *inpt)
 
 	if (!inpt)
 		return ;
-	expand = inpt;
-	expand = expand_here_doc(inpt);
+	expand = handle_here_doc(inpt);
 	expand = ft_expand(inpt, env);
 	printf("expand =>%s\n", expand);
 	if (!expand)
