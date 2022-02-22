@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/22 10:17:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 11:34:10 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			parsing(&line, &env, inpt);
-			/*if (line)
+			if (line)
 			{
 				if (check_builtin(line->cmd, &env))
 					break ;
 				add_history(inpt);
 				deallocate(&line);
-			}*/
+			}
 		}
 		free(inpt);
 	}

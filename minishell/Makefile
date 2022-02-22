@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
+#    By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/22 10:17:13 by gsap             ###   ########.fr        #
+#    Updated: 2022/02/22 17:56:33 by jgourlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS_PATH = srcs
 #	Files
 FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_line_func.c \
 	ft_parsing.c ft_error.c ft_env_func.c ft_env.c ft_unset.c ft_export.c \
-	cd.c ft_export_utils.c ft_tools.c
+	cd.c ft_export_utils.c ft_tools.c pipex_main.c pipex_child.c 
 
 #	Compilation
 NAME = minishell

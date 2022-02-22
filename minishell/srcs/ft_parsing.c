@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/22 10:56:58 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 11:32:27 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ void	parsing(t_line **line, t_env ** env, char const *inpt)
 {
 	char	**tmp;
 	char	*expand;
+	(void)line;
+	(void)env;
+	(void)inpt;
 
 	if (!inpt)
 		return ;
-	expand = inpt;
-	expand = expand_here_doc(inpt);
-	expand = ft_expand(inpt, env);
-	printf("expand =>%s\n", expand);
+	expand = (char *)inpt;
+	//expand = expand_here_doc(inpt);
+	//expand = ft_expand(inpt, env);
+	//printf("expand =>%s\n", expand);
 	if (!expand)
 		return ;
 	tmp = ft_split_minishell(expand, '|');

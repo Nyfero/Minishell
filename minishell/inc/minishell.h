@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/09 17:07:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 17:57:51 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,11 @@ t_env	*mod_env_maillon(char *str, t_env *ptr, int flags);
 //	cd.c
 int		ft_cd(char **str, t_env **env);
 t_env	*ft_get_var(char *search, t_env *env);
+
+//	pipex_child.c
+void	ft_pipex_child(t_line *arg, int *fd, int fd_in);
+
+//	pipex_main.c
+int	pipex_entry(t_line *arg, t_env **env);
 
 #endif
