@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/21 15:35:48 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/22 11:19:31 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 //	char			*infile;
 //	char			*outfile;
-//	char			*cmd;
-//	int				indir;
+//	char			*cmd;		cmd avec flags etc
+//	int				indir;		
 //	int				outdir;
 //	char			**env;
 //	struct s_line	*next;
