@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/09 16:40:45 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/21 14:58:04 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,11 @@ int	ft_file_access(char	*str)
 		return (1);
 	return (0);
 }
+
+//int	main(int argc, char	**av)
+//{
+//	(void)argc;
+//	
+//	printf("ret = %d\n", ft_file_access(av[1]));
+//	return (0);
+//}

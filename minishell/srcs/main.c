@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/08 11:05:56 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/21 14:53:07 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 			line = parsing(inpt);
 			if (line)
 			{
-				if (check_builtin(line->exec->cmd, &env))
+				if (check_builtin(line->cmd, &env))
 					break ;
 				add_history(inpt);
 				deallocate(&line);
