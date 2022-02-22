@@ -6,7 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/09 17:12:31 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 10:21:22 by gsap             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+//>>>>>>> ce5ec4796d917d48ef2a9276e568016ba8906143
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +50,20 @@ t_env	*ft_get_var(char *search, t_env *env)
 
 int	ft_cd_path(char *path, t_env **env, char *str)
 {
-	//DIR	*fd;
+//	DIR	*fd;
 
 	(void)path;
 	(void)env;
 	(void)str;
 //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Partie visiblement USELESS
 //	printf("path = -%s-\n", path);
-
-/*	if (!path[0])// utile cas OLDPWD="" ou cd ""
-//	{
-//		printf("path vide\n" );
-//		return (0);
-//	}
-=======
-	if (!path[0])
+	/*if (!path[0])
+=======*/
+/*	if (!path[0])
 	{
 		printf("path vide\n" );
 		return (0);
 	}
->>>>>>> 5a93dba4873d9129e0a54403bc50550d453bd2e0
 	fd = opendir(path);
 	if (fd == 0 && errno == 20)
 	{
@@ -74,14 +72,14 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 		printf("cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
-	if (fd == 0)
+	if (fd != 0)
 		closedir(fd);
 	if (access(path, X_OK | F_OK) != 0)
 	{
 //		printf("ACCES\n");
 		printf("cd: %s: %s\n", path, strerror(errno));
 		return (1);
-	}
+	}*/
 //	printf("acces possible a -%s-\n", path);
 //faire le deplacement*/
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Partie visiblement inutile
@@ -91,15 +89,9 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 		return (1);
 	}
 
-	printf("END FT_CD_PATH\n");
+	printf("END FT_CD_PATH (changement OLDPWD et PWD ici)\n");
 	//changer OLDPWD
 	//changer PWD
-
-	//si PWD unset deplacement normal -> OLDPWD = flags 1 var = ""
-	//mais repasse flags 0 apres
-	// creer flags 3 == 1 mais passe a 0 apres ?
-
-
 
 	//si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 	//sinon add fin avec = t_env	*create_env_maillon(char *str, int flags)

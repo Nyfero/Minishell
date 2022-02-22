@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/09 15:55:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 10:17:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,29 @@
 **	R_OK= lecture droit
 */
 
+/*
+** errno == 13 -> pas acces aux droits
+** errno == 20 -> pas un dossier
+*/
+
+int	ft_dir_access(char *str)
+{
+	DIR*	fd;
+
+	fd = opendir(str);
+	if (fd || errno == 13)
+	{
+		if (fd)
+			closedir(fd);
+		return (-1);
+	}
+	return (0);
+}
+
 int	ft_file_access(char	*str)
 {
-	if (!str || access(str, F_OK) == -1)
-		return (0);
+	if (ft_dir_access(str) == -1)
+		return (-1);
 	if (!access(str, F_OK | R_OK | W_OK | X_OK))
 		return (8);
 	else if (!access(str, F_OK | R_OK | W_OK))
@@ -41,3 +60,11 @@ int	ft_file_access(char	*str)
 		return (1);
 	return (0);
 }
+
+//int	main(int argc, char	**av)
+//{
+//	(void)argc;
+//
+//	printf("ret = %d\n", ft_file_access(av[1]));
+//	return (0);
+//}
