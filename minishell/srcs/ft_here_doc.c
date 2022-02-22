@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/22 17:05:33 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/22 18:24:23 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char	*handle_here_doc(char const *str)
 {
 	char	*dup;
-	//char	*tmp;
+	char	*tmp;
 	int		i;
 	int		bis;
 
@@ -29,10 +29,10 @@ char	*handle_here_doc(char const *str)
 			bis = check_here_doc(dup, i);
 			if (bis == 2)
 			{
-				dup = ft_strjoin_and_free_s1(ft_substr(dup, 0, i + 1 + ft_strlen(get_limiteur(&dup[i]) + 2)), read_here_doc(dup, i));
-				//je join tout ce que j'ai chope a mon dup puis je join tout apres le _here_doc
-				printf("dup:%s", dup);
-				//gerer le _here_doc
+				bis = ft_strlen(get_limiteur(&dup[i]));
+				tmp = ft_strdup(&dup[i + bis + 2]);
+				dup = ft_strjoin_and_free_s1(ft_substr(dup, 0, (i - 1) + ft_strlen(get_limiteur(&dup[i]) + 2)), read_here_doc(dup, i));
+				dup = ft_strjoin_and_free_all(dup, tmp);
 			}
 			i += bis;
 		}
