@@ -35,13 +35,13 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			parsing(&line, &env, inpt);
-			if (line)
+			/*if (line)
 			{
 				if (check_builtin(line->cmd, &env))
 					break ;
 				add_history(inpt);
 				deallocate(&line);
-			}
+			}*/
 		}
 		free(inpt);
 	}
