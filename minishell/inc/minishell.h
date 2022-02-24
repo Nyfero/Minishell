@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:24:31 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 11:35:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@
 # include <readline/readline.h>
 # include "../libft/inc/libft.h"
 
+//	message d'erreur
+# define WR_PATH ": No such file or directory"
+# define OLDPWD_UNSET "OLDPWD not set"
+
 # define TRUE 1
 # define FALSE 0
 
+// stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
 	char			*infile;
@@ -60,27 +65,16 @@ typedef struct s_env
 	int				flags;
 	struct s_env	*next;
 }	t_env;
-
-//	ft_env.c
-void	ft_env(t_env *env);
-
-//	ft_env_func.c
-void	init_env(t_env **env, char **envp);
-void	create_env_list(t_env **env, char *str);
+/*
+**	flags:
+**	0 affichage env, export et echo
+**	1 affichage export et echo
+**	2 affichage echo
+*/
 
 //	ft_error.c
 int		ft_error(char *err);
 
-//	ft_list.c
-void	minishell_addlist(t_line **list, char *inpt);
-t_line	*minishell_create_list(char *inpt);
-t_line	*set_list_null(t_line *list);
-void	minishell_del_list(t_line *line);
-
-//	ft_parsing.c
-t_line	*parsing(char *inpt);
-int		check_builtin(char *str, t_env *env);
-int		not_in_quotes(char const *s);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);

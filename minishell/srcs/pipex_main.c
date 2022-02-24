@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/22 17:58:53 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 11:39:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //	char			*infile;	si heredoc aors string direct
 //	char			*outfile;
 //	char			*cmd;		cmd avec flags etc
-//	int				indir;		
+//	int				indir;
 //	int				outdir;
 //	char			**env;
 //	struct s_line	*next;

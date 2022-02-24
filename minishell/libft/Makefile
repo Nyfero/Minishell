@@ -6,16 +6,12 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2022/02/07 09:58:59 by gsap             ###   ########.fr        #
-=======
-#    Updated: 2022/01/31 12:26:13 by gsap             ###   ########.fr        #
->>>>>>> 286cb872cfc2b3b31a644ab29eb7a7de39c6955e
+#    Updated: 2022/02/24 11:39:53 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Colors
-GREY = \e[90m
+GREY = \e[90ms
 RED = \e[91m
 GREEN = \e[92m
 YELLOW = \e[93m
@@ -57,15 +53,14 @@ INC = inc/libft.h
 all: $(NAME)
 
 $(NAME): $(OBJS_PATH) $(OBJS)
-<<<<<<< HEAD
-	$(AR) $(NAME) $(OBJS)
-	@ ranlib $(NAME)
-=======
 	@ $(AR) $(NAME) $(OBJS)
 	@ echo "\n$(CYAN)"
 	ranlib $(NAME)
 	@ echo "$(END)"
->>>>>>> 286cb872cfc2b3b31a644ab29eb7a7de39c6955e
+=======
+	$(AR) $(NAME) $(OBJS)
+	@ ranlib $(NAME)
+>>>>>>> 5d3efae14e065d896485d279c85bd3024ac06e8b
 	@ echo "$(GREEN)\n		--- $(NAME) created ---\n$(END)"
 
 $(OBJS_PATH):
@@ -73,11 +68,10 @@ $(OBJS_PATH):
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC) Makefile
 	$(CC) $(CFLAGS) -I $(INC) -c $< -o $@
-<<<<<<< HEAD
-	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
-=======
 	@ echo "$(GREEN)[ OK ] $(CYAN)${<:.s=.o}$(END)$(END)"
->>>>>>> 286cb872cfc2b3b31a644ab29eb7a7de39c6955e
+=======
+	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
+>>>>>>> 5d3efae14e065d896485d279c85bd3024ac06e8b
 
 clean:
 	@ $(RM) $(OBJS_PATH)
