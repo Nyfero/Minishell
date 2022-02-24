@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/22 11:34:10 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 11:21:47 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	env = NULL;
 	init_env(&env, envp);
+	char **tmp = env_to_str(&env);
+	int i = -1;
+	while (tmp[++i])
+		printf("tmp[%d] = %s\n", i, tmp[i]);
 	//init_signal();
 	while (1)
 	{
@@ -35,13 +39,13 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			parsing(&line, &env, inpt);
-			/*if (line)
-			{
-				if (check_builtin(line->cmd, &env))
-					break ;
-				add_history(inpt);
-				deallocate(&line);
-			}*/
+			//if (line)
+			//{
+			//	if (check_builtin(line->cmd, &env))
+			//		break ;
+			//	add_history(inpt);
+			//	deallocate(&line);
+			//}
 		}
 		free(inpt);
 	}

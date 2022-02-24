@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/22 18:02:39 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:00:06 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_pipex_check_in(t_line *arg, int fd_in, int *temp)
 	{
 		//verifier si fichier existe, ou pas ? voir si open le fait solo
 		//open infile et dup2 file dans 0
-		return (open(arg->outfile, O_RDONLY));
+		return (open(arg->infile, O_RDONLY));
 	}
 	if (arg->indir == 2)
 	{
@@ -60,7 +60,7 @@ int	ft_pipex_check_in(t_line *arg, int fd_in, int *temp)
 		//creation pipe avant ensuite rediriger str dans dams fd[1]
 		//passer fd[1] en 0
 		while (arg->outfile[i])
-			write(temp[1], arg->outfile + i++, 1);
+			write(temp[1], arg->infile + i++, 1);
 		return (temp[0]);
 	}
 	return (0);
@@ -88,36 +88,100 @@ int	ft_pipex_check_out(t_line *arg, int *fd)
 
 }
 
-void	ft_pipex_child(t_line *arg, int *fd, int fd_in)
+//t_env	*ft_get_var(char *search, t_env *env)
+
+char	*ft_pipex_path(char **temp_cmd, char **path)
+{
+	int		i;
+	char	*test;
+	char	*res;
+
+	i = 0;
+	//check built in
+printf("ft_pipex_path = 0\n");
+	if (!path || path[0] == 0)
+	{
+		printf("bash: %s: No such file or directory\n", temp_cmd[0]);
+		return (0);
+	}
+	while (path[i])
+	{
+		test = ft_strjoin(path[i], "/");
+		if (!test)
+			return (0);
+		res = ft_strjoin(test, temp_cmd[0]);
+		free(test);
+		if (!res)
+			return (0);
+		if (access(res, F_OK) == 0)
+		{
+			printf("PATH = %s\n", res);
+			return (res);
+		}
+		free(res);
+		printf("parcours serah path\n");
+		i++;
+	}
+	printf("bash: %s: Command not found\n", temp_cmd[0]);
+
+	return (0);
+}
+
+void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path)
 {
 	int out;
 	int	in;
 	int	temp[2];
+	char	*path_res;
 
+	char **temp_cmd;
+	temp_cmd = ft_split(arg->cmd, ' ');
+	if (temp_cmd == 0)
+	{
+		printf("error mall split\n");
+		exit (0);
+	}
+
+printf("alpha 1\n");
 	//verifier path cmd / si existe  err 127
 	//verif entree , path , redir entry
-	//verif sortie , redir exit
+	//verif sortie , redir exi
+	//arg->env = env_to_str(arg)
+	path_res = ft_pipex_path(temp_cmd, path);
+	if (!path_res)
+	{
+		//close
+		//free
+		exit (127);
+	}
+printf("alpha 2\n");
 	in = ft_pipex_check_in(arg, fd_in, temp);
 	if (in == -1)
 	{
 		printf("%s : %s\n", arg->outfile, strerror(errno));
 		ft_pipex_close(fd, fd_in, temp, in);
+		//free
 		exit (1);
 	}
+printf("alpha 3\n");
 	out = ft_pipex_check_out(arg, fd);
 	if (out == -1)
 	{
 		printf("%s : %s\n", arg->outfile, strerror(errno));
 		ft_pipex_close(fd, fd_in, temp, in);
+		//free
 		exit (1);
 	}
+printf("alpha 4\n");
 	dup2(out, 1);//dup2 sortie
-	dup2(fd_in, 0);
+	dup2(in, 0);
 
 	ft_pipex_close(fd, fd_in, temp, in);
 	if (out > 2)
 		close (out);
 	//close les fd
-	//execve
-	//propre
+execve(path_res, temp_cmd, arg->env);
+//printf("coucou\n");
+exit(1);
+	//free propre
 }

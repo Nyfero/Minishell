@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/22 17:58:53 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:39:04 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 //
 //}
 
-int	ft_pipex(t_line *arg, int fd_in)
+int	ft_pipex(t_line *arg, int fd_in, char **path)
 {
 	pid_t	child;
 	int		fd[2];
@@ -55,14 +55,14 @@ int	ft_pipex(t_line *arg, int fd_in)
 	}
 	if (child == 0)//envoie child
 	{
-		ft_pipex_child(arg, fd, fd_in);
+		ft_pipex_child(arg, fd, fd_in, path);
 	}
 	if (fd_in > 0)
 		close(fd_in);
 	close(fd[1]);
 
 	if (arg->next)//child next
-		ret = ft_pipex(arg->next, fd[0]);
+		ret = ft_pipex(arg->next, fd[0], path);
 
 	close(fd[0]);
 	waitpid(child, &status, 0);
@@ -77,12 +77,54 @@ int	ft_pipex(t_line *arg, int fd_in)
 	return (ret);
 }
 
+int	ft_parcours_env_perso(t_env *env)
+{
+	if (env == 0)
+		return (0);
+	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
+	if (env->next)
+		ft_parcours_env_perso(env->next);
+	return (0);
+}
+
 int	pipex_entry(t_line *arg, t_env **env)
 {
 	(void)env;
+	char	**path;
+	t_env	*res;
+
+	path = 0;
+	res = 0;
+	ft_parcours_env_perso(*env);
+	res = ft_get_var("PATH", *env);
+	//printf("ALPHA %s\n", res->var);
+	if (res)
+	{
+		path = ft_split(res->var, ':');
+		if (!path)
+		{
+			printf("malloc error pipex entry 001\n");
+			return (-1);
+		}
+		int i = 0;
+		while (path[i])
+		{
+			printf("path[%d] = %s\n", i, path[i]);
+			i++;
+		}
+	}
+	else
+		printf("path unset\n");
 	//check arg
-	//ft_pipex_init(arg);
 	//changer char **env  pour fit avec le vrai
-	return (ft_pipex(arg, 0)); //t_line, int step
+	int resu = 0;
+	resu = ft_pipex(arg, 0, path); //t_line, int step
+if (res)
+{
+	free(res->name);
+	free(res->var);
+	free(res);
+}
+	return (resu);
 	//return reussite ou numero erreur
 }
