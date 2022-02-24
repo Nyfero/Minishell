@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/24 17:00:06 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:30:47 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 
 	i = 0;
 	//check built in
-printf("ft_pipex_path = 0\n");
+//printf("ft_pipex_path = 0\n");
 	if (!path || path[0] == 0)
 	{
-		printf("bash: %s: No such file or directory\n", temp_cmd[0]);
+		printf("bash: %s: No such file or directory\n", temp_cmd[0]);//mettre bon message erreur
 		return (0);
 	}
 	while (path[i])
@@ -115,14 +115,13 @@ printf("ft_pipex_path = 0\n");
 			return (0);
 		if (access(res, F_OK) == 0)
 		{
-			printf("PATH = %s\n", res);
+		//	printf("PATH = %s\n", res);
 			return (res);
 		}
 		free(res);
-		printf("parcours serah path\n");
 		i++;
 	}
-	printf("bash: %s: Command not found\n", temp_cmd[0]);
+	printf("bash: %s: Command not found\n", temp_cmd[0]);//mettre bon message erreur
 
 	return (0);
 }
@@ -138,7 +137,6 @@ void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path)
 	temp_cmd = ft_split(arg->cmd, ' ');
 	if (temp_cmd == 0)
 	{
-		printf("error mall split\n");
 		exit (0);
 	}
 

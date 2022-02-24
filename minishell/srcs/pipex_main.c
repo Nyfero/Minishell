@@ -6,21 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/24 16:39:04 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:38:35 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//	char			*infile;	si heredoc aors string direct
-//	char			*outfile;
-//	char			*cmd;		cmd avec flags etc
-//	int				indir;		
-//	int				outdir;
-//	char			**env;
-//	struct s_line	*next;
-
-//cat Makefile > ok | grep clean   mettre le cat dans ok et grep ce qui q ete mis (pas le droit de read)
 
 //si next == 0 pas de dup2
 //child ont leur propre env
@@ -50,6 +40,7 @@ int	ft_pipex(t_line *arg, int fd_in, char **path)
 	if (child == -1)
 	{
 		printf("Bravo = %s\n", strerror(errno));
+		//close pipe
 		//free arg si besoin
 		exit (0);
 	}
@@ -90,6 +81,8 @@ int	ft_parcours_env_perso(t_env *env)
 int	pipex_entry(t_line *arg, t_env **env)
 {
 	(void)env;
+
+	int i = -1;
 	char	**path;
 	t_env	*res;
 
@@ -104,7 +97,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 		if (!path)
 		{
 			printf("malloc error pipex entry 001\n");
-			return (-1);
+			return (12);
 		}
 		int i = 0;
 		while (path[i])
@@ -113,18 +106,16 @@ int	pipex_entry(t_line *arg, t_env **env)
 			i++;
 		}
 	}
-	else
-		printf("path unset\n");
 	//check arg
 	//changer char **env  pour fit avec le vrai
 	int resu = 0;
 	resu = ft_pipex(arg, 0, path); //t_line, int step
-if (res)
-{
-	free(res->name);
-	free(res->var);
-	free(res);
-}
+	if (res)
+	{
+		free(res->name);
+		free(res->var);
+		free(res);
+	}
 	return (resu);
 	//return reussite ou numero erreur
 }
