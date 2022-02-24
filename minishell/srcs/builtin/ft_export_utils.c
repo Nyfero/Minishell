@@ -6,11 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:01:59 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/07 15:02:40 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 17:46:51 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 int	check_valid_export(char *str)
 {

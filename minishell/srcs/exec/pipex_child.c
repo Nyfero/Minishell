@@ -6,11 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/22 18:02:39 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:48:32 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 int	ft_pipex_close(int *fd, int fd_in, int *temp, int in)
 {

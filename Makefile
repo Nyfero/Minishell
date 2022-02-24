@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/24 17:17:25 by gsap             ###   ########.fr        #
+#    Updated: 2022/02/24 17:00:52 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,24 @@ LIBFT = $(LIBFT_DIR)/libft.a
 #	Folders
 SRCS_PATH = srcs
 
-#	Files
-FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_line_func.c \
-	ft_parsing.c ft_error.c ft_env_func.c ft_env.c ft_unset.c ft_export.c \
-	cd.c ft_export_utils.c ft_tools.c pipex_main.c pipex_child.c ft_here_doc.c
+BUILTIN_PATH = builtin
 
+EXEC_PATH = exec
+
+PARSING_PATH = parsing
+
+TOOLS_PATH = tools
+
+#	Files
+FILES = main.c
+
+BUILTIN_SRCS = cd.c echo.c ft_env.c ft_export.c ft_export_utils.c ft_unset.c pwd.c
+
+EXEC_SRCS = pipex_main.c pipex_child.c
+
+PARSING_SRCS = ft_here_doc.c ft_parsing.c ft_line_func.c
+
+TOOLS_SRCS = handle_signal.c ft_split_minishell.c ft_error.c ft_env_func.c ft_tools.c 
 #	Compilation
 NAME = minishell
 

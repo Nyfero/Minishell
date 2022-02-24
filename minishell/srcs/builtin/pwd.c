@@ -6,11 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:58 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:39:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 17:46:48 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 int	ft_pwd(void)
 {

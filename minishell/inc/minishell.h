@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:35:28 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 16:07:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_line
 	char			*infile;
 	char			*outfile;
 	char			*cmd;
+	char			**path;
 	int				indir;
 	int				outdir;
 	char			**env;
@@ -104,7 +105,7 @@ int		check_here_doc(char *dup, int i);
 char	*get_limiteur(const char *str);
 
 //	ft_parsing.c
-void	parsing(t_line **line, t_env ** env, char const *inpt);
+void	parsing(t_line **line, char const *inpt);
 char	*ft_expand(char const *inpt, t_env ** env);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);

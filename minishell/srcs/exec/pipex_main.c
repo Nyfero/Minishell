@@ -6,11 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/24 11:39:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 17:48:36 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 //	char			*infile;	si heredoc aors string direct
 //	char			*outfile;

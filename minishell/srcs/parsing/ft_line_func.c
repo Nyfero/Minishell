@@ -6,11 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:38:14 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 17:48:53 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 void	create_list_line(t_line **line, int len)
 {
@@ -25,7 +25,6 @@ void	create_list_line(t_line **line, int len)
 		if (!*line)
 		{
 			*line = create_line();
-			printf("1er maillon\n");
 			if (!*line)
 				return ;
 		}
@@ -35,7 +34,6 @@ void	create_list_line(t_line **line, int len)
 			while (ptr->next)
 				ptr = ptr->next;
 			ptr->next = create_line();
-			printf("maillon\n");
 			if (!ptr->next)
 				return ;
 		}
@@ -55,8 +53,8 @@ t_line	*create_line(void)
 	line->indir = 0;
 	line->outdir = 0;
 	line->env = NULL;
+	line->path = NULL;
 	line->next = NULL;
-	printf("element\n");
 	return (line);
 }
 
@@ -76,7 +74,6 @@ void	destroy_list_line(t_line** line)
 		ptr = ptr->next;
 		free(aux->cmd);
 		free(aux);
-		printf("free\n");
 	}
 	*line = NULL;
 }

@@ -6,25 +6,64 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:34:34 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/24 17:48:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
-void	parsing(t_line **line, t_env ** env, char const *inpt)
+static int	check_pipe(char **cmd, char const *inpt)
 {
-	char	**tmp;
+	int	i;
+	int	j;
+	int	compt;
+
+	i = 0;
+	while (*inpt)
+	{
+		if (*inpt && (*inpt == '|') && not_in_quotes(inpt))
+		{
+			inpt++;
+			i++;
+		}
+		while (*inpt && (*inpt != '|'))
+			inpt++;
+	}
+	if (i != ft_lstrlen(cmd) - 1)
+		return (1);
+	i = -1;
+	while (cmd[++i])
+	{
+		j = -1;
+		compt = 0;
+		while(cmd[i][++j])
+		{
+			if (!ft_isalnum(cmd[i][j]))
+				compt++;
+		}
+		if ((size_t)compt == ft_strlen(cmd[i]))
+			return (1);
+	}
+	return (0);
+}
+
+void	parsing(t_line **line, char const *inpt)
+{
+	char	**cmd;
 	//char	*expand;
-	(void)env;
 
 	if (!inpt)
 		return ;
-	tmp = ft_split_minishell(inpt, '|');
-	if (!tmp)
+	cmd = ft_split_minishell(inpt, '|');
+	if (check_pipe(cmd, inpt))
+	{
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		return ;
-	create_list_line(line, ft_lstrlen(tmp));
-	ft_free_ls(tmp);
+	}
+	create_list_line(line, ft_lstrlen(cmd));
+	if (*line)
+		(*line)->cmd = ft_strdup(cmd[0]);
+	ft_free_ls(cmd);
 		return;
 	/*expand = handle_here_doc(inpt);
 	printf("expand =>%s\n", expand);
