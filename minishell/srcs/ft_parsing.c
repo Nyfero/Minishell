@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 15:08:07 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 17:32:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	check_pipe(char **cmd, char const *inpt)
 	return (0);
 }
 
-void	parsing(t_line **line, char const *inpt)
+void	parsing(t_env **env, t_line **line, char const *inpt)
 {
 	char	**cmd;
 	t_line	*ptr;
@@ -73,13 +73,12 @@ void	parsing(t_line **line, char const *inpt)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		return ;
 	}
-	create_list_line(line, ft_lstrlen(cmd));
+	create_list_line(line, ft_lstrlen(cmd), env);
 	ptr = *line;
-	i = 0;
+	i = -1;
 	while (ptr != NULL)
 	{
-		fill_line(cmd[i], ptr);
-		i++;
+		fill_line(cmd[++i], ptr);
 		ptr = ptr->next;
 	}
 	ft_free_ls(cmd);
@@ -88,15 +87,11 @@ void	parsing(t_line **line, char const *inpt)
 	printf("expand =>%s\n", expand);
 	if (!expand)
 		return ;
-	write(1, "1\n", 2);
 	expand = ft_expand(expand, env);
 	printf("expand =>%s\n", expand);
-	write(1, "2\n", 2);
 	if (!expand)
 		return ;
 	printf("%d\n", ft_lstrlen(tmp));
-	write(1, "3\n", 2);
-	write(1, "4\n", 2);
 	//expand $
 	//check outdir
 	//check indir*/

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 14:48:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 17:20:11 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			parsing(&line, inpt);
+			parsing(&env, &line, inpt);
 			if (line)
 			{
 				fonciton_exec(&line, &env);

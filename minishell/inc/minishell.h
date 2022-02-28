@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 16:45:01 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 17:27:06 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ typedef struct s_line
 	char			*infile;
 	char			*outfile;
 	char			*cmd;
+	char			**env;
 	char			**path;
 	int				indir;
 	int				outdir;
-	char			**env;
 	struct s_line	*next;
 }	t_line;
 /*
@@ -76,7 +76,6 @@ typedef struct s_env
 //	ft_error.c
 int		ft_error(char *err);
 
-
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
 
@@ -93,8 +92,8 @@ int	ft_file_access(char	*str);
 /********************************/
 
 //	ft_line_func.c
-void	create_list_line(t_line **line, int len);
-t_line	*create_line(void);
+void	create_list_line(t_line **line, int len, t_env **env);
+t_line	*create_line(t_env **env);
 void	fill_line(char *cmd, t_line *ptr);
 void	destroy_list_line(t_line** line);
 
@@ -106,7 +105,7 @@ int		check_here_doc(char *dup, int i);
 char	*get_limiteur(const char *str);
 
 //	ft_parsing.c
-void	parsing(t_line **line, char const *inpt);
+void	parsing(t_env **env, t_line **line, char const *inpt);
 char	*ft_expand(char const *inpt, t_env ** env);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
