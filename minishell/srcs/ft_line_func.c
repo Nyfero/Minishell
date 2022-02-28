@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 10:45:01 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 16:51:34 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,22 @@ t_line	*create_line(void)
 	line->cmd = NULL;
 	line->indir = 0;
 	line->outdir = 0;
-	line->env = NULL;
-	line->path = NULL;
+	line->env = NULL; // env_to_str
+	line->path = NULL; /* res = ft_get_var("PATH", *env);
+							if (res)
+							path = ft_split(res->var, ':');
+						*/
 	line->next = NULL;
 	return (line);
+}
+
+void	fill_line(char *cmd, t_line *ptr)
+{
+	line->indir = 0; // si j'ai un infile ou here_doc
+	line->outdir = 0;	//si j'ai une redirection
+	ptr->infile = NULL; // int sur le fd
+	ptr->cmd = ft_strdup(cmd); //cmd + arg
+	return ;
 }
 
 /*

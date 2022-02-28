@@ -6,21 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/28 10:45:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 16:36:34 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//	char			*infile;	si heredoc aors string direct
-//	char			*outfile;
-//	char			*cmd;		cmd avec flags etc
-//	int				indir;
-//	int				outdir;
-//	char			**env;
-//	struct s_line	*next;
-
-//cat Makefile > ok | grep clean   mettre le cat dans ok et grep ce qui q ete mis (pas le droit de read)
 
 //si next == 0 pas de dup2
 //child ont leur propre env
@@ -31,7 +21,7 @@
 //
 //}
 
-int	ft_pipex(t_line *arg, int fd_in)
+int	ft_pipex(t_line *arg, int fd_in, char **path)
 {
 	pid_t	child;
 	int		fd[2];
@@ -50,19 +40,20 @@ int	ft_pipex(t_line *arg, int fd_in)
 	if (child == -1)
 	{
 		printf("Bravo = %s\n", strerror(errno));
+		//close pipe
 		//free arg si besoin
 		exit (0);
 	}
 	if (child == 0)//envoie child
 	{
-		ft_pipex_child(arg, fd, fd_in);
+		ft_pipex_child(arg, fd, fd_in, path);
 	}
 	if (fd_in > 0)
 		close(fd_in);
 	close(fd[1]);
 
 	if (arg->next)//child next
-		ret = ft_pipex(arg->next, fd[0]);
+		ret = ft_pipex(arg->next, fd[0], path);
 
 	close(fd[0]);
 	waitpid(child, &status, 0);
@@ -77,12 +68,56 @@ int	ft_pipex(t_line *arg, int fd_in)
 	return (ret);
 }
 
+int	ft_parcours_env_perso(t_env *env)
+{
+	if (env == 0)
+		return (0);
+	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
+	if (env->next)
+		ft_parcours_env_perso(env->next);
+	return (0);
+}
+
 int	pipex_entry(t_line *arg, t_env **env)
 {
 	(void)env;
+
+	//int i = -1;
+	char	**path;
+	t_env	*res;
+
+	path = 0;
+	res = 0;
+	if (!arg->next)
+		;//alors pas de pipe
+	ft_parcours_env_perso(*env);
+	res = ft_get_var("PATH", *env);
+	//printf("ALPHA %s\n", res->var);
+	if (res)
+	{
+		path = ft_split(res->var, ':');
+		if (!path)
+		{
+			printf("malloc error pipex entry 001\n");
+			return (12);
+		}
+		int i = 0;
+		while (path[i])
+		{
+			printf("path[%d] = %s\n", i, path[i]);
+			i++;
+		}
+	}
 	//check arg
-	//ft_pipex_init(arg);
 	//changer char **env  pour fit avec le vrai
-	return (ft_pipex(arg, 0)); //t_line, int step
+	int resu = 0;
+	resu = ft_pipex(arg, 0, path); //t_line, int step
+	if (res)
+	{
+		free(res->name);
+		free(res->var);
+		free(res);
+	}
+	return (resu);
 	//return reussite ou numero erreur
 }

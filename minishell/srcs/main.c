@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 11:41:36 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 14:48:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 		inpt = readline("Prompt> ");
 		if (!inpt)
 		{
-			destroy_env(&env);
 			printf("exit\n");
 			break ;
 		}

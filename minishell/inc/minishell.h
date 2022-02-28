@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 16:07:00 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 16:45:01 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	ft_file_access(char	*str);
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len);
 t_line	*create_line(void);
+void	fill_line(char *cmd, t_line *ptr);
 void	destroy_list_line(t_line** line);
 
 //	ft_here_doc.c
@@ -150,7 +151,7 @@ int		ft_cd(char **str, t_env **env);
 t_env	*ft_get_var(char *search, t_env *env);
 
 //	pipex_child.c
-void	ft_pipex_child(t_line *arg, int *fd, int fd_in);
+void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path);
 
 //	pipex_main.c
 int	pipex_entry(t_line *arg, t_env **env);

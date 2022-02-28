@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/24 17:00:52 by gsap             ###   ########.fr        #
+#    Updated: 2022/02/28 11:56:39 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,15 @@ PURPLE = \e[95m
 CYAN = \e[96m
 END = \e[39m
 
+#	Showing command
+DISP = FALSE
+
+ifeq ($(DISP),TRUE)
+	HIDE =
+else
+	HIDE = @
+endif
+
 #	Includes
 INC = inc/
 
@@ -33,24 +42,12 @@ LIBFT = $(LIBFT_DIR)/libft.a
 #	Folders
 SRCS_PATH = srcs
 
-BUILTIN_PATH = builtin
-
-EXEC_PATH = exec
-
-PARSING_PATH = parsing
-
-TOOLS_PATH = tools
-
 #	Files
-FILES = main.c
+FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_line_func.c \
+	ft_parsing.c ft_error.c ft_env_func.c ft_env.c ft_unset.c ft_export.c \
+	cd.c ft_export_utils.c ft_tools.c ft_here_doc.c \
+	pipex_main.c pipex_child.c
 
-BUILTIN_SRCS = cd.c echo.c ft_env.c ft_export.c ft_export_utils.c ft_unset.c pwd.c
-
-EXEC_SRCS = pipex_main.c pipex_child.c
-
-PARSING_SRCS = ft_here_doc.c ft_parsing.c ft_line_func.c
-
-TOOLS_SRCS = handle_signal.c ft_split_minishell.c ft_error.c ft_env_func.c ft_tools.c 
 #	Compilation
 NAME = minishell
 
@@ -71,28 +68,28 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_PATH) $(OBJS) $(INC)/minishell.h
 	@ echo "$(BLUE)\n		*** Make $(NAME) ***\n$(END)"
-	$(CC) $(CFLAGS) -lreadline $(OBJS) -o $(NAME) $(LIBFT)
+	$(HIDE) $(CC) $(CFLAGS) -lreadline $(OBJS) -o $(NAME) $(LIBFT)
 	@ echo "$(GREEN)\n		---$(NAME) created ---\n$(END)"
 
 $(LIBFT): libft/Makefile
 	@ echo "$(BLUE)\n		*** Make Libft ***\n$(END)"
-	@ make -C $(LIBFT_DIR)
+	$(HIDE) make -C $(LIBFT_DIR)
 
 $(OBJS_PATH):
-	@ mkdir -p $(OBJS_PATH)
+	$(HIDE) mkdir -p $(OBJS_PATH)
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)/$(NAME).h Makefile
-	$(CC) $(CFLAGS) -I $(INC) -c $< -o $@
+	$(HIDE) $(CC) $(CFLAGS) -I $(INC) -c $< -o $@
 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
 clean:
-	@ $(RM) $(OBJS_PATH)
-	@ make clean -C $(LIBFT_DIR)
+	$(HIDE) $(RM) $(OBJS_PATH)
+	$(HIDE) make clean -C $(LIBFT_DIR)
 	@ echo "$(PURPLE)\n		*** Clean objects ***\n$(END)"
 
 fclean: clean
-	@ $(RM) $(NAME)
-	@ make fclean -C $(LIBFT_DIR)
+	$(HIDE) $(RM) $(NAME)
+	$(HIDE) make fclean -C $(LIBFT_DIR)
 	@ echo "$(RED)\n		*** Remove $(NAME) ***\n$(END)"
 
 re: fclean all

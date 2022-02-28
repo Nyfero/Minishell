@@ -6,11 +6,33 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 11:41:03 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 15:08:07 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_nbr_pipe(char **cmd, char const *inpt)
+{
+	int	compt;
+	int	i;
+
+	i = 0;
+	compt = 0;
+	while (inpt[i])
+	{
+		if (inpt[i] && (inpt[i] == '|') && not_in_quotes(inpt))
+		{
+			i++;
+			compt++;
+		}
+		while (inpt[i] && (inpt[i] != '|'))
+			i++;
+	}
+	if (compt != ft_lstrlen(cmd) - 1)
+		return (1);
+	return (0);
+}
 
 static int	check_pipe(char **cmd, char const *inpt)
 {
@@ -18,18 +40,7 @@ static int	check_pipe(char **cmd, char const *inpt)
 	int	j;
 	int	compt;
 
-	i = 0;
-	while (*inpt)
-	{
-		if (*inpt && (*inpt == '|') && not_in_quotes(inpt))
-		{
-			inpt++;
-			i++;
-		}
-		while (*inpt && (*inpt != '|'))
-			inpt++;
-	}
-	if (i != ft_lstrlen(cmd) - 1)
+	if (check_nbr_pipe(cmd, inpt))
 		return (1);
 	i = -1;
 	while (cmd[++i])
@@ -50,6 +61,8 @@ static int	check_pipe(char **cmd, char const *inpt)
 void	parsing(t_line **line, char const *inpt)
 {
 	char	**cmd;
+	t_line	*ptr;
+	int		i;
 	//char	*expand;
 
 	if (!inpt)
@@ -60,8 +73,15 @@ void	parsing(t_line **line, char const *inpt)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		return ;
 	}
-	printf("%d\n", ft_lstrlen(cmd));
 	create_list_line(line, ft_lstrlen(cmd));
+	ptr = *line;
+	i = 0;
+	while (ptr != NULL)
+	{
+		fill_line(cmd[i], ptr);
+		i++;
+		ptr = ptr->next;
+	}
 	ft_free_ls(cmd);
 		return;
 	/*expand = handle_here_doc(inpt);
