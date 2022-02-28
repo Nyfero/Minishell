@@ -6,11 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 17:48:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 11:41:03 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 static int	check_pipe(char **cmd, char const *inpt)
 {
@@ -60,9 +60,8 @@ void	parsing(t_line **line, char const *inpt)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		return ;
 	}
+	printf("%d\n", ft_lstrlen(cmd));
 	create_list_line(line, ft_lstrlen(cmd));
-	if (*line)
-		(*line)->cmd = ft_strdup(cmd[0]);
 	ft_free_ls(cmd);
 		return;
 	/*expand = handle_here_doc(inpt);

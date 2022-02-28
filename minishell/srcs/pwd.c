@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/01 15:48:46 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 17:49:03 by gsap             ###   ########.fr       */
+/*   Created: 2022/01/26 15:12:58 by gsap              #+#    #+#             */
+/*   Updated: 2022/02/28 10:45:30 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
-int	ft_error(char *err)
+int	ft_pwd(void)
 {
-	printf("Error %s\n", err);
-	return (-1);
+	char	cwd[10000];
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("getcwd() error");
+		return (1);
+	}
+	else
+		printf("%s\n", cwd);
+	return (0);
 }

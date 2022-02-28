@@ -6,11 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 17:46:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 10:45:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 /*
 **	Tant que j'ai des élément à unset je cherche dans env si c'est le premier

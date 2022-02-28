@@ -6,11 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 17:49:19 by gsap             ###   ########.fr       */
+/*   Updated: 2022/02/28 11:41:36 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 static void	fonciton_exec(t_line **line, t_env **env)
 {
@@ -78,7 +78,6 @@ int	main(int argc, char **argv, char **envp)
 			parsing(&line, inpt);
 			if (line)
 			{
-				printf("line->cmd:%s\n", line->cmd);
 				fonciton_exec(&line, &env);
 				//if (check_builtin(line->cmd, &env))
 				//	break ;
