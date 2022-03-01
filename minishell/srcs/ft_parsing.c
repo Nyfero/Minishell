@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 17:32:28 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 11:54:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	i = -1;
 	while (ptr != NULL)
 	{
-		fill_line(cmd[++i], ptr);
+		fill_line(ft_expand(cmd[++i], env), ptr);
 		ptr = ptr->next;
 	}
 	ft_free_ls(cmd);
@@ -95,59 +95,6 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	//expand $
 	//check outdir
 	//check indir*/
-}
-
-/*
-**	A mettre au propre
-*/
-
-char	*ft_expand(char const *inpt, t_env ** env)
-{
-	char	**dup;
-	char	*tmp;
-	char	*expand;
-	t_env	*ptr;
-	int		i;
-	int		j;
-
-	dup = ft_split_minishell(inpt, ' ');
-	i = -1;
-	expand = NULL;
-	while (dup[++i])
-	{
-		j = -1;
-		while (++j < 3)
-		{
-			if (dup[i][j] == '$')
-			{
-				if (dup[i][j + 1] && dup[i][1] != '<' && dup[i][j + 1] != '$')
-				{
-					ptr = ft_get_var(&dup[i][j + 1], *env);
-					if (ptr)
-					{
-						tmp = ft_substr(dup[i], 0, j);
-						tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
-						free(dup[i]);
-						dup[i] = tmp;
-					}
-					else
-					{
-						tmp = ft_substr(dup[i], 0, j);
-						free(dup[i]);
-						dup[i] = tmp;
-					}
-				}
-			}
-		}
-		if (i > 0)
-		{
-			expand = ft_strjoin_and_free_s1(expand, " ");
-			expand = ft_strjoin_and_free_all(expand, dup[i]);
-		}
-		else
-			expand = ft_strdup(dup[i]);
-	}
-	return (expand);
 }
 
 /*void	infile_parsing(char *inpt, t_line *line)
@@ -214,25 +161,4 @@ int	check_builtin(char *str, t_env **env)
 		return (ft_echo(tmp));
 	ft_free_ls(tmp);
 	return (-5);
-}
-
-
-int	not_in_quotes(char const *s)
-{
-	int	s_qt;
-	int	d_qt;
-
-	s_qt = 0;
-	d_qt = 0;
-	while (*s)
-	{
-		if (*s == 39)
-			s_qt++;
-		if (*s == 34)
-			d_qt++;
-		s++;
-	}
-	if (s_qt % 2 == 0 && d_qt % 2 == 0)
-		return (1);
-	return (0);
 }

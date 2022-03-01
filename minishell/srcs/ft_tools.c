@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/28 10:45:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 10:39:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,22 @@ int	ft_file_access(char	*str)
 	return (0);
 }
 
-//int	main(int argc, char	**av)
-//{
-//	(void)argc;
-//
-//	printf("ret = %d\n", ft_file_access(av[1]));
-//	return (0);
-//}
+int	not_in_quotes(char const *s)
+{
+	int	s_qt;
+	int	d_qt;
+
+	s_qt = 0;
+	d_qt = 0;
+	while (*s)
+	{
+		if (*s == 39)
+			s_qt++;
+		if (*s == 34)
+			d_qt++;
+		s++;
+	}
+	if (s_qt % 2 == 0 && d_qt % 2 == 0)
+		return (1);
+	return (0);
+}

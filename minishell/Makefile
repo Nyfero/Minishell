@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/02/28 11:55:55 by gsap             ###   ########.fr        #
+#    Updated: 2022/03/01 11:49:39 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCS_PATH = srcs
 #	Files
 FILES = main.c echo.c pwd.c handle_signal.c ft_split_minishell.c ft_line_func.c \
 	ft_parsing.c ft_error.c ft_env_func.c ft_env.c ft_unset.c ft_export.c \
-	cd.c ft_export_utils.c ft_tools.c ft_here_doc.c \
+	cd.c ft_export_utils.c ft_tools.c ft_here_doc.c ft_expand.c\
 	pipex_main.c pipex_child.c
 
 #	Compilation
