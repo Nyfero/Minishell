@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 13:37:02 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:27:06 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ typedef struct s_line
 	char			*infile;
 	char			*outfile;
 	char			*cmd;
+	char			**env;
+	char			**path;
 	int				indir;
 	int				outdir;
-	char			**env;
 	struct s_line	*next;
 }	t_line;
 /*
@@ -55,7 +56,6 @@ typedef struct s_line
 **	0 no < or <<
 **	1 = <
 **	2 = <<
-**	3 = << et <
 **	outdir same things
 */
 
@@ -76,7 +76,6 @@ typedef struct s_env
 //	ft_error.c
 int		ft_error(char *err);
 
-
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
 
@@ -93,19 +92,20 @@ int	ft_file_access(char	*str);
 /********************************/
 
 //	ft_line_func.c
-void	create_list_line(t_line **line, int len);
-t_line	*create_line(void);
-void 	deallocate(t_line** root);
-//void	minishell_del_list(t_line *line);
+void	create_list_line(t_line **line, int len, t_env **env);
+t_line	*create_line(t_env **env);
+void	fill_line(char *cmd, t_line *ptr);
+void	destroy_list_line(t_line** line);
 
 //	ft_here_doc.c
 char	*handle_here_doc(char const *str);
+char	*replace_here_doc(char *dup, int i);
+char	*read_here_doc(char *lim);
 int		check_here_doc(char *dup, int i);
-char	*read_here_doc(char *str, int i);
 char	*get_limiteur(const char *str);
 
 //	ft_parsing.c
-void	parsing(t_line **line, t_env ** env, char const *inpt);
+void	parsing(t_env **env, t_line **line, char const *inpt);
 char	*ft_expand(char const *inpt, t_env ** env);
 int		check_builtin(char *str, t_env **env);
 int		not_in_quotes(char const *s);
@@ -143,6 +143,7 @@ void	init_env(t_env **env, char **envp);
 t_env	*create_env_maillon(char *str, int flags);
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags);
 char	**env_to_str(t_env **env);
+void	destroy_env(t_env **env);
 
 //	cd.c
 int		ft_cd(char **str, t_env **env);

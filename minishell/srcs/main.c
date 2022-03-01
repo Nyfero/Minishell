@@ -3,14 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:21:47 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:20:11 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	fonciton_exec(t_line **line, t_env **env)
+{
+	int		pid;
+	int		res_child;
+	char	**tmp;
+	char	**env_tmp;
+	t_line	*ptr;
+
+	ptr = *line;
+	while (ptr != NULL)
+	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			tmp = ft_split_minishell(ptr->cmd, ' ');
+			env_tmp = env_to_str(env);
+			execve(tmp[0], tmp, env_tmp);
+			ft_free_ls(tmp);
+			ft_free_ls(env_tmp);
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			wait(&res_child);
+			if (WIFEXITED(res_child))
+			{
+				if (WEXITSTATUS(res_child) == 1)
+					printf("exec_failled\n");
+				else
+					printf("exec_succed\n");
+			}
+		}
+		ptr = ptr->next;
+	}
+	return ;
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -23,10 +63,6 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	env = NULL;
 	init_env(&env, envp);
-	char **tmp = env_to_str(&env);
-	int i = -1;
-	while (tmp[++i])
-		printf("tmp[%d] = %s\n", i, tmp[i]);
 	//init_signal();
 	while (1)
 	{
@@ -38,18 +74,19 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			parsing(&line, &env, inpt);
-			//if (line)
-			//{
-			//	if (check_builtin(line->cmd, &env))
-			//		break ;
-			//	add_history(inpt);
-			//	deallocate(&line);
-			//}
+			parsing(&env, &line, inpt);
+			if (line)
+			{
+				fonciton_exec(&line, &env);
+				//if (check_builtin(line->cmd, &env))
+				//	break ;
+				add_history(inpt);
+				destroy_list_line(&line);
+			}
+			free(inpt);
 		}
-		free(inpt);
 	}
-	free(inpt);
 	clear_history();
+	destroy_env(&env);
 	return (0);
 }

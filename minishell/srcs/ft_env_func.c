@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 15:53:17 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/28 11:50:23 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,22 @@ char	**env_to_str(t_env **env)
 		i++;
 	}
 	return (tmp);
+}
+
+void	destroy_env(t_env **env)
+{
+	t_env	*ptr;
+	t_env	*aux;
+
+	ptr = *env;
+	while (ptr != NULL)
+	{
+		aux = ptr;
+		ptr = ptr->next;
+		free(aux->name);
+		free(aux->var);
+		aux->next = NULL;
+		free(aux);
+	}
+	*env = NULL;
 }

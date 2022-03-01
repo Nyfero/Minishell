@@ -3,36 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/24 11:13:16 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:32:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parsing(t_line **line, t_env ** env, char const *inpt)
+static int	check_nbr_pipe(char **cmd, char const *inpt)
 {
-	char	**tmp;
-	char	*expand;
-	(void)line;
-	(void)env;
-	(void)inpt;
+	int	compt;
+	int	i;
+
+	i = 0;
+	compt = 0;
+	while (inpt[i])
+	{
+		if (inpt[i] && (inpt[i] == '|') && not_in_quotes(inpt))
+		{
+			i++;
+			compt++;
+		}
+		while (inpt[i] && (inpt[i] != '|'))
+			i++;
+	}
+	if (compt != ft_lstrlen(cmd) - 1)
+		return (1);
+	return (0);
+}
+
+static int	check_pipe(char **cmd, char const *inpt)
+{
+	int	i;
+	int	j;
+	int	compt;
+
+	if (check_nbr_pipe(cmd, inpt))
+		return (1);
+	i = -1;
+	while (cmd[++i])
+	{
+		j = -1;
+		compt = 0;
+		while(cmd[i][++j])
+		{
+			if (!ft_isalnum(cmd[i][j]))
+				compt++;
+		}
+		if ((size_t)compt == ft_strlen(cmd[i]))
+			return (1);
+	}
+	return (0);
+}
+
+void	parsing(t_env **env, t_line **line, char const *inpt)
+{
+	char	**cmd;
+	t_line	*ptr;
+	int		i;
+	//char	*expand;
 
 	if (!inpt)
 		return ;
-	expand = handle_here_doc(inpt);
+	cmd = ft_split_minishell(inpt, '|');
+	if (check_pipe(cmd, inpt))
+	{
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+		return ;
+	}
+	create_list_line(line, ft_lstrlen(cmd), env);
+	ptr = *line;
+	i = -1;
+	while (ptr != NULL)
+	{
+		fill_line(cmd[++i], ptr);
+		ptr = ptr->next;
+	}
+	ft_free_ls(cmd);
+		return;
+	/*expand = handle_here_doc(inpt);
+	printf("expand =>%s\n", expand);
+	if (!expand)
+		return ;
 	expand = ft_expand(expand, env);
 	printf("expand =>%s\n", expand);
 	if (!expand)
 		return ;
-	tmp = ft_split_minishell(expand, '|');
-	create_list_line(line, ft_lstrlen(tmp));
+	printf("%d\n", ft_lstrlen(tmp));
 	//expand $
 	//check outdir
-	//check indir
-	ft_free_ls(tmp);
+	//check indir*/
 }
 
 /*

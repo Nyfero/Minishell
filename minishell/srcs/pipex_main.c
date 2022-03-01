@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/25 15:00:36 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:26:28 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,17 @@ int	ft_parcours_env_perso(t_env *env)
 
 int	pipex_entry(t_line *arg, t_env **env)
 {
+	(void)env;
+
+	//int i = -1;
 	char	**path;
 	t_env	*res;
 
 	path = 0;
 	res = 0;
-//ft_parcours_env_perso(*env);
+	if (!arg->next)
+		printf("one command\n");//alors pas de pipe
+	//ft_parcours_env_perso(*env);
 	res = ft_get_var("PATH", *env);
 //printf("ALPHA %s\n", res->var);
 	if (res)
