@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_line_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 11:52:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 17:55:01 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,13 @@ t_line	*create_line(t_env **env)
 
 void	fill_line(char *cmd, t_line *ptr)
 {
-
+	//check heredoc
+	//if (here_doc)
+	//expand
+	//infile et outfile	
 	ptr->indir = 0; // si j'ai un infile ou here_doc
 	ptr->outdir = 0;	//si j'ai une redirection
-	ptr->infile = NULL; // int sur le fd
+	ptr->infile = handle_here_doc(cmd);
 	ptr->cmd = ft_strdup(cmd); //cmd + arg
 	return ;
 }

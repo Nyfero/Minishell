@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 10:44:59 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 18:16:15 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,85 @@
 
 char	*handle_here_doc(char const *str)
 {
-	char	*dup; // pas besoin d'etre free ici
 	int		i;
-	int		ret;
+	int		j;
 
-	dup = ft_strdup(str);
 	i = -1;
-	while (dup[++i])
+	while (str[++i])
 	{
-		if (dup[i] == '<' && not_in_quotes(&dup[i]))
+		if (str[i] == '<' && not_in_quotes(&str[i]))
 		{
-			ret = check_here_doc(dup, i);
-			if (ret == 2)
+			j = i;
+			while (str[i] == '<')
+				i++;
+			if (i - j > 2)
 			{
-				ret = ft_strlen(dup);
-				dup = replace_here_doc(dup, i);
-				if (!dup)
-					return (NULL);
-				ret = ft_strlen(dup) - ret;
+				ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+				return (NULL);
 			}
-			i += ret;
+			return (get_limiteur(&str[i]));
 		}
 	}
-	return (dup);
+	return (NULL);
 }
 
-char	*replace_here_doc(char *dup, int i)
+char	*get_limiteur(const char *str)
+{
+	char	*lim;
+	int		i;
+	int		j;
+
+	i = 0;
+	if (!str[i])
+	{
+		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+		return (NULL);
+	}
+	while (str[i] && str[i] == ' ')
+		i++;
+	j = i;
+	if (str[i] == '<' || str[i] == '>')
+	{
+		if (str[i] == '<')
+			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+		else
+			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
+		return (NULL);
+	}
+	while (str[i] && (str[i] != ' ' || str[i] != '|' || str[i] != '<' || str[i] == '>'))
+		i++;
+	lim = ft_substr(str, j, i - j);
+	if (!lim)
+		return (NULL);
+	return (lim);
+}
+
+int	read_here_doc(char *lim)
+{
+	int		fd;
+	char	*line;		//free
+
+	fd = open(".", O_TMPFILE | O_RDWR | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		ft_putstr_fd("File cassé\n", 2);
+		return (-1);
+	}
+	write(1, "here_doc>", 9);
+	line = get_next_line(0);
+	while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
+	{
+		write(fd, &line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		write(1, "here_doc>", 9);
+		line = get_next_line(0);
+	}
+	free(line);
+	return (fd);
+}
+
+/*char	*replace_here_doc(char *dup, int i)
 {
 	char	*lim;		//free dans read_here_doc
 	char	*before;	//free dans le join
@@ -70,59 +123,10 @@ char	*replace_here_doc(char *dup, int i)
 	}
 	return (dup);
 }
+*/
 
-char	*read_here_doc(char *lim)
-{
-	char	*ret;		//free si pas de here doc
-	char	*line;		//free
 
-	ret = ft_strdup("");
-	write(1, "here_doc>", 9);
-	line = get_next_line(0);
-	if (ft_strncmp(line, lim, ft_strlen(lim) + 1) == 0)
-	{
-		free(ret);
-		ret = NULL;
-	}
-	else
-	{
-		while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
-		{
-			ret = ft_strjoin_and_free_s1(ret, line);
-			free(line);
-			ret = ft_strjoin_and_free_s1(ret, "\n");
-			write(1, "here_doc>", 9);
-			line = get_next_line(0);
-		}
-	}
-	free(line);
-	free(lim);
-	return (ret);
-}
-
-char	*get_limiteur(const char *str)
-{
-	char	*lim;
-	int		i;
-	int		j;
-
-	if (str[2] && str[2] == ' ')
-		j = 3;
-	else
-		j = 2;
-	i = j;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '$'))
-		i++;
-	if (str[i] == '<')
-	{
-		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-		return (NULL);
-	}
-	lim = ft_substr(str, j, i - j);
-	return (lim);
-}
-
-int	check_here_doc(char *dup, int i)
+/*int	check_here_doc(char *dup, int i)
 {
 	int	j;
 
@@ -130,4 +134,4 @@ int	check_here_doc(char *dup, int i)
 	while (dup[j] && dup[j] == '<')
 		j++;
 	return (j - i);
-}
+}*/

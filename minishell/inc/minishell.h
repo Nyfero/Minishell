@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 11:50:39 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 18:10:49 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	destroy_list_line(t_line** line);
 //	ft_here_doc.c
 char	*handle_here_doc(char const *str);
 char	*replace_here_doc(char *dup, int i);
-char	*read_here_doc(char *lim);
+int		read_here_doc(char *lim);
 int		check_here_doc(char *dup, int i);
 char	*get_limiteur(const char *str);
 

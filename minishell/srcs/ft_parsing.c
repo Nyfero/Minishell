@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 11:54:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 17:55:13 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	char	**cmd;
 	t_line	*ptr;
 	int		i;
-	//char	*expand;
+	char	*expand;
 
 	if (!inpt)
 		return ;
@@ -78,7 +78,9 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	i = -1;
 	while (ptr != NULL)
 	{
-		fill_line(ft_expand(cmd[++i], env), ptr);
+		fill_line(cmd[++i], ptr);
+		expand = handle_here_doc(cmd[i]);
+		printf("indir =>%s\n", ptr->infile);
 		ptr = ptr->next;
 	}
 	ft_free_ls(cmd);
