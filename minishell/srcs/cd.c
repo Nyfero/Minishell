@@ -6,20 +6,13 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/28 11:49:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 10:42:44 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*ft_get_var(char *search, t_env *env)
-{
-	if (!env || !search)
-		return (0);//bash: cd: "search" not set
-	if (!ft_strncmp(env->name, search, ft_strlen(search) + 1))
-		return (env);
-	return (ft_get_var(search, env->next));
-}
+
 /*
 **!ft_strncmp(str, "--", 3) || !ft_strncmp(str, "~", 1) \
 **				|| !ft_strncmp(str, "", 1)

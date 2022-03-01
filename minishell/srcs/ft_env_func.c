@@ -6,11 +6,15 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 11:50:23 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 10:49:39 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+**	Créer une liste chainée de t_env
+*/
 
 void	init_env(t_env **env, char **envp)
 {
@@ -31,6 +35,10 @@ void	init_env(t_env **env, char **envp)
 		}
 	}
 }
+
+/*
+**	Créer un maillon de t_env et le rempli avec un élément de l'environnement
+*/
 
 t_env	*create_env_maillon(char *str, int flags)
 {
@@ -57,6 +65,10 @@ t_env	*create_env_maillon(char *str, int flags)
 	return (tmp);
 }
 
+/*
+**	Modifie la variable "var" d'un maillon de t_env
+*/
+
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 {
 	int	i;
@@ -72,31 +84,9 @@ t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 	return (ptr);
 }
 
-char	**env_to_str(t_env **env)
-{
-	char	**tmp;
-	t_env	*ptr;
-	int		i;
-
-	i = 0;
-	ptr = *env;
-	while (ptr->next)
-	{
-		ptr = ptr->next;
-		i++;
-	}
-	tmp = ft_calloc(sizeof(char *), i + 1);
-	i = 0;
-	ptr = *env;
-	while (ptr->next)
-	{
-		tmp[i] = ft_strjoin(ptr->name, "=");
-		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
-		ptr = ptr->next;
-		i++;
-	}
-	return (tmp);
-}
+/*
+**	Supprime la liste chainée t_env
+*/
 
 void	destroy_env(t_env **env)
 {
@@ -114,4 +104,17 @@ void	destroy_env(t_env **env)
 		free(aux);
 	}
 	*env = NULL;
+}
+
+/*
+**	Retourne un pointeur sur l'élément cherché dans t_env s'il existe, 0 sinon
+*/
+
+t_env	*ft_get_var(char *search, t_env *env)
+{
+	if (!env || !search)
+		return (0);//bash: cd: "search" not set
+	if (!ft_strncmp(env->name, search, ft_strlen(search) + 1))
+		return (env);
+	return (ft_get_var(search, env->next));
 }

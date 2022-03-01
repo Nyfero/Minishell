@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 10:44:46 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 10:50:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,34 @@ int	ft_env_arg(char **str)
 		}
 	}
 	return (0);
+}
+
+/*
+**	Créer une copie de t_env sous forme de (char **)
+*/
+
+char	**env_to_str(t_env **env)
+{
+	char	**tmp;
+	t_env	*ptr;
+	int		i;
+
+	i = 0;
+	ptr = *env;
+	while (ptr->next)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	tmp = ft_calloc(sizeof(char *), i + 1);
+	i = 0;
+	ptr = *env;
+	while (ptr->next)
+	{
+		tmp[i] = ft_strjoin(ptr->name, "=");
+		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
+		ptr = ptr->next;
+		i++;
+	}
+	return (tmp);
 }

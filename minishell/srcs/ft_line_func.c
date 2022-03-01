@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 17:28:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 11:52:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_line	*create_line(t_env **env)
 
 void	fill_line(char *cmd, t_line *ptr)
 {
+
 	ptr->indir = 0; // si j'ai un infile ou here_doc
 	ptr->outdir = 0;	//si j'ai une redirection
 	ptr->infile = NULL; // int sur le fd
