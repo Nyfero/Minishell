@@ -6,13 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 17:20:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/02 17:19:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	fonciton_exec(t_line **line, t_env **env)
+/*static void	fonciton_exec(t_line **line, t_env **env)
 {
 	int		pid;
 	int		res_child;
@@ -50,7 +50,7 @@ static void	fonciton_exec(t_line **line, t_env **env)
 		ptr = ptr->next;
 	}
 	return ;
-}
+}*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -77,9 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			parsing(&env, &line, inpt);
 			if (line)
 			{
-				fonciton_exec(&line, &env);
-				//if (check_builtin(line->cmd, &env))
-				//	break ;
+				//fonciton_exec(&line, &env);
 				add_history(inpt);
 				destroy_list_line(&line);
 			}

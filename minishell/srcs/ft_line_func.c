@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_line_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 17:55:01 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:34:46 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,32 @@ t_line	*create_line(t_env **env)
 
 void	fill_line(char *cmd, t_line *ptr)
 {
+	t_in	*here;
+	t_in	*infile;
+
+	here = NULL;
+	infile = NULL;
+	put_here_doc(&here, cmd);
+	put_infile(&infile, cmd);
+	while (here != NULL)
+	{
+		printf("here :%d\n", here->pos);
+		here = here->next;
+	}
+	while (infile != NULL)
+	{
+		printf("infile :%d\n", infile->pos);
+		infile = infile->next;
+	}
+	//ptr->infile = handle_here_doc(cmd);
 	//check heredoc
 	//if (here_doc)
 	//expand
-	//infile et outfile	
-	ptr->indir = 0; // si j'ai un infile ou here_doc
+	//infile et outfile
+	//if (ptr->infile)
+	//	ptr->indir = write_here_doc_on_fd(ptr->infile); // si j'ai un infile ou here_doc
+
 	ptr->outdir = 0;	//si j'ai une redirection
-	ptr->infile = handle_here_doc(cmd);
 	ptr->cmd = ft_strdup(cmd); //cmd + arg
 	return ;
 }

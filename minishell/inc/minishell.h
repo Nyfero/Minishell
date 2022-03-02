@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 18:10:49 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:16:32 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ typedef struct s_env
 **	2 affichage echo
 */
 
+typedef struct s_in
+{
+	int			pos;
+	int			fd;
+	struct s_in	*next;
+}	t_in;
+
 //	ft_error.c
 int		ft_error(char *err);
 
@@ -101,10 +108,17 @@ void	destroy_list_line(t_line** line);
 
 //	ft_here_doc.c
 char	*handle_here_doc(char const *str);
-char	*replace_here_doc(char *dup, int i);
-int		read_here_doc(char *lim);
-int		check_here_doc(char *dup, int i);
 char	*get_limiteur(const char *str);
+int		write_here_doc_on_fd(char *lim);
+int		check_last_indir(char const *cmd);
+int		check_in_or_here(char const *cmd);
+
+void	put_here_doc(t_in **here, char *cmd);
+t_in	*create_here_maillon(char *cmd, int i);
+void	put_infile(t_in **infile, char *cmd);
+t_in	*create_infile_maillon(char *cmd, int i);
+//char	*replace_here_doc(char *dup, int i);
+//int		check_here_doc(char *dup, int i);
 
 //	ft_parsing.c
 void	parsing(t_env **env, t_line **line, char const *inpt);
