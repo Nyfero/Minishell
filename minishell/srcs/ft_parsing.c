@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/02 15:48:55 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/02 17:46:55 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	i = -1;
 	while (ptr != NULL)
 	{
-		fill_line(cmd[++i], ptr);
+		fill_line(cmd[++i], ptr, env);
 		ptr = ptr->next;
 	}
 	ft_free_ls(cmd);

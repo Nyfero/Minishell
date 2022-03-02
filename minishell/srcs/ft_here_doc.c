@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/02 17:41:29 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/02 18:05:24 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ char	*get_limiteur(const char *str)
 			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
 		return (NULL);
 	}
-	while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
+	while (str[i] && ((str[i] != ' ' && str[i] != '|' && str[i] != '<'
+		&& str[i] != '>') || !not_in_quotes(&str[i])))
 		i++;
 	lim = ft_substr(str, j, i - j);
 	if (!lim)
@@ -162,7 +163,7 @@ t_in	*create_here_maillon(char *cmd, int i)
 	return (tmp);
 }
 
-void	put_infile(t_in **infile, char *cmd)
+void	put_infile(t_in **infile, char *cmd, t_env **env)
 {
 	int		i;
 	int		compt;
@@ -183,7 +184,7 @@ void	put_infile(t_in **infile, char *cmd)
 			{
 				if (!*infile)
 				{
-					*infile = create_infile_maillon(cmd, i);
+					*infile = create_infile_maillon(cmd, i, env);
 					if (!*infile)
 						return ;
 				}
@@ -192,7 +193,7 @@ void	put_infile(t_in **infile, char *cmd)
 					ptr = *infile;
 					while (ptr->next != NULL)
 						ptr = ptr->next;
-					ptr->next = create_infile_maillon(cmd, i);
+					ptr->next = create_infile_maillon(cmd, i, env);
 					if (!ptr->next)
 						return ;
 				}
@@ -201,7 +202,7 @@ void	put_infile(t_in **infile, char *cmd)
 	}
 }
 
-t_in	*create_infile_maillon(char *cmd, int i)
+t_in	*create_infile_maillon(char *cmd, int i, t_env **env)
 {
 	char 	*lim;
 	t_in	*tmp;
@@ -213,7 +214,7 @@ t_in	*create_infile_maillon(char *cmd, int i)
 		return (NULL);
 	}
 	tmp->pos = i - 2;
-	lim = handle_here_doc(&cmd[i - 2]);
+	lim = ft_expand(handle_here_doc(&cmd[i - 2]), env);
 	if (ft_file_access(lim) == 0)
 	{
 		ft_putstr_fd(lim, 2);

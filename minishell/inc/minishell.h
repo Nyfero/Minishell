@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/02 17:16:32 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/02 17:55:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		not_in_quotes(char const *s);
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
-void	fill_line(char *cmd, t_line *ptr);
+void	fill_line(char *cmd, t_line *ptr, t_env **env);
 void	destroy_list_line(t_line** line);
 
 //	ft_here_doc.c
@@ -115,8 +115,8 @@ int		check_in_or_here(char const *cmd);
 
 void	put_here_doc(t_in **here, char *cmd);
 t_in	*create_here_maillon(char *cmd, int i);
-void	put_infile(t_in **infile, char *cmd);
-t_in	*create_infile_maillon(char *cmd, int i);
+void	put_infile(t_in **infile, char *cmd, t_env **env);
+t_in	*create_infile_maillon(char *cmd, int i, t_env **env);
 //char	*replace_here_doc(char *dup, int i);
 //int		check_here_doc(char *dup, int i);
 
