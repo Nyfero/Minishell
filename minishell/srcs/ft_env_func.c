@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 10:49:39 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 12:20:38 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	destroy_env(t_env **env)
 t_env	*ft_get_var(char *search, t_env *env)
 {
 	if (!env || !search)
-		return (0);//bash: cd: "search" not set
+		return (0);
 	if (!ft_strncmp(env->name, search, ft_strlen(search) + 1))
 		return (env);
 	return (ft_get_var(search, env->next));

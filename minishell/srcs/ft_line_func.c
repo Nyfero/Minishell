@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/02 17:58:31 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 15:06:29 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ t_line	*create_line(t_env **env)
 	{
 		line->path = ft_split(tmp->var, ':');
 		if (!line->path)
-		{
-			printf("Error malloc failed\n");
 			return (NULL);
-		}
 	}
 	line->indir = 0;
 	line->outdir = 0;
@@ -74,29 +71,24 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 {
 	t_in	*here;
 	t_in	*infile;
+	t_in	*tmp;
 	char	*expand;
+	int		ret;
+	int		bis;
 
 	here = NULL;
 	infile = NULL;
 	put_here_doc(&here, cmd);
-	put_infile(&infile, cmd, env);
 	expand = ft_expand(cmd, env);
-	printf("%s\n", expand);
-	while (here != NULL)
-	{
-		printf("here: %d\n", here->pos);
-		here = here->next;
-	}
-	while (infile != NULL)
-	{
-		printf("infile :%d\n", infile->pos);
-		infile = infile->next;
-	}
-	//ptr->infile = handle_here_doc(cmd);
-	//check heredoc
-	//if (here_doc)
-	//expand
-	//infile et outfile
+ 	bis = put_infile(&infile, expand, env);
+	ret = check_last_indir(cmd);
+	if (ret == 1)
+		tmp = go_to_last(&infile);
+	else if (ret == 2)
+		tmp = go_to_last(&here);
+	if (ret && !bis)
+		ptr->indir = tmp->fd;
+
 	//if (ptr->infile)
 	//	ptr->indir = write_here_doc_on_fd(ptr->infile); // si j'ai un infile ou here_doc
 
@@ -109,7 +101,7 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 **	verifier que tous les mallocs sont bien detruits
 */
 
-void	destroy_list_line(t_line** line)
+void	destroy_list_line(t_line **line)
 {
 	t_line	*ptr;
 	t_line	*aux;

@@ -6,13 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 11:50:50 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 12:20:58 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_expand(char const *inpt, t_env ** env)
+char	*ft_expand(char const *inpt, t_env **env)
 {
 	char	**dup;
 	char	*expand;

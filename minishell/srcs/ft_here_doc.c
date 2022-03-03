@@ -6,67 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/02 18:05:24 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 15:04:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*handle_here_doc(char const *str)
-{
-	int		i;
-	int		j;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '<' && not_in_quotes(&str[i]))
-		{
-			j = i;
-			while (str[i] == '<')
-				i++;
-			if (i - j > 2)
-			{
-				ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-				return (NULL);
-			}
-			return (get_limiteur(&str[i]));
-		}
-	}
-	return (NULL);
-}
-
-char	*get_limiteur(const char *str)
-{
-	char	*lim;
-	int		i;
-	int		j;
-
-	i = 0;
-	if (!str[i])
-	{
-		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
-		return (NULL);
-	}
-	while (str[i] && str[i] == ' ')
-		i++;
-	j = i;
-	if (str[i] == '<' || str[i] == '>')
-	{
-		if (str[i] == '<')
-			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-		else
-			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-		return (NULL);
-	}
-	while (str[i] && ((str[i] != ' ' && str[i] != '|' && str[i] != '<'
-		&& str[i] != '>') || !not_in_quotes(&str[i])))
-		i++;
-	lim = ft_substr(str, j, i - j);
-	if (!lim)
-		return (NULL);
-	return (lim);
-}
 
 /*
 **	Ouvre un pipe et écrit le here doc dedans puis renvoie fd[0]
@@ -127,9 +71,7 @@ void	put_here_doc(t_in **here, char *cmd)
 				}
 				else
 				{
-					ptr = *here;
-					while (ptr->next != NULL)
-						ptr = ptr->next;
+					ptr = go_to_last(here);
 					ptr->next = create_here_maillon(cmd, i);
 					if (!ptr->next)
 						return ;
@@ -156,125 +98,13 @@ t_in	*create_here_maillon(char *cmd, int i)
 		return (NULL);
 	}
 	tmp->pos = i - 2;
-	lim = handle_here_doc(&cmd[i - 2]);
+	lim = grep_indir(&cmd[i - 2]);
 	printf("lim: %s\n", lim);
 	tmp->fd = write_here_doc_on_fd(lim);
 	free(lim);
+	tmp->next = NULL;
 	return (tmp);
 }
-
-void	put_infile(t_in **infile, char *cmd, t_env **env)
-{
-	int		i;
-	int		compt;
-	t_in	*ptr;
-
-	i = -1;
-	while (cmd[++i])
-	{
-		if (cmd[i] == '<')
-		{
-			compt = 0;
-			while (cmd[i] == '<')
-			{
-				i++;
-				compt++;
-			}
-			if (compt == 1)
-			{
-				if (!*infile)
-				{
-					*infile = create_infile_maillon(cmd, i, env);
-					if (!*infile)
-						return ;
-				}
-				else
-				{
-					ptr = *infile;
-					while (ptr->next != NULL)
-						ptr = ptr->next;
-					ptr->next = create_infile_maillon(cmd, i, env);
-					if (!ptr->next)
-						return ;
-				}
-			}
-		}
-	}
-}
-
-t_in	*create_infile_maillon(char *cmd, int i, t_env **env)
-{
-	char 	*lim;
-	t_in	*tmp;
-
-	tmp = ft_calloc(sizeof(t_in), 1);
-	if (!tmp)
-	{
-		ft_putstr_fd("Error malloc t_in\n", 2);
-		return (NULL);
-	}
-	tmp->pos = i - 2;
-	lim = ft_expand(handle_here_doc(&cmd[i - 2]), env);
-	if (ft_file_access(lim) == 0)
-	{
-		ft_putstr_fd(lim, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		free(lim);
-		return (NULL);
-	}
-	if (ft_file_access(lim) == -1) //check si j'ai les droits sur le dossier
-	{
-		ft_putstr_fd(lim, 2);
-		if (access(lim, F_OK | R_OK))
-			ft_putstr_fd(": Permission denied\n", 2);
-		else
-			ft_putstr_fd(": is a directory\n", 2);
-		free(lim);
-		return (NULL);
-	}
-	tmp->fd = open(lim, O_RDONLY);
-	if (tmp->fd == -1)
-	{
-		perror("open");
-		free(lim);
-		return (NULL);
-	}
-	free(lim);
-	return (tmp);
-}
-
-/*char	*replace_here_doc(char *dup, int i)
-{
-	char	*lim;		//free dans read_here_doc
-	char	*before;	//free dans le join
-	char	*here;		//free dans le join
-	char	*after;		//free dans le join
-	int		len_lim;
-
-	lim = get_limiteur(&dup[i]);
-	if (!lim)
-		return (NULL);
-	len_lim = ft_strlen(lim) + 2;
-	before = ft_substr(dup, 0, i);
-	here = read_here_doc(lim);
-	after = ft_strdup(&dup[i + len_lim]);
-	printf("before:%s\nhere:%s\nafter:%s\n",before, here, after);
-	if (!here)
-	{
-		if (!before && !after)
-			return (NULL);
-		else
-			dup = ft_strjoin_and_free_all(before, after);
-	}
-	else
-	{
-		dup = ft_strjoin_and_free_all(before, here);
-		if (after[0])
-			dup = ft_strjoin_and_free_all(dup, after);
-	}
-	return (dup);
-}
-*/
 
 /*
 **	Une fontion qui me dis si j'ai affaire a un here doc ou a un infile
@@ -299,7 +129,7 @@ int	check_in_or_here(char const *cmd)
 			else
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token\n",2);
-					//`newline'\n", 2);
+				ft_putstr_fd("`newline'\n", 2);
 			}
 		}
 		else
@@ -316,15 +146,26 @@ int	check_in_or_here(char const *cmd)
 
 int	check_last_indir(char const *cmd)
 {
-	int	i;
+	int		i;
+	//char	*tmp;
 
 	i = ft_strlen(cmd) - 1;
 	while (i >= 0)
 	{
-		if (cmd[i] == '<')
+		if (cmd[i] == '<' && not_in_quotes(&cmd[i]))
 		{
 			if ((i - 1) >= 0 && cmd[i - 1] == '<')
 				return (2);
+			/*else
+			{
+				tmp = get_limiteur(&cmd[i + 1]);
+				if (ft_file_access(tmp) == 0 || ft_file_access(tmp) == -1)
+				{
+					free(tmp);
+					return (0);
+				}
+				free(tmp);
+			}*/
 			return (1);
 		}
 		i--;

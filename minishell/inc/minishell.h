@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/02 17:55:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 14:44:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,37 +95,41 @@ void	handle_sigquit(int sig);
 int		ft_dir_access(char *str);
 int		ft_file_access(char	*str);
 int		not_in_quotes(char const *s);
+t_in	*go_to_last(t_in **list);
 
 /********************************/
 /*---------PARSING--------------*/
 /********************************/
 
-//	ft_line_func.c
-void	create_list_line(t_line **line, int len, t_env **env);
-t_line	*create_line(t_env **env);
-void	fill_line(char *cmd, t_line *ptr, t_env **env);
-void	destroy_list_line(t_line** line);
-
-//	ft_here_doc.c
-char	*handle_here_doc(char const *str);
-char	*get_limiteur(const char *str);
-int		write_here_doc_on_fd(char *lim);
-int		check_last_indir(char const *cmd);
-int		check_in_or_here(char const *cmd);
-
-void	put_here_doc(t_in **here, char *cmd);
-t_in	*create_here_maillon(char *cmd, int i);
-void	put_infile(t_in **infile, char *cmd, t_env **env);
-t_in	*create_infile_maillon(char *cmd, int i, t_env **env);
-//char	*replace_here_doc(char *dup, int i);
-//int		check_here_doc(char *dup, int i);
-
 //	ft_parsing.c
 void	parsing(t_env **env, t_line **line, char const *inpt);
 int		check_builtin(char *str, t_env **env);
 
+//	ft_line_func.c
+void	create_list_line(t_line **line, int len, t_env **env);
+t_line	*create_line(t_env **env);
+void	fill_line(char *cmd, t_line *ptr, t_env **env);
+void	destroy_list_line(t_line **line);
+
+//	ft_limiteur.c
+char	*grep_indir(char const *str);
+char	*get_limiteur(const char *str);
+char	*error_limiteur(const char str);
+
+//	ft_here_doc.c
+int		write_here_doc_on_fd(char *lim);
+void	put_here_doc(t_in **here, char *cmd);
+t_in	*create_here_maillon(char *cmd, int i);
+int		check_last_indir(char const *cmd);
+int		check_in_or_here(char const *cmd);
+
+//	ft_infile.c
+int		put_infile(t_in **infile, char *cmd, t_env **env);
+t_in	*create_infile_maillon(char *cmd, int i, t_env **env);
+int		check_infile_access(char *lim);
+
 //	ft_expand.c
-char	*ft_expand(char const *inpt, t_env ** env);
+char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_utils(char *dup, int j, t_env **env);
 
 /********************************/
@@ -171,6 +175,6 @@ int		ft_cd(char **str, t_env **env);
 void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path);
 
 //	pipex_main.c
-int	pipex_entry(t_line *arg, t_env **env);
+int		pipex_entry(t_line *arg, t_env **env);
 
 #endif
