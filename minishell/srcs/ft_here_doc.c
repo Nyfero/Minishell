@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 15:04:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 17:36:15 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,62 +44,58 @@ int	write_here_doc_on_fd(char *lim)
 	return (fd[0]);
 }
 
-void	put_here_doc(t_in **here, char *cmd)
+void	put_here_doc(t_dir **here, char *cmd)
 {
 	int		i;
 	int		compt;
-	t_in	*ptr;
+	t_dir	*ptr;
 
 	i = -1;
 	while (cmd[++i])
 	{
-		if (cmd[i] == '<')
+		compt = 0;
+		while (cmd[i] == '<')
 		{
-			compt = 0;
-			while (cmd[i] == '<')
+			i++;
+			compt++;
+		}
+		if (compt == 2)
+		{
+			if (!*here)
 			{
-				i++;
-				compt++;
-			}
-			if (compt == 2)
-			{
+				*here = create_here_maillon(cmd, i);
 				if (!*here)
-				{
-					*here = create_here_maillon(cmd, i);
-					if (!*here)
-						return ;
-				}
-				else
-				{
-					ptr = go_to_last(here);
-					ptr->next = create_here_maillon(cmd, i);
-					if (!ptr->next)
-						return ;
-				}
+					return ;
 			}
-			else if (compt > 2)
+			else
 			{
-				ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-				return ;
+				ptr = go_to_last(here);
+				ptr->next = create_here_maillon(cmd, i);
+				if (!ptr->next)
+					return ;
 			}
+		}
+		else if (compt > 2)
+		{
+			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+			return ;
 		}
 	}
 }
 
-t_in	*create_here_maillon(char *cmd, int i)
+t_dir	*create_here_maillon(char *cmd, int i)
 {
 	char 	*lim;
-	t_in	*tmp;
+	t_dir	*tmp;
 
-	tmp = ft_calloc(sizeof(t_in), 1);
+	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
-	{
-		ft_putstr_fd("Error malloc t_in\n", 2);
 		return (NULL);
-	}
 	tmp->pos = i - 2;
 	lim = grep_indir(&cmd[i - 2]);
-	printf("lim: %s\n", lim);
+	if (!lim)
+		return (NULL);
+	tmp->len_lim = ft_strlen(lim);
 	tmp->fd = write_here_doc_on_fd(lim);
 	free(lim);
 	tmp->next = NULL;
@@ -156,16 +152,6 @@ int	check_last_indir(char const *cmd)
 		{
 			if ((i - 1) >= 0 && cmd[i - 1] == '<')
 				return (2);
-			/*else
-			{
-				tmp = get_limiteur(&cmd[i + 1]);
-				if (ft_file_access(tmp) == 0 || ft_file_access(tmp) == -1)
-				{
-					free(tmp);
-					return (0);
-				}
-				free(tmp);
-			}*/
 			return (1);
 		}
 		i--;

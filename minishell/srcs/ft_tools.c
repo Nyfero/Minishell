@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/03 14:14:06 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 16:37:07 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int	not_in_quotes(char const *s)
 	return (0);
 }
 
-t_in	*go_to_last(t_in **list)
+t_dir	*go_to_last(t_dir **list)
 {
-	t_in	*ptr;
+	t_dir	*ptr;
 
 	ptr = *list;
 	while (ptr->next != NULL)

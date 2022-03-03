@@ -6,13 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 15:38:14 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 17:36:14 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	put_outdir(t_in **out, char *cmd)
+int	put_outdir(t_dir **out, char *cmd)
 {
 	int		i;
 	int		compt;
@@ -33,14 +33,15 @@ void	put_outdir(t_in **out, char *cmd)
 		else if (compt > 2)
 		{
 			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-			return ;
+			return (1);
 		}
 	}
+	return (0);
 }
 
-void	create_out_list(t_in **out, char *cmd, int i, int flag)
+void	create_out_list(t_dir **out, char *cmd, int i, int flag)
 {
-	t_in	*ptr;
+	t_dir	*ptr;
 
 	if (!*out)
 	{
@@ -63,20 +64,20 @@ void	create_out_list(t_in **out, char *cmd, int i, int flag)
 	}
 }
 
-t_in	*create_out_maillon(char *cmd, int i, int flag)
+t_dir	*create_out_maillon(char *cmd, int i, int flag)
 {
 	char 	*lim;
-	t_in	*tmp;
+	t_dir	*tmp;
 
-	tmp = ft_calloc(sizeof(t_in), 1);
+	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
-	{
-		ft_putstr_fd("Error malloc t_in\n", 2);
 		return (NULL);
-	}
 	tmp->pos = i - 2;
 	tmp->next = NULL;
 	lim = get_limiteur(&cmd[i]);
+	if (!lim)
+		return (NULL);
+	tmp->len_lim = ft_strlen(lim);
 	if (flag == 1)
 		tmp->fd = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else

@@ -6,17 +6,17 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 14:55:48 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 17:36:21 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	put_infile(t_in **infile, char *cmd, t_env **env)
+int	put_infile(t_dir **infile, char *cmd)
 {
 	int		i;
 	int		compt;
-	t_in	*ptr;
+	t_dir	*ptr;
 
 	i = -1;
 	while (cmd[++i])
@@ -31,7 +31,7 @@ int	put_infile(t_in **infile, char *cmd, t_env **env)
 		{
 			if (!*infile)
 			{
-				*infile = create_infile_maillon(cmd, i, env);
+				*infile = create_infile_maillon(cmd, i);
 				if (!*infile || (*infile)->fd == -1)
 					return (1);
 			}
@@ -39,7 +39,7 @@ int	put_infile(t_in **infile, char *cmd, t_env **env)
 			{
 				ptr = go_to_last(infile);
 				close(ptr->fd);
-				ptr->next = create_infile_maillon(cmd, i, env);
+				ptr->next = create_infile_maillon(cmd, i);
 				if (!ptr->next || ptr->next->fd == -1)
 					return (1);
 			}
@@ -48,17 +48,23 @@ int	put_infile(t_in **infile, char *cmd, t_env **env)
 	return (0);
 }
 
-t_in	*create_infile_maillon(char *cmd, int i, t_env **env)
+t_dir	*create_infile_maillon(char *cmd, int i)
 {
 	char 	*lim;
-	t_in	*tmp;
+	t_dir	*tmp;
 
-	tmp = ft_calloc(sizeof(t_in), 1);
+	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
 		return (NULL);
 	tmp->pos = i - 2;
 	tmp->next = NULL;
-	lim = ft_expand(grep_indir(&cmd[i - 2]), env);
+	lim = grep_indir(&cmd[i - 2]);
+	if (!lim)
+	{
+		tmp->fd = -1;
+		return (tmp);
+	}
+	tmp->len_lim = ft_strlen(lim);
 	if (check_infile_access(lim))
 	{
 		tmp->fd = -1;

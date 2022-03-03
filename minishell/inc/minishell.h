@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 15:32:17 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 17:18:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
-	char			*infile;
-	char			*outfile;
 	char			*cmd;
 	char			**env;
 	char			**path;
@@ -73,12 +71,13 @@ typedef struct s_env
 **	2 affichage echo
 */
 
-typedef struct s_in
+typedef struct s_dir
 {
-	int			pos;
-	int			fd;
-	struct s_in	*next;
-}	t_in;
+	int				pos;
+	int				len_lim;
+	int				fd;
+	struct s_dir	*next;
+}	t_dir;
 
 //	ft_error.c
 int		ft_error(char *err);
@@ -95,7 +94,7 @@ void	handle_sigquit(int sig);
 int		ft_dir_access(char *str);
 int		ft_file_access(char	*str);
 int		not_in_quotes(char const *s);
-t_in	*go_to_last(t_in **list);
+t_dir	*go_to_last(t_dir **list);
 
 /********************************/
 /*---------PARSING--------------*/
@@ -118,24 +117,25 @@ char	*error_limiteur(const char str);
 
 //	ft_here_doc.c
 int		write_here_doc_on_fd(char *lim);
-void	put_here_doc(t_in **here, char *cmd);
-t_in	*create_here_maillon(char *cmd, int i);
+void	put_here_doc(t_dir **here, char *cmd);
+t_dir	*create_here_maillon(char *cmd, int i);
 int		check_last_indir(char const *cmd);
 int		check_in_or_here(char const *cmd);
 
 //	ft_infile.c
-int		put_infile(t_in **infile, char *cmd, t_env **env);
-t_in	*create_infile_maillon(char *cmd, int i, t_env **env);
+int		put_infile(t_dir **infile, char *cmd);
+t_dir	*create_infile_maillon(char *cmd, int i);
 int		check_infile_access(char *lim);
 
 //	ft_outdir.c
-void	put_outdir(t_in **out, char *cmd);
-void	create_out_list(t_in **out, char *cmd, int i, int flag);
-t_in	*create_out_maillon(char *cmd, int i, int flag);
+int		put_outdir(t_dir **out, char *cmd);
+void	create_out_list(t_dir **out, char *cmd, int i, int flag);
+t_dir	*create_out_maillon(char *cmd, int i, int flag);
 
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_utils(char *dup, int j, t_env **env);
+char	*ft_remove_redir(char *expand, t_dir **here, t_dir **infile, t_dir **out);
 
 /********************************/
 /*---------BUILTIN--------------*/

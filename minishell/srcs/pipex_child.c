@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/28 14:22:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 16:01:22 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ int	ft_pipex_check_in(t_line *arg, int fd_in, int *temp)
 	//check et recup path aboslue ou si build in maison
 	//en fonciton gerer le in
 	//priorite de < << sur entree fd_in
-	if (arg->indir == 0)
+	if (!arg->indir)
 	{
 		return (fd_in);
 		//lire depuis de fd
 		//rien a faire ? 1er jsp, les autres recoient normal (fd[0])
 	}
-	if (arg->indir == 1)
+	if (arg->indir)
 	{
 		//verifier si fichier existe, ou pas ? voir si open le fait solo
 		//open infile et dup2 file dans 0
-		return (open(arg->infile, O_RDONLY));
+		return (arg->indir);
 	}
-	if (arg->indir == 2)
+/*	if (arg->indir )
 	{
 		if (pipe(temp) == -1)
 		{
@@ -62,13 +62,15 @@ int	ft_pipex_check_in(t_line *arg, int fd_in, int *temp)
 		while (arg->outfile[i])
 			write(temp[1], arg->infile + i++, 1);
 		return (temp[0]);
-	}
+	}*/
+	printf("test etrange,CHECK IN a supprimer\n");
+
 	return (0);
 }
 
 int	ft_pipex_check_out(t_line *arg, int *fd)
 {
-	if (arg->outdir == 0)
+	if (!arg->outdir)
 	{
 		if (arg->next == 0)
 			return (1);
@@ -77,10 +79,8 @@ int	ft_pipex_check_out(t_line *arg, int *fd)
 		//ecrire sortie standard / sortie vers next pipe
 		return (0);
 	}
-	if (arg->outdir == 1)
-		return (open(arg->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644));
-	if (arg->outdir == 2)
-		return (open(arg->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644));
+	if (arg->outdir)
+		return (arg->outdir);
 	//ici
 	printf("test etrange, a supprimer\n");
 	//sdfss
@@ -156,7 +156,7 @@ printf("alpha 2\n");
 	in = ft_pipex_check_in(arg, fd_in, temp);
 	if (in == -1)
 	{
-		printf("%s : %s\n", arg->outfile, strerror(errno));
+//		printf("%s : %s\n", arg->outfile, strerror(errno));
 		ft_pipex_close(fd, fd_in, temp, in);
 		//free
 		exit (1);
@@ -165,7 +165,7 @@ printf("alpha 3\n");
 	out = ft_pipex_check_out(arg, fd);
 	if (out == -1)
 	{
-		printf("%s : %s\n", arg->outfile, strerror(errno));
+//		printf("%s : %s\n", arg->outfile, strerror(errno));
 		ft_pipex_close(fd, fd_in, temp, in);
 		//free
 		exit (1);
