@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 15:06:29 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 15:40:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 {
 	t_in	*here;
 	t_in	*infile;
+	t_in	*out;
 	t_in	*tmp;
 	char	*expand;
 	int		ret;
@@ -78,6 +79,7 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 
 	here = NULL;
 	infile = NULL;
+	out = NULL;
 	put_here_doc(&here, cmd);
 	expand = ft_expand(cmd, env);
  	bis = put_infile(&infile, expand, env);
@@ -88,11 +90,12 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 		tmp = go_to_last(&here);
 	if (ret && !bis)
 		ptr->indir = tmp->fd;
-
+	put_outdir(&out, expand);
 	//if (ptr->infile)
 	//	ptr->indir = write_here_doc_on_fd(ptr->infile); // si j'ai un infile ou here_doc
-
-	ptr->outdir = 0;	//si j'ai une redirection
+	tmp = go_to_last(&out);
+	if (tmp != NULL)
+		ptr->outdir = tmp->fd;	//si j'ai une redirection
 	ptr->cmd = ft_strdup(expand); //cmd + arg
 	return ;
 }

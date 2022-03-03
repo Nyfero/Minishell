@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 15:10:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 15:38:14 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	put_outdir(t_in **out, char *cmd)
 {
 	int		i;
 	int		compt;
-	t_in	*ptr;
 
 	i = -1;
 	while (cmd[++i])
@@ -28,9 +27,9 @@ void	put_outdir(t_in **out, char *cmd)
 			compt++;
 		}
 		if (compt == 1)
-			create_out_maillon(cmd, i, 1);
+			create_out_list(out, cmd, i, 1);
 		else if (compt == 2)
-			create_out_maillon(cmd, i, 2);
+			create_out_list(out, cmd, i, 2);
 		else if (compt > 2)
 		{
 			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
@@ -39,7 +38,32 @@ void	put_outdir(t_in **out, char *cmd)
 	}
 }
 
-t_in	*create_here_maillon(char *cmd, int i)
+void	create_out_list(t_in **out, char *cmd, int i, int flag)
+{
+	t_in	*ptr;
+
+	if (!*out)
+	{
+		if (flag == 1)
+			*out = create_out_maillon(cmd, i, 1);
+		else
+			*out = create_out_maillon(cmd, i, 2);
+		if (!*out)
+			return ;
+	}
+	else
+	{
+		ptr = go_to_last(out);
+		if (flag == 1)
+			ptr->next = create_out_maillon(cmd, i, 1);
+		else
+			ptr->next = create_out_maillon(cmd, i, 2);
+		if (!ptr->next)
+			return ;
+	}
+}
+
+t_in	*create_out_maillon(char *cmd, int i, int flag)
 {
 	char 	*lim;
 	t_in	*tmp;
@@ -51,10 +75,14 @@ t_in	*create_here_maillon(char *cmd, int i)
 		return (NULL);
 	}
 	tmp->pos = i - 2;
-	lim = grep_indir(&cmd[i - 2]);
-	printf("lim: %s\n", lim);
-	tmp->fd = write_here_doc_on_fd(lim);
-	free(lim);
 	tmp->next = NULL;
+	lim = get_limiteur(&cmd[i]);
+	if (flag == 1)
+		tmp->fd = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else
+		tmp->fd = open(lim, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (tmp->fd == -1)
+		perror("open");
+	free(lim);
 	return (tmp);
 }

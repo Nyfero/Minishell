@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 14:44:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 15:32:17 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,11 @@ int		check_in_or_here(char const *cmd);
 int		put_infile(t_in **infile, char *cmd, t_env **env);
 t_in	*create_infile_maillon(char *cmd, int i, t_env **env);
 int		check_infile_access(char *lim);
+
+//	ft_outdir.c
+void	put_outdir(t_in **out, char *cmd);
+void	create_out_list(t_in **out, char *cmd, int i, int flag);
+t_in	*create_out_maillon(char *cmd, int i, int flag);
 
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
