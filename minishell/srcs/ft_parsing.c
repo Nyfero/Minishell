@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 16:33:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 18:03:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,21 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	if (!inpt)
 		return ;
 	cmd = ft_split_minishell(inpt, '|');
-	if (check_pipe(cmd, inpt))
+	if (ft_strncmp(cmd[0], inpt, ft_strlen(inpt)))
 	{
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-		return ;
+		if (check_pipe(cmd, inpt))
+		{
+			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+			return ;
+		}
 	}
 	create_list_line(line, ft_lstrlen(cmd), env);
 	ptr = *line;
-	i = -1;
+	i = 0;
 	while (ptr != NULL)
 	{
-		fill_line(cmd[++i], ptr, env);
+		fill_line(cmd[i], ptr, ft_expand(cmd[i], env));
+		i++;
 		ptr = ptr->next;
 	}
 	ft_free_ls(cmd);

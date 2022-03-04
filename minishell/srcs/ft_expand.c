@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 12:20:58 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 15:00:07 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_expand(char const *inpt, t_env **env)
 	int		i;
 	int		j;
 
+	if (!*env)
+		return ((char *)inpt);
 	dup = ft_split_minishell(inpt, ' ');
 	i = -1;
 	expand = NULL;

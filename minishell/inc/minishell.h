@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 17:18:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 19:27:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		check_builtin(char *str, t_env **env);
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
-void	fill_line(char *cmd, t_line *ptr, t_env **env);
+void	fill_line(char *cmd, t_line *ptr, char *expand);
 void	destroy_list_line(t_line **line);
 
 //	ft_limiteur.c
@@ -118,24 +118,32 @@ char	*error_limiteur(const char str);
 //	ft_here_doc.c
 int		write_here_doc_on_fd(char *lim);
 void	put_here_doc(t_dir **here, char *cmd);
+int		create_here_list(t_dir **here, char *cmd, int i);
 t_dir	*create_here_maillon(char *cmd, int i);
 int		check_last_indir(char const *cmd);
-int		check_in_or_here(char const *cmd);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
+int		create_infile_list(t_dir **infile, char *cmd, int i);
 t_dir	*create_infile_maillon(char *cmd, int i);
 int		check_infile_access(char *lim);
 
 //	ft_outdir.c
-int		put_outdir(t_dir **out, char *cmd);
+int		put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd);
+int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd);
 void	create_out_list(t_dir **out, char *cmd, int i, int flag);
 t_dir	*create_out_maillon(char *cmd, int i, int flag);
 
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_utils(char *dup, int j, t_env **env);
-char	*ft_remove_redir(char *expand, t_dir **here, t_dir **infile, t_dir **out);
+
+//	ft_del_redir.c
+char	*ft_remove_redir(char *expand, t_dir **here, t_dir **infile,
+				t_dir **out);
+char	*remove_here(char *expand, t_dir **here);
+char	*remove_infile(char *expand, t_dir **infile);
+char	*remove_out(char *expand, t_dir **out);
 
 /********************************/
 /*---------BUILTIN--------------*/

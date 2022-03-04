@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/03 16:05:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 17:06:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,34 +108,32 @@ printf("pipex sub_entry\n");
 	if (!arg->next)
 		printf("one command\n");//alors pas de pipe
 	//ft_parcours_env_perso(*env);
-	res = ft_get_var("PATH", *env);
-//printf("ALPHA %s\n", res->var);
-	if (res)
+	if (*env)
 	{
-		path = ft_split(res->var, ':');
-		if (!path)
+		res = ft_get_var("PATH", *env);
+		if (res)
 		{
-			printf("malloc error pipex entry 001\n");
-			//Cannot allocate memory
-			return (12);
-		}
-		int i = 0;
-		while (path[i])
-		{
-			printf("path[%d] = %s\n", i, path[i]);
-			i++;
+			path = ft_split(res->var, ':');
+			if (!path)
+			{
+				printf("malloc error pipex entry 001\n");
+				//Cannot allocate memory
+				return (12);
+			}
+			int i = 0;
+			while (path[i])
+			{
+				printf("path[%d] = %s\n", i, path[i]);
+				i++;
+			}
 		}
 	}
+//printf("ALPHA %s\n", res->var);
 	//check arg
 	//changer char **env  pour fit avec le vrai
 	int resu = 0;
 	resu = ft_pipex(arg, 0, path); //t_line, int step
-	if (res)
-	{
-		free(res->name);
-		free(res->var);
-		free(res);
-	}
+	printf("FIN PIPEX\n");
 	return (resu);
 	//return reussite ou numero erreur
 }

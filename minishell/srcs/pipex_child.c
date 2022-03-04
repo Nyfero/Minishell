@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/03 16:01:22 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 17:05:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path)
 		exit (0);
 	}
 
-printf("alpha 1\n");
 	//verifier path cmd / si existe  err 127
 	//verif entree , path , redir entry
 	//verif sortie , redir exi
@@ -152,7 +151,6 @@ printf("alpha 1\n");
 		//free
 		exit (127);
 	}
-printf("alpha 2\n");
 	in = ft_pipex_check_in(arg, fd_in, temp);
 	if (in == -1)
 	{
@@ -161,7 +159,6 @@ printf("alpha 2\n");
 		//free
 		exit (1);
 	}
-printf("alpha 3\n");
 	out = ft_pipex_check_out(arg, fd);
 	if (out == -1)
 	{
@@ -170,7 +167,6 @@ printf("alpha 3\n");
 		//free
 		exit (1);
 	}
-printf("alpha 4\n");
 	dup2(out, 1);//dup2 sortie
 	dup2(in, 0);
 

@@ -6,51 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 16:32:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 15:09:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*static void	fonciton_exec(t_line **line, t_env **env)
-{
-	int		pid;
-	int		res_child;
-	char	**tmp;
-	char	**env_tmp;
-	t_line	*ptr;
-
-	ptr = *line;
-	while (ptr != NULL)
-	{
-		pid = fork();
-		if (pid == -1)
-			return ;
-		if (pid == 0)
-		{
-			tmp = ft_split_minishell(ptr->cmd, ' ');
-			env_tmp = env_to_str(env);
-			execve(tmp[0], tmp, env_tmp);
-			ft_free_ls(tmp);
-			ft_free_ls(env_tmp);
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			wait(&res_child);
-			if (WIFEXITED(res_child))
-			{
-				if (WEXITSTATUS(res_child) == 1)
-					printf("exec_failled\n");
-				else
-					printf("exec_succed\n");
-			}
-		}
-		ptr = ptr->next;
-	}
-	return ;
-}*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -80,10 +40,8 @@ int	main(int argc, char **argv, char **envp)
 			if (line)
 			{
 				pipex_entry(line, &env);
-			//	fonciton_exec(&line, &env);
 				add_history(inpt);
 				destroy_list_line(&line);
-				printf("%p\n", line);
 			}
 			free(inpt);
 		}

@@ -6,17 +6,20 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 17:36:21 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 19:14:50 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+**	Créer et stocke mes infiles. Si une erreur apparait, renvoie 1 sinon renvoie 0
+*/
+
 int	put_infile(t_dir **infile, char *cmd)
 {
 	int		i;
 	int		compt;
-	t_dir	*ptr;
 
 	i = -1;
 	while (cmd[++i])
@@ -29,34 +32,44 @@ int	put_infile(t_dir **infile, char *cmd)
 		}
 		if (compt == 1)
 		{
-			if (!*infile)
-			{
-				*infile = create_infile_maillon(cmd, i);
-				if (!*infile || (*infile)->fd == -1)
-					return (1);
-			}
-			else
-			{
-				ptr = go_to_last(infile);
-				close(ptr->fd);
-				ptr->next = create_infile_maillon(cmd, i);
-				if (!ptr->next || ptr->next->fd == -1)
-					return (1);
-			}
+			compt = create_infile_list(infile, cmd, i);
+			if (compt)
+				return (1);
 		}
+	}
+	return (0);
+}
+
+int	create_infile_list(t_dir **infile, char *cmd, int i)
+{
+	t_dir	*ptr;
+
+	if (!*infile)
+	{
+		*infile = create_infile_maillon(cmd, i);
+		if (!*infile || (*infile)->fd == -1)
+			return (1);
+	}
+	else
+	{
+		ptr = go_to_last(infile);
+		close(ptr->fd);
+		ptr->next = create_infile_maillon(cmd, i);
+		if (!ptr->next || ptr->next->fd == -1)
+			return (1);
 	}
 	return (0);
 }
 
 t_dir	*create_infile_maillon(char *cmd, int i)
 {
-	char 	*lim;
+	char	*lim;
 	t_dir	*tmp;
 
 	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
 		return (NULL);
-	tmp->pos = i - 2;
+	tmp->pos = i - 1;
 	tmp->next = NULL;
 	lim = grep_indir(&cmd[i - 2]);
 	if (!lim)
@@ -77,7 +90,7 @@ t_dir	*create_infile_maillon(char *cmd, int i)
 	return (tmp);
 }
 
-int		check_infile_access(char *lim)
+int	check_infile_access(char *lim)
 {
 	if (ft_file_access(lim) == 0)
 	{
@@ -92,7 +105,7 @@ int		check_infile_access(char *lim)
 		if (access(lim, F_OK | R_OK))
 			ft_putstr_fd(": Permission denied\n", 2);
 		else
-			ft_putstr_fd(": is a directory\n", 2);
+			ft_putstr_fd(": Is a directory\n", 2);
 		free(lim);
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 17:36:15 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 17:10:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	put_here_doc(t_dir **here, char *cmd)
 {
 	int		i;
 	int		compt;
-	t_dir	*ptr;
 
 	i = -1;
 	while (cmd[++i])
@@ -61,19 +60,9 @@ void	put_here_doc(t_dir **here, char *cmd)
 		}
 		if (compt == 2)
 		{
-			if (!*here)
-			{
-				*here = create_here_maillon(cmd, i);
-				if (!*here)
-					return ;
-			}
-			else
-			{
-				ptr = go_to_last(here);
-				ptr->next = create_here_maillon(cmd, i);
-				if (!ptr->next)
-					return ;
-			}
+			compt = create_here_list(here, cmd, i);
+			if (compt)
+				return ;
 		}
 		else if (compt > 2)
 		{
@@ -83,9 +72,30 @@ void	put_here_doc(t_dir **here, char *cmd)
 	}
 }
 
+int	create_here_list(t_dir **here, char *cmd, int i)
+{
+	t_dir	*ptr;
+
+	if (!*here)
+	{
+		*here = create_here_maillon(cmd, i);
+		if (!*here)
+			return (1);
+	}
+	else
+	{
+		ptr = go_to_last(here);
+		close(ptr->fd);
+		ptr->next = create_here_maillon(cmd, i);
+		if (!ptr->next)
+			return (1);
+	}
+	return (0);
+}
+
 t_dir	*create_here_maillon(char *cmd, int i)
 {
-	char 	*lim;
+	char	*lim;
 	t_dir	*tmp;
 
 	tmp = ft_calloc(sizeof(t_dir), 1);
@@ -103,39 +113,6 @@ t_dir	*create_here_maillon(char *cmd, int i)
 }
 
 /*
-**	Une fontion qui me dis si j'ai affaire a un here doc ou a un infile
-**	Renvoie 2 si here_doc, 1 si infile et 0 sinon
-*/
-int	check_in_or_here(char const *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[++i])
-	{
-		if (cmd[i] == '<')
-		{
-			if (cmd[i + 1])
-			{
-				if (cmd[i + 1] == '<')
-					ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-				else
-					return (2);
-			}
-			else
-			{
-				ft_putstr_fd("bash: syntax error near unexpected token\n",2);
-				ft_putstr_fd("`newline'\n", 2);
-			}
-		}
-		else
-			return (1);
-	}
-	return (0);
-}
-
-
-/*
 **	Une fonction qui me dis si j'ai en dernier un here doc ou un infile
 **	Renvoie 2 si here_doc, 1 si infile et 0 sinon
 */
@@ -143,7 +120,6 @@ int	check_in_or_here(char const *cmd)
 int	check_last_indir(char const *cmd)
 {
 	int		i;
-	//char	*tmp;
 
 	i = ft_strlen(cmd) - 1;
 	while (i >= 0)
