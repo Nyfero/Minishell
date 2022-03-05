@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 19:27:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 13:28:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		check_builtin(char *str, t_env **env);
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
+int		put_env_on_line(t_env **env, t_line *line);
 void	fill_line(char *cmd, t_line *ptr, char *expand);
 void	destroy_list_line(t_line **line);
 
@@ -139,11 +140,10 @@ char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_utils(char *dup, int j, t_env **env);
 
 //	ft_del_redir.c
-char	*ft_remove_redir(char *expand, t_dir **here, t_dir **infile,
-				t_dir **out);
-char	*remove_here(char *expand, t_dir **here);
-char	*remove_infile(char *expand, t_dir **infile);
-char	*remove_out(char *expand, t_dir **out);
+char	*ft_remove_redir(char *expand);
+char	*remove_here(char *expand);
+char	*remove_infile(char *expand);
+char	*remove_out(char *expand);
 
 /********************************/
 /*---------BUILTIN--------------*/

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/04 17:06:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 14:22:04 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_pipex(t_line *arg, int fd_in, char **path)
 	{
 		printf("Alpha = %s\n", strerror(errno));
 		//free arg si besoin
-		exit(0);
+		return (0);
 	}
 	child = fork();//creation child
 	if (child == -1)
@@ -42,7 +42,7 @@ int	ft_pipex(t_line *arg, int fd_in, char **path)
 		printf("Bravo = %s\n", strerror(errno));
 		//close pipe
 		//free arg si besoin
-		exit (0);
+		return (0);
 	}
 	if (child == 0)//envoie child
 	{
