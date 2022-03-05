@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/01 16:26:28 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:06:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,17 @@ int	ft_parcours_env_perso(t_env *env)
 	return (0);
 }
 
+int ft_parcous_arg(t_line *arg)
+{
+	if (!arg)
+		return (0);
+	printf("cmd = %s\n", arg->cmd);
+	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
+	if (arg->next != 0)
+		return (ft_parcous_arg(arg->next));
+	return (0);
+}
+
 int	pipex_entry(t_line *arg, t_env **env)
 {
 	(void)env;
@@ -86,39 +97,43 @@ int	pipex_entry(t_line *arg, t_env **env)
 	char	**path;
 	t_env	*res;
 
+printf("pipex entry\n");
+
+ft_parcous_arg(arg);
+
+printf("pipex sub_entry\n");
+
 	path = 0;
 	res = 0;
 	if (!arg->next)
 		printf("one command\n");//alors pas de pipe
 	//ft_parcours_env_perso(*env);
-	res = ft_get_var("PATH", *env);
-//printf("ALPHA %s\n", res->var);
-	if (res)
+	if (*env)
 	{
-		path = ft_split(res->var, ':');
-		if (!path)
+		res = ft_get_var("PATH", *env);
+		if (res)
 		{
-			printf("malloc error pipex entry 001\n");
-			//Cannot allocate memory
-			return (12);
-		}
-		int i = 0;
-		while (path[i])
-		{
-			printf("path[%d] = %s\n", i, path[i]);
-			i++;
+			path = ft_split(res->var, ':');
+			if (!path)
+			{
+				printf("malloc error pipex entry 001\n");
+				//Cannot allocate memory
+				return (12);
+			}
+			int i = 0;
+			while (path[i])
+			{
+				printf("path[%d] = %s\n", i, path[i]);
+				i++;
+			}
 		}
 	}
+//printf("ALPHA %s\n", res->var);
 	//check arg
 	//changer char **env  pour fit avec le vrai
 	int resu = 0;
 	resu = ft_pipex(arg, 0, path); //t_line, int step
-	if (res)
-	{
-		free(res->name);
-		free(res->var);
-		free(res);
-	}
+	printf("FIN PIPEX\n");
 	return (resu);
 	//return reussite ou numero erreur
 }

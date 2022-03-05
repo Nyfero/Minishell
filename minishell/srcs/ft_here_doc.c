@@ -3,135 +3,134 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 18:16:15 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:10:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_here_doc(char const *str)
+/*
+**	Ouvre un pipe et écrit le here doc dedans puis renvoie fd[0]
+*/
+
+int	write_here_doc_on_fd(char *lim)
 {
+	int		fd[2];
+	char	*line;
 	int		i;
-	int		j;
 
-	i = -1;
-	while (str[++i])
+	if (pipe(fd) == -1)
 	{
-		if (str[i] == '<' && not_in_quotes(&str[i]))
-		{
-			j = i;
-			while (str[i] == '<')
-				i++;
-			if (i - j > 2)
-			{
-				ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-				return (NULL);
-			}
-			return (get_limiteur(&str[i]));
-		}
-	}
-	return (NULL);
-}
-
-char	*get_limiteur(const char *str)
-{
-	char	*lim;
-	int		i;
-	int		j;
-
-	i = 0;
-	if (!str[i])
-	{
-		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
-		return (NULL);
-	}
-	while (str[i] && str[i] == ' ')
-		i++;
-	j = i;
-	if (str[i] == '<' || str[i] == '>')
-	{
-		if (str[i] == '<')
-			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-		else
-			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-		return (NULL);
-	}
-	while (str[i] && (str[i] != ' ' || str[i] != '|' || str[i] != '<' || str[i] == '>'))
-		i++;
-	lim = ft_substr(str, j, i - j);
-	if (!lim)
-		return (NULL);
-	return (lim);
-}
-
-int	read_here_doc(char *lim)
-{
-	int		fd;
-	char	*line;		//free
-
-	fd = open(".", O_TMPFILE | O_RDWR | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		ft_putstr_fd("File cassé\n", 2);
+		perror("pipe");
 		return (-1);
 	}
 	write(1, "here_doc>", 9);
 	line = get_next_line(0);
 	while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
-		write(fd, &line, ft_strlen(line));
-		write(fd, "\n", 1);
+		i = 0;
+		while (line[i])
+			write(fd[1], line + i++, 1);
+		write(fd[1], "\n", 1);
 		free(line);
 		write(1, "here_doc>", 9);
 		line = get_next_line(0);
 	}
+	close(fd[1]);
 	free(line);
-	return (fd);
+	return (fd[0]);
 }
 
-/*char	*replace_here_doc(char *dup, int i)
+void	put_here_doc(t_dir **here, char *cmd)
 {
-	char	*lim;		//free dans read_here_doc
-	char	*before;	//free dans le join
-	char	*here;		//free dans le join
-	char	*after;		//free dans le join
-	int		len_lim;
+	int		i;
+	int		compt;
 
-	lim = get_limiteur(&dup[i]);
-	if (!lim)
-		return (NULL);
-	len_lim = ft_strlen(lim) + 2;
-	before = ft_substr(dup, 0, i);
-	here = read_here_doc(lim);
-	after = ft_strdup(&dup[i + len_lim]);
-	printf("before:%s\nhere:%s\nafter:%s\n",before, here, after);
-	if (!here)
+	i = -1;
+	while (cmd[++i])
 	{
-		if (!before && !after)
-			return (NULL);
-		else
-			dup = ft_strjoin_and_free_all(before, after);
+		compt = 0;
+		while (cmd[i] == '<')
+		{
+			i++;
+			compt++;
+		}
+		if (compt == 2)
+		{
+			compt = create_here_list(here, cmd, i);
+			if (compt)
+				return ;
+		}
+		else if (compt > 2)
+		{
+			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+			return ;
+		}
+	}
+}
+
+int	create_here_list(t_dir **here, char *cmd, int i)
+{
+	t_dir	*ptr;
+
+	if (!*here)
+	{
+		*here = create_here_maillon(cmd, i);
+		if (!*here)
+			return (1);
 	}
 	else
 	{
-		dup = ft_strjoin_and_free_all(before, here);
-		if (after[0])
-			dup = ft_strjoin_and_free_all(dup, after);
+		ptr = go_to_last(here);
+		close(ptr->fd);
+		ptr->next = create_here_maillon(cmd, i);
+		if (!ptr->next)
+			return (1);
 	}
-	return (dup);
+	return (0);
 }
+
+t_dir	*create_here_maillon(char *cmd, int i)
+{
+	char	*lim;
+	t_dir	*tmp;
+
+	tmp = ft_calloc(sizeof(t_dir), 1);
+	if (!tmp)
+		return (NULL);
+	tmp->pos = i - 2;
+	lim = grep_indir(&cmd[i - 2]);
+	if (!lim)
+		return (NULL);
+	tmp->len_lim = ft_strlen(lim);
+	tmp->fd = write_here_doc_on_fd(lim);
+	free(lim);
+	tmp->next = NULL;
+	return (tmp);
+}
+
+/*
+**	Une fonction qui me dis si j'ai en dernier un here doc ou un infile
+**	Renvoie 2 si here_doc, 1 si infile et 0 sinon
 */
 
-
-/*int	check_here_doc(char *dup, int i)
+int	check_last_indir(char const *cmd)
 {
-	int	j;
+	int		i;
 
-	j = i;
-	while (dup[j] && dup[j] == '<')
-		j++;
-	return (j - i);
-}*/
+	i = ft_strlen(cmd) - 1;
+	while (i >= 0)
+	{
+		if (cmd[i] == '<' && not_in_quotes(&cmd[i]))
+		{
+			if ((i - 1) >= 0 && cmd[i - 1] == '<')
+				return (2);
+			return (1);
+		}
+		i--;
+	}
+	return (0);
+}

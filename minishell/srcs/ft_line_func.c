@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_line_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 17:55:01 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/04 19:13:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,25 @@ t_line	*create_line(t_env **env)
 	t_line	*line;
 	t_env	*tmp;
 
+	tmp = NULL;
 	line = ft_calloc(sizeof(t_line), 1);
 	if (!line)
 		return (NULL);
-	line->infile = NULL;
-	line->outfile = NULL;
 	line->cmd = NULL;
-	line->env = env_to_str(env);
-	tmp = ft_get_var("PATH", *env);
+	if (!*env)
+		line->env = NULL;
+	else
+	{
+		line->env = env_to_str(env);
+		tmp = ft_get_var("PATH", *env);
+	}
 	if (!tmp)
 		line->path = NULL;
 	else
 	{
 		line->path = ft_split(tmp->var, ':');
 		if (!line->path)
-		{
-			printf("Error malloc failed\n");
 			return (NULL);
-		}
 	}
 	line->indir = 0;
 	line->outdir = 0;
@@ -70,24 +71,39 @@ t_line	*create_line(t_env **env)
 	return (line);
 }
 
-void	fill_line(char *cmd, t_line *ptr)
+void	fill_line(char *cmd, t_line *ptr, char *expand)
 {
-	//check heredoc
-	//if (here_doc)
-	//expand
-	//infile et outfile	
-	ptr->indir = 0; // si j'ai un infile ou here_doc
-	ptr->outdir = 0;	//si j'ai une redirection
-	ptr->infile = handle_here_doc(cmd);
-	ptr->cmd = ft_strdup(cmd); //cmd + arg
+	t_dir	*here;
+	t_dir	*infile;
+	t_dir	*out;
+	t_dir	*tmp;
+	int		ret;
+	int		bis;
+
+	here = NULL;
+	infile = NULL;
+	out = NULL;
+	put_here_doc(&here, cmd);
+ 	bis = put_infile(&infile, expand);
+	ret = check_last_indir(cmd);
+	if (ret == 1)
+		tmp = go_to_last(&infile);
+	else if (ret == 2)
+		tmp = go_to_last(&here);
+	if (ret && !bis)
+		ptr->indir = tmp->fd;
+	ret = put_outdir(&out, &infile, bis, expand);
+	if (!ret)
+	{
+		tmp = go_to_last(&out);
+		ptr->outdir = tmp->fd;
+	}
+	expand = ft_remove_redir(expand, &here, &infile, &out);
+	ptr->cmd = ft_strdup(expand);
 	return ;
 }
 
-/*
-**	verifier que tous les mallocs sont bien detruits
-*/
-
-void	destroy_list_line(t_line** line)
+void	destroy_list_line(t_line **line)
 {
 	t_line	*ptr;
 	t_line	*aux;
@@ -97,9 +113,15 @@ void	destroy_list_line(t_line** line)
 	{
 		aux = ptr;
 		ptr = ptr->next;
-		free(aux->cmd);
-		ft_free_ls(aux->env);
-		ft_free_ls(aux->path);
+		aux->next = NULL;
+		aux->indir = 0;
+		aux->outdir = 0;
+		if (aux->cmd)
+			free(aux->cmd);
+		if (aux->env)
+			ft_free_ls(aux->env);
+		if (aux->path)
+			ft_free_ls(aux->path);
 		free(aux);
 	}
 	*line = NULL;

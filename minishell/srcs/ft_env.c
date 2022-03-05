@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 10:50:33 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/04 14:38:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ int	ft_env(char **str, t_env **env)
 	t_env	*ptr;
 	int		ret;
 
+
+	ptr = *env;
+	if (!ptr)
+		return (1);
 	if (ft_lstrlen(str) > 1)
 	{
 		ret = ft_env_arg(str);
 		if (ret)
 			return (ret);
 	}
-	ptr = *env;
 	while (ptr)
 	{
 		if (ptr->flags == 0)
@@ -83,6 +86,8 @@ char	**env_to_str(t_env **env)
 
 	i = 0;
 	ptr = *env;
+	if (!ptr)
+		return (NULL);
 	while (ptr->next)
 	{
 		ptr = ptr->next;

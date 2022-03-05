@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 18:10:49 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/04 19:27:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
-	char			*infile;
-	char			*outfile;
 	char			*cmd;
 	char			**env;
 	char			**path;
@@ -73,6 +71,14 @@ typedef struct s_env
 **	2 affichage echo
 */
 
+typedef struct s_dir
+{
+	int				pos;
+	int				len_lim;
+	int				fd;
+	struct s_dir	*next;
+}	t_dir;
+
 //	ft_error.c
 int		ft_error(char *err);
 
@@ -88,31 +94,56 @@ void	handle_sigquit(int sig);
 int		ft_dir_access(char *str);
 int		ft_file_access(char	*str);
 int		not_in_quotes(char const *s);
+t_dir	*go_to_last(t_dir **list);
 
 /********************************/
 /*---------PARSING--------------*/
 /********************************/
 
-//	ft_line_func.c
-void	create_list_line(t_line **line, int len, t_env **env);
-t_line	*create_line(t_env **env);
-void	fill_line(char *cmd, t_line *ptr);
-void	destroy_list_line(t_line** line);
-
-//	ft_here_doc.c
-char	*handle_here_doc(char const *str);
-char	*replace_here_doc(char *dup, int i);
-int		read_here_doc(char *lim);
-int		check_here_doc(char *dup, int i);
-char	*get_limiteur(const char *str);
-
 //	ft_parsing.c
 void	parsing(t_env **env, t_line **line, char const *inpt);
 int		check_builtin(char *str, t_env **env);
 
+//	ft_line_func.c
+void	create_list_line(t_line **line, int len, t_env **env);
+t_line	*create_line(t_env **env);
+void	fill_line(char *cmd, t_line *ptr, char *expand);
+void	destroy_list_line(t_line **line);
+
+//	ft_limiteur.c
+char	*grep_indir(char const *str);
+char	*get_limiteur(const char *str);
+char	*error_limiteur(const char str);
+
+//	ft_here_doc.c
+int		write_here_doc_on_fd(char *lim);
+void	put_here_doc(t_dir **here, char *cmd);
+int		create_here_list(t_dir **here, char *cmd, int i);
+t_dir	*create_here_maillon(char *cmd, int i);
+int		check_last_indir(char const *cmd);
+
+//	ft_infile.c
+int		put_infile(t_dir **infile, char *cmd);
+int		create_infile_list(t_dir **infile, char *cmd, int i);
+t_dir	*create_infile_maillon(char *cmd, int i);
+int		check_infile_access(char *lim);
+
+//	ft_outdir.c
+int		put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd);
+int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd);
+void	create_out_list(t_dir **out, char *cmd, int i, int flag);
+t_dir	*create_out_maillon(char *cmd, int i, int flag);
+
 //	ft_expand.c
-char	*ft_expand(char const *inpt, t_env ** env);
+char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_utils(char *dup, int j, t_env **env);
+
+//	ft_del_redir.c
+char	*ft_remove_redir(char *expand, t_dir **here, t_dir **infile,
+				t_dir **out);
+char	*remove_here(char *expand, t_dir **here);
+char	*remove_infile(char *expand, t_dir **infile);
+char	*remove_out(char *expand, t_dir **out);
 
 /********************************/
 /*---------BUILTIN--------------*/
@@ -157,6 +188,6 @@ int		ft_cd(char **str, t_env **env);
 void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path);
 
 //	pipex_main.c
-int	pipex_entry(t_line *arg, t_env **env);
+int		pipex_entry(t_line *arg, t_env **env);
 
 #endif

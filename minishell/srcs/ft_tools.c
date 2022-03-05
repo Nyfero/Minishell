@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/01 10:39:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/03 16:37:07 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 int	ft_dir_access(char *str)
 {
-	DIR*	fd;
+	DIR	*fd;
 
 	fd = opendir(str);
 	if (fd || errno == 13)
@@ -79,4 +79,14 @@ int	not_in_quotes(char const *s)
 	if (s_qt % 2 == 0 && d_qt % 2 == 0)
 		return (1);
 	return (0);
+}
+
+t_dir	*go_to_last(t_dir **list)
+{
+	t_dir	*ptr;
+
+	ptr = *list;
+	while (ptr->next != NULL)
+		ptr = ptr->next;
+	return (ptr);
 }
