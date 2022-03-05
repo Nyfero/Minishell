@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/02/28 14:22:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/01 18:35:36 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int	ft_pipex_check_in(t_line *arg, int fd_in, int *temp)
 	{
 		if (pipe(temp) == -1)
 		{
-			printf("problem ici \n");
+			printf("probleme ici \n");
 			return (-1);
 		}
 		//infile = input
 		//creation pipe avant ensuite rediriger str dans dams fd[1]
 		//passer fd[1] en 0
-		while (arg->outfile[i])
+		while (arg->infile[i])
 			write(temp[1], arg->infile + i++, 1);
 		return (temp[0]);
 	}
