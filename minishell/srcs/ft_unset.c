@@ -6,57 +6,68 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 17:35:06 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 18:28:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-**	Tant que j'ai des élément à unset je cherche dans env si c'est le premier
-**	maillon ou pas et je le supprime
-*/
-
 int	ft_unset(char **str, t_env **env)
 {
 	t_env	*ptr;
 	int		i;
-	int		len;
 
 	if (!*env)
 		return (0);
 	i = 0;
 	while (str[++i])
 	{
-		ptr = ft_get_var(str[i], env);
-		if (ptr)
-			del_env_maillon(ptr, env);
+		if (!check_meta(str[i]))
+		{
+			ptr = ft_get_var(str[i], *env);
+			if (ptr)
+				del_env_maillon(ptr, env);
+		}
 	}
 	return (0);
 }
 
-/*
-**	Si c'est le premier élément je modifie le pointeur de *env pour qu'il pointe
-**	sur le deuxième élément; sinon je fais sauter un maillon à mon pointeur
-*/
+int	check_meta(char *s)
+{
+	int	i;
+
+	i = -1;
+	if (ft_isdigit(s[0]))
+	{
+		ft_putstr_fd("unset : '", 2);
+		print_error_idf(s);
+		return (1);
+	}
+	while (s[++i])
+	{
+		if (!ft_isalnum(s[i]))
+		{
+			ft_putstr_fd("unset : '", 2);
+			print_error_idf(s);
+			return (1);
+		}
+	}
+	return (0);
+}
 
 void	del_env_maillon(t_env *ptr, t_env **env)
 {
 	t_env	*tmp;
 
-	if (ptr == *env)
-	{
-		tmp = *env;
+	tmp = *env;
+	if (ptr == tmp)
 		*env = (*env)->next;
-	}
 	else
-	{
-		tmp = ptr->next;
-		ptr->next = tmp->next;
-	}
-	tmp->next = NULL;
-	free(tmp->name);
-	free(tmp->var);
-	free(tmp);
-	return ;
+		while (tmp->next != ptr)
+			tmp = tmp->next;
+	tmp->next = ptr->next;
+	ptr->next = NULL;
+	free(ptr->name);
+	free(ptr->var);
+	free(ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 17:30:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 18:18:39 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@
 
 //	message d'erreur
 # define WR_PATH ": No such file or directory"
+# define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
-
-# define TRUE 1
-# define FALSE 0
 
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
@@ -81,7 +79,8 @@ typedef struct s_dir
 
 //	ft_error.c
 int		ft_error(char *err);
-void	print_error_wrpath(char *s, int fd);
+void	print_error_wrpath(char *s);
+void	print_error_idf(char *s);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
@@ -168,6 +167,7 @@ int		format_key_value(char *str);
 
 //	ft_unset.c
 int		ft_unset(char **str, t_env **env);
+int		check_meta(char *s);
 void	del_env_maillon(t_env *ptr, t_env **env);
 
 //	ft_env.c
