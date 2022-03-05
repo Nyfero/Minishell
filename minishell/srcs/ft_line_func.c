@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 14:01:21 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 16:39:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_line	*create_line(t_env **env)
 	if (put_env_on_line(env, line))
 		return (NULL);
 	line->indir = 0;
-	line->outdir = 0;
+	line->outdir = 1;
 	line->next = NULL;
 	return (line);
 }

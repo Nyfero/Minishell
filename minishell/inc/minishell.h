@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 13:28:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 17:30:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_dir
 
 //	ft_error.c
 int		ft_error(char *err);
+void	print_error_wrpath(char *s, int fd);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
@@ -102,7 +103,7 @@ t_dir	*go_to_last(t_dir **list);
 
 //	ft_parsing.c
 void	parsing(t_env **env, t_line **line, char const *inpt);
-int		check_builtin(char *str, t_env **env);
+int		check_builtin(t_line *line, t_env **env);
 
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
@@ -170,8 +171,8 @@ int		ft_unset(char **str, t_env **env);
 void	del_env_maillon(t_env *ptr, t_env **env);
 
 //	ft_env.c
-int		ft_env(char **str, t_env **env);
-int		ft_env_arg(char **str);
+int		ft_env(char **str, t_env **env, t_line *line);
+int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
 
 //	ft_env_func.c

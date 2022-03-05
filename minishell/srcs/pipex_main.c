@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/05 14:22:04 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 17:05:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,16 @@ int	pipex_entry(t_line *arg, t_env **env)
 
 printf("pipex entry\n");
 
+	if (check_builtin(arg, env) != -1)
+		return (0);
 ft_parcous_arg(arg);
 
 printf("pipex sub_entry\n");
 
 	path = 0;
 	res = 0;
+	//check_builtin();
+
 	if (!arg->next)
 		printf("one command\n");//alors pas de pipe
 	//ft_parcours_env_perso(*env);
