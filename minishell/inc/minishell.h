@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 14:13:54 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 17:12:41 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_pipe
 	char	**cmd_treat;
 	int		in;
 	int		out;
-
 }	t_pipe;
 
 typedef struct s_env
@@ -169,7 +168,7 @@ int		ft_pwd(void);
 int		ft_export(char **str, t_env **env, t_line *line);
 int		ft_export_arg(char **str, t_env **env);
 int		export_create_env(char *str, t_env **env);
-int		export_replace_or_create(char *str, t_env **env, t_env *ptr);
+int		export_replace_or_create(char *str, t_env **env);
 
 //	ft_export_utils.c
 int		check_valid_export(char *str);
@@ -187,7 +186,7 @@ int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
 
 //	ft_env_func.c
-void	init_env(t_env **env, char **envp);
+int		init_env(t_env **env, char **envp);
 t_env	*create_env_maillon(char *str, int flags);
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags);
 void	destroy_env(t_env **env);
@@ -200,6 +199,8 @@ int		ft_cd(char **str, t_env **env);
 /*------------EXEC--------------*/
 /********************************/
 
+
+int	ft_parcours_env_perso(t_env *env);
 
 //	pipex_child.c
 void	ft_pipex_child(t_line *arg, int *fd, int fd_in, t_pipe data);

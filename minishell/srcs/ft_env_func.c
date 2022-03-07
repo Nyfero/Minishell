@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 14:37:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 16:28:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,33 @@
 **	Créer une liste chainée de t_env
 */
 
-void	init_env(t_env **env, char **envp)
+int	init_env(t_env **env, char **envp)
 {
 	int		i;
 	t_env	*ptr;
 
 	i = -1;
 	if (!envp)
-		return ;
+		return (0);
 	while (envp[++i])
 	{
 		if (!*env)
+		{
 			*env = create_env_maillon(envp[i], 0);
+			if (!*env)
+				return (1);
+		}
 		else
 		{
 			ptr = *env;
 			while (ptr->next != NULL)
 				ptr = ptr->next;
 			ptr->next = create_env_maillon(envp[i], 0);
+			if (!ptr->next)
+				return (1);
 		}
 	}
+	return (0);
 }
 
 /*
@@ -51,17 +58,19 @@ t_env	*create_env_maillon(char *str, int flags)
 	tmp = ft_calloc(sizeof(t_env), 1);
 	if (!tmp)
 	{
-		printf("MALLOC FAILED\n");
-		exit(1);
+		ft_putendl_fd("MALLOC FAILED", 2);
+		return (0);
 	}
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
 	j = i + 1;
 	while (str[j])
 		j++;
 	tmp->name = ft_substr(str, 0, i);
-	tmp->var = ft_substr(str, i + 1, j);
+	tmp->var = NULL;
+	if (flags == 0)
+		tmp->var = ft_substr(str, i + 1, j);
 	tmp->flags = flags;
 	tmp->next = NULL;
 	return (tmp);
@@ -73,16 +82,13 @@ t_env	*create_env_maillon(char *str, int flags)
 
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 {
-	int	i;
-
 	if (ptr->var)
 		free(ptr->var);
 	ptr->var = NULL;
 	ptr->flags = flags;
-	i = 0;
-	while (str[i] != '=')
-		i++;
-	ptr->var = ft_substr(str, i + 1, ft_strlen(str) - (i + 1));
+	ptr->var = ft_strdup(str);
+	if (!ptr->var)
+		return (0);
 	return (ptr);
 }
 

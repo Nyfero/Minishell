@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 13:39:38 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 16:57:34 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	line = NULL;
 	env = NULL;
-	init_env(&env, envp);
+	if (init_env(&env, envp))
+		exit(1);
 	//init_signal();
 	while (1)
 	{
@@ -35,8 +36,10 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			parsing(&env, &line, inpt);
+			printf("HAINE\n");
 			if (line)
 			{
+				ft_parcours_env_perso(env);
 				pipex_entry(line, &env);
 				add_history(inpt);
 				destroy_list_line(&line);

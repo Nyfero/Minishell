@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 12:42:36 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:11:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,12 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 	t_env *test;
 
 	test = 0;
-
 	data.cmd_treat = ft_split(arg->cmd, ' ');
 	if (data.cmd_treat == 0)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-
 	//verifier path cmd / si existe  err 127
 	//verif entree , path , redir entry
 	//verif sortie , redir exi
@@ -108,14 +106,9 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
-
 	init_env(&test, arg->env);
-
 	arg->outdir = data.out;
 	arg->indir = data.in;
-
-	data.in = -1;
-
 	ret = check_builtin(arg, &test);
 	if (ret != -1)
 	{
@@ -124,32 +117,24 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		exit(ret);
 	}
 
-
 	data.path_res = ft_pipex_path(data.cmd_treat, data.path);
 	if (!data.path_res)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (127);
 	}
-	//data.in = ft_pipex_check_in(arg, fd_in);
-	if (data.in == -1)
+//data.in = ft_pipex_check_in(arg, fd_in);
+	if (data.in == -1 || data.out == -1)
 	{
-//		printf("%s : %s\n", arg->outfile, strerror(errno));
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-	//data.out = ft_pipex_check_out(arg, fd_pipe);
-	if (data.out == -1)
-	{
-//		printf("%s : %s\n", arg->outfile, strerror(errno));
-		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-		exit (1);
-	}
+
 	dup2(data.out, 1);//dup2 sortie
 	dup2(data.in, 0);
 
 	ft_pipex_close(fd_pipe, fd_in, &data);
-	//close les fd
+//close les fd
 execve(data.path_res, data.cmd_treat, arg->env);
 ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 exit(1);

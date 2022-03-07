@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 12:19:41 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:09:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ printf("pipex sub_entry\n");//suppr
 	//changer char **env  pour fit avec le vrai
 	int ret = 0;
 	ret = ft_pipex(arg, 0, data); //t_line, int step
-	printf("FIN PIPEX\n");
+	printf("FIN PIPEX %d\n", ret);
 	//free path;
 	int	j = 0;
 	while (data.path[j])
