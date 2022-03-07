@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 18:28:19 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 12:45:37 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,28 @@ int	ft_unset(char **str, t_env **env)
 {
 	t_env	*ptr;
 	int		i;
+	int		ret;
 
 	if (!*env)
 		return (0);
 	i = 0;
+	ret = 0;
 	while (str[++i])
 	{
-		if (!check_meta(str[i]))
+		ret = check_meta(str[i]);
+		if (ret)
+		{
+			ft_putstr_fd("unset : '", 2);
+			print_error_idf(str[i]);
+		}
+		else
 		{
 			ptr = ft_get_var(str[i], *env);
 			if (ptr)
 				del_env_maillon(ptr, env);
 		}
 	}
-	return (0);
+	return (ret);
 }
 
 int	check_meta(char *s)
@@ -38,22 +46,13 @@ int	check_meta(char *s)
 
 	i = -1;
 	if (ft_isdigit(s[0]))
-	{
-		ft_putstr_fd("unset : '", 2);
-		print_error_idf(s);
 		return (1);
-	}
 	while (s[++i])
-	{
 		if (!ft_isalnum(s[i]))
-		{
-			ft_putstr_fd("unset : '", 2);
-			print_error_idf(s);
 			return (1);
-		}
-	}
 	return (0);
 }
+
 
 void	del_env_maillon(t_env *ptr, t_env **env)
 {
