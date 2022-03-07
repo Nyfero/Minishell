@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 12:42:36 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:00:26 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 		i++;
 	}
 	printf("bash: %s: Command not found\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
-
 	return (0);
 }
 
@@ -100,26 +99,28 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-
-	//verifier path cmd / si existe  err 127
-	//verif entree , path , redir entry
-	//verif sortie , redir exi
-	//arg->env = env_to_str(arg)
-
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
-
+	
 	init_env(&test, arg->env);
+	if (test == 0)
+	{
+		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+		exit (1);
+	}
 
 	arg->outdir = data.out;
 	arg->indir = data.in;
 
-	data.in = -1;
+	if (arg->outdir == -1 || arg->indir == -1)
+	{
+		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+		exit (1);
+	}
 
 	ret = check_builtin(arg, &test);
 	if (ret != -1)
 	{
-		printf("/n--------\nsalut check_builtin !\n--------\n");//a suppr
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit(ret);
 	}
@@ -145,11 +146,10 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-	dup2(data.out, 1);//dup2 sortie
+	dup2(data.out, 1);
 	dup2(data.in, 0);
 
 	ft_pipex_close(fd_pipe, fd_in, &data);
-	//close les fd
 execve(data.path_res, data.cmd_treat, arg->env);
 ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 exit(1);

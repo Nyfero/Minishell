@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 11:53:58 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 13:51:57 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ printf("tmp[0] = %s\n", tmp[0]);//a suppr
 		return (ft_env(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
 		return (ft_unset(tmp, env));
-	/*else if (ft_strncmp(tmp[0], "export", 7) == 0)
+	else if (ft_strncmp(tmp[0], "export", 7) == 0)
 		return (ft_export(tmp, env, line));
-	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
+	/*else if (ft_strncmp(tmp[0], "cd", 3) == 0)
 		return (ft_cd(tmp, env);
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		return (ft_exit(tmp));

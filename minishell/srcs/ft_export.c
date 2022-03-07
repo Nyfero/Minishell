@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/01 10:58:36 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 12:11:02 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,51 +19,50 @@
 **	2 bad flags ou syntax error near
 */
 
-int	ft_export(char **str, t_env **env)
-{
-	if (!*env)
-		return (1);
-	if (!str[1])
-		ft_export_no_arg(env);
-	else
-		return (ft_export_arg(str, env));
-	return (0);
-}
-
-void	ft_export_no_arg(t_env **env)
+int	ft_export(char **str, t_env **env, t_line *line)
 {
 	t_env	*ptr;
 
+	if (!env)
+		return (1);
 	ptr = *env;
-	while (ptr)
+	if (!str[1])
 	{
-		if (ptr->flags == 0)
-			printf("declare -x %s=\"%s\"\n", ptr->name, ptr->var);
-		else if (ptr->flags == 1)
-			printf("declare -x %s\n", ptr->name);
-		ptr = ptr->next;
+		while (ptr)
+		{
+			ft_putstr_fd("declare -x ", line->outdir);
+			ft_putstr_fd(ptr->name, line->outdir);
+			if (ptr->flags == 0)
+			{
+				ft_putstr_fd("=\"", line->outdir);
+				ft_putstr_fd(ptr->var, line->outdir);
+				ft_putstr_fd("\"", line->outdir);
+			}
+			ft_putstr_fd("\n", line->outdir);
+			ptr = ptr->next;
+		}
+		return (0);
 	}
-	return ;
+	return (ft_export_arg(str, env));
 }
 
 int	ft_export_arg(char **str, t_env **env)
 {
 	t_env	*ptr;
 	int		i;
+	int		ret;
 
 	i = 0;
+	ret = 0;
 	ptr = *env;
 	while (ptr->next)
 		ptr = ptr->next;
 	while (str[++i])
-	{
-		printf("str=%s\n", str[i]);
-		export_replace_or_create(str[i], env, ptr);
-	}
-	return (0);
+		ret = export_replace_or_create(str[i], env, ptr);
+	return (ret);
 }
 
-void	export_replace_or_create(char *str, t_env **env, t_env *ptr)
+int	export_replace_or_create(char *str, t_env **env, t_env *ptr)
 {
 	char	**ls;
 	t_env	*tmp;
@@ -74,7 +73,7 @@ void	export_replace_or_create(char *str, t_env **env, t_env *ptr)
 		{
 			ls = ft_split_minishell(str, '=');
 			tmp = ft_get_var(ls[0], *env);
-			if (tmp == 0)
+			if (!tmp)
 				ptr->next = create_env_maillon(str, 0);
 			else
 				tmp = mod_env_maillon(str, tmp, 0);
@@ -83,9 +82,11 @@ void	export_replace_or_create(char *str, t_env **env, t_env *ptr)
 		else
 		{
 			tmp = ft_get_var(str, *env);
-			if (tmp == 0)
+			if (!tmp)
 				ptr->next = create_env_maillon(str, 1);
 		}
 		ptr = ptr->next;
+		return (0);
 	}
+	return (1);
 }

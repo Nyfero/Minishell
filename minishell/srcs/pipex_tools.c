@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 12:30:08 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 13:51:39 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_pipex_close(int *fd, int fd_in, t_pipe *data)
 
 int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 {
-	(void)arg;
 	int	i;
 
 	ft_pipex_close(fd, fd_in, data);
