@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:48:46 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 17:27:39 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 18:17:32 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,16 @@ int	ft_error(char *err)
 	return (1);
 }
 
-void	print_error_wrpath(char *s, int fd)
+void	print_error_wrpath(char *s)
 {
-	ft_putstr_fd(s, fd);
-	ft_putstr_fd("' ", fd);
-	ft_putendl_fd(WR_PATH, fd);
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd("' ", 2);
+	ft_putendl_fd(WR_PATH, 2);
+}
+
+void	print_error_idf(char *s)
+{
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd("' ", 2);
+	ft_putendl_fd(WR_IDF, 2);
 }

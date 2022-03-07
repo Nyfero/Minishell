@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 10:44:36 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:19:41 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,6 @@ int ft_parcous_arg(t_line *arg)//a suppr a la fin
 	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
 	if (arg->next != 0)
 		return (ft_parcous_arg(arg->next));
-	return (0);
-}
-
-int	ft_pipex_clean(t_line *arg, t_pipe *data)
-{
-	(void)arg;
-	int	i;
-
-	i = 0;
-	if (data->path_res)
-		free(data->path_res);
-	if (data->path)
-	{
-		while (data->path[i])
-			free(data->path[i++]);
-		free(data->path);
-	}
-	i = 0;
-	if (data->cmd_treat)
-	{
-		while (data->cmd_treat[i])
-			free(data->cmd_treat[i++]);
-		free(data->cmd_treat);
-	}
 	return (0);
 }
 
@@ -120,6 +96,8 @@ printf("pipex entry\n");//suppr
 
 ft_parcous_arg(arg);//a suppr a la fin
 
+//ft_parcours_env_perso(*env);
+
 printf("pipex sub_entry\n");//suppr
 
 	data.path = 0;
@@ -136,7 +114,6 @@ printf("pipex sub_entry\n");//suppr
 	}
 	printf("multiple CONNAND || !BUILDINT\n");//suppr
 
-	//ft_parcours_env_perso(*env);
 	if (*env)
 	{
 		res = ft_get_var("PATH", *env);

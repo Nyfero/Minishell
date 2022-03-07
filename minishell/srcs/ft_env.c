@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 17:27:06 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 18:15:10 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_env(char **str, t_env **env, t_line *line)
 	if (ft_lstrlen(str) > 1)
 	{
 		ft_putstr_fd("env: '", 2);
-		print_error_wrpath(str[1], 2);
+		print_error_wrpath(str[1]);
 		ft_free_ls(str);
 		return (1);
 	}
