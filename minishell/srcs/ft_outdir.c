@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 19:28:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 16:20:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,10 @@ int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
 {
 	int		i;
 	int		compt;
-	int		check;
 
 	i = -1;
-	check = 0;
-	if (*infile)
-		if (bis)
-			return (put_outdir_upto_last_indir(out, infile, cmd));
+	if (bis == 2)
+		return (put_outdir_upto_last_indir(out, infile, cmd));
 	while (cmd[++i])
 	{
 		compt = 0;
@@ -30,19 +27,15 @@ int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
 		{
 			i++;
 			compt++;
-			check++;
 		}
-		if (compt == 1)
+		if (compt == 1 && not_in_quotes(&cmd[i]))
 			create_out_list(out, cmd, i, 1);
-		else if (compt == 2)
+		else if (compt == 2 && not_in_quotes(&cmd[i]))
 			create_out_list(out, cmd, i, 2);
-		else if (compt > 2)
-		{
-			ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-			return (1);
-		}
+		else if (compt > 2 && not_in_quotes(&cmd[i]))
+			return (ft_error("syntax error near unexpected token `>'\n"));
 	}
-	if (check == 0)
+	if (!*out)
 		return (1);
 	return (0);
 }
@@ -52,10 +45,8 @@ int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 	int		i;
 	t_dir	*ptr;
 	int		compt;
-	int		check;
 
 	i = -1;
-	check = 0;
 	ptr = go_to_last(infile);
 	while (cmd[++i])
 	{
@@ -64,22 +55,27 @@ int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 		{
 			i++;
 			compt++;
-			check++;
 		}
-		if (ptr->pos <= i)
+		if (i <= ptr->pos)
 		{
-			if (compt == 1)
+			if (compt == 1 && not_in_quotes(&cmd[i]))
 				create_out_list(out, cmd, i, 1);
-			else if (compt == 2)
+			else if (compt == 2 && not_in_quotes(&cmd[i]))
 				create_out_list(out, cmd, i, 2);
-			else if (compt > 2)
+			else if (compt > 2 && not_in_quotes(&cmd[i]))
+				return (ft_error("syntax error near unexpected token `>'\n"));
+		}
+		else
+		{
+			if (*out)
 			{
-				ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-				return (1);
+				ptr = go_to_last(out);
+				close(ptr->fd);
 			}
+			return (1);
 		}
 	}
-	if (check == 0)
+	if (!*out)
 		return (1);
 	return (0);
 }
@@ -119,10 +115,9 @@ t_dir	*create_out_maillon(char *cmd, int i, int flag)
 	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
 		return (NULL);
+	tmp->pos = i - 1;
 	if (flag == 2)
 		tmp->pos = i - 2;
-	else
-		tmp->pos = i - 1;
 	tmp->next = NULL;
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)

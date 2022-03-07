@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 10:45:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 17:51:44 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,16 @@ int	ft_unset(char **str, t_env **env)
 {
 	t_env	*ptr;
 	int		i;
-	int		len;
+	//sint		len;
 
 	if (!*env)
-		return (127);
+		return (0);
 	i = 0;
 	while (str[++i])
 	{
-		len = ft_strlen(str[i]) + 1;
-		ptr = *env;
-		if (ft_strncmp(str[i], ptr->name, len) == 0)
+		ptr = ft_get_var(str[i], *env);
+		if (ptr)
 			del_env_maillon(ptr, env);
-		else
-		{
-			while (ptr->next)
-			{
-				if (ft_strncmp(str[i], ptr->next->name, len) == 0)
-					del_env_maillon(ptr, env);
-				ptr = ptr->next;
-			}
-		}
 	}
 	return (0);
 }

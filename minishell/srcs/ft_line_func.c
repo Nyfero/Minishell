@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 19:13:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 16:39:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,24 @@ void	create_list_line(t_line **line, int len, t_env **env)
 t_line	*create_line(t_env **env)
 {
 	t_line	*line;
-	t_env	*tmp;
 
-	tmp = NULL;
 	line = ft_calloc(sizeof(t_line), 1);
 	if (!line)
 		return (NULL);
 	line->cmd = NULL;
+	if (put_env_on_line(env, line))
+		return (NULL);
+	line->indir = 0;
+	line->outdir = 1;
+	line->next = NULL;
+	return (line);
+}
+
+int		put_env_on_line(t_env **env, t_line *line)
+{
+	t_env	*tmp;
+
+	tmp = NULL;
 	if (!*env)
 		line->env = NULL;
 	else
@@ -63,12 +74,9 @@ t_line	*create_line(t_env **env)
 	{
 		line->path = ft_split(tmp->var, ':');
 		if (!line->path)
-			return (NULL);
+			return (1);
 	}
-	line->indir = 0;
-	line->outdir = 0;
-	line->next = NULL;
-	return (line);
+	return (0);
 }
 
 void	fill_line(char *cmd, t_line *ptr, char *expand)
@@ -90,7 +98,7 @@ void	fill_line(char *cmd, t_line *ptr, char *expand)
 		tmp = go_to_last(&infile);
 	else if (ret == 2)
 		tmp = go_to_last(&here);
-	if (ret && !bis)
+	if (ret && bis != 1)
 		ptr->indir = tmp->fd;
 	ret = put_outdir(&out, &infile, bis, expand);
 	if (!ret)
@@ -98,7 +106,7 @@ void	fill_line(char *cmd, t_line *ptr, char *expand)
 		tmp = go_to_last(&out);
 		ptr->outdir = tmp->fd;
 	}
-	expand = ft_remove_redir(expand, &here, &infile, &out);
+	expand = ft_remove_redir(expand);
 	ptr->cmd = ft_strdup(expand);
 	return ;
 }

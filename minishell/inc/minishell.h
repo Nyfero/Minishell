@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 19:27:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 10:44:15 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,16 @@ typedef struct s_line
 **	outdir same things
 */
 
+typedef struct s_pipe
+{
+	char	*path_res;
+	char	**path;
+	char	**cmd_treat;
+	int		in;
+	int		out;
+
+}	t_pipe;
+
 typedef struct s_env
 {
 	char			*name;
@@ -81,6 +91,7 @@ typedef struct s_dir
 
 //	ft_error.c
 int		ft_error(char *err);
+void	print_error_wrpath(char *s, int fd);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
@@ -102,11 +113,12 @@ t_dir	*go_to_last(t_dir **list);
 
 //	ft_parsing.c
 void	parsing(t_env **env, t_line **line, char const *inpt);
-int		check_builtin(char *str, t_env **env);
+int		check_builtin(t_line *line, t_env **env);
 
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
+int		put_env_on_line(t_env **env, t_line *line);
 void	fill_line(char *cmd, t_line *ptr, char *expand);
 void	destroy_list_line(t_line **line);
 
@@ -139,11 +151,10 @@ char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_utils(char *dup, int j, t_env **env);
 
 //	ft_del_redir.c
-char	*ft_remove_redir(char *expand, t_dir **here, t_dir **infile,
-				t_dir **out);
-char	*remove_here(char *expand, t_dir **here);
-char	*remove_infile(char *expand, t_dir **infile);
-char	*remove_out(char *expand, t_dir **out);
+char	*ft_remove_redir(char *expand);
+char	*remove_here(char *expand);
+char	*remove_infile(char *expand);
+char	*remove_out(char *expand);
 
 /********************************/
 /*---------BUILTIN--------------*/
@@ -170,8 +181,8 @@ int		ft_unset(char **str, t_env **env);
 void	del_env_maillon(t_env *ptr, t_env **env);
 
 //	ft_env.c
-int		ft_env(char **str, t_env **env);
-int		ft_env_arg(char **str);
+int		ft_env(char **str, t_env **env, t_line *line);
+int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
 
 //	ft_env_func.c
@@ -184,10 +195,16 @@ t_env	*ft_get_var(char *search, t_env *env);
 //	cd.c
 int		ft_cd(char **str, t_env **env);
 
+/********************************/
+/*------------EXEC--------------*/
+/********************************/
+
+
 //	pipex_child.c
-void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path);
+void	ft_pipex_child(t_line *arg, int *fd, int fd_in, t_pipe data);
 
 //	pipex_main.c
 int		pipex_entry(t_line *arg, t_env **env);
+int		ft_pipex_clean(t_line *arg, t_pipe *data);
 
 #endif

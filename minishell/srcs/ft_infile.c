@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 19:14:50 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 13:32:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	put_infile(t_dir **infile, char *cmd)
 			i++;
 			compt++;
 		}
-		if (compt == 1)
+		if (compt == 1 && not_in_quotes(&cmd[i]))
 		{
 			compt = create_infile_list(infile, cmd, i);
 			if (compt)
-				return (1);
+				return (compt);
 		}
 	}
 	return (0);
@@ -47,16 +47,20 @@ int	create_infile_list(t_dir **infile, char *cmd, int i)
 	if (!*infile)
 	{
 		*infile = create_infile_maillon(cmd, i);
-		if (!*infile || (*infile)->fd == -1)
+		if (!*infile)
 			return (1);
+		if ((*infile)->fd == -1)
+			return (2);
 	}
 	else
 	{
 		ptr = go_to_last(infile);
 		close(ptr->fd);
 		ptr->next = create_infile_maillon(cmd, i);
-		if (!ptr->next || ptr->next->fd == -1)
+		if (!ptr->next)
 			return (1);
+		if (ptr->next->fd == -1)
+			return (2);
 	}
 	return (0);
 }

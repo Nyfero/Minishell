@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/01 10:42:44 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 15:56:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,35 @@
 //
 //	temp = ft_get_var("PWD");
 //}
+
+char	*ft_cd_cdpath(char *str, char **path)
+{
+	int		i;
+	char	*test;
+	char	*res;
+
+	i = 0;
+	if (!path || path[0] == 0)
+		return (0);
+	while (path[i])
+	{
+		test = ft_strjoin(path[i], "/");
+		if (!test)
+			return (0);
+		res = ft_strjoin(test, str);
+		free(test);
+		if (!res)
+			return (0);
+		if (access(res, F_OK | X_OK) == 0 && ft_file_access(res) == -1)
+		{
+		//	printf("PATH = %s\n", res);
+			return (res);
+		}
+		free(res);
+		i++;
+	}
+	return (0);
+}
 
 int	ft_cd_path(char *path, t_env **env, char *str)
 {
@@ -97,6 +126,9 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 int	ft_cd_alpha(char *str, t_env **env)
 {
 	t_env	*res;
+	char	**cdpath;
+	char	*temp;
+	int		ret;
 
 	(void)env;
 	(void)str;
@@ -136,6 +168,41 @@ int	ft_cd_alpha(char *str, t_env **env)
 	}
 	else /*gerer cas $$ $LANG etc... Pas besoin : checker path*/
 	{
+		//check CDPATH exist
+		printf("salut\n");
+		res = ft_get_var("CDPATH", *env);
+		printf("salut res = %p\n", res);
+		if (res && str[0] != '.')
+		{
+			cdpath = ft_split(res->var, ':');
+			if (!cdpath)
+			{
+				printf("malloc error cd.c\n");//a modifier
+				//Cannot allocate memory
+				return (12);
+			}
+
+			int i = 0;
+			while (cdpath[i])
+			{
+				printf("cdpath[%d] = %s\n", i, cdpath[i]);
+				i++;
+			}
+
+			temp = ft_cd_cdpath(str, cdpath);
+			if (!temp)
+			{
+				printf("pas de chemin trouver avec cdpath\n");//suppr
+			}
+			else
+			{
+				printf("final CDPATH= %s\n", temp);
+				ret = ft_cd_path(temp, env, str);
+				free(temp);
+				return (ret);
+			}
+		}
+
 		printf("sortie voire le cas : %s\nNormalelent cas PATH en param\n", str);
 		return (ft_cd_path(str, env, str));
 	}

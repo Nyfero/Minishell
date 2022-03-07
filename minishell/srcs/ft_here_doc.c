@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 17:10:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 13:32:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	put_here_doc(t_dir **here, char *cmd)
 			i++;
 			compt++;
 		}
-		if (compt == 2)
+		if (compt == 2 && not_in_quotes(&cmd[i]))
 		{
 			compt = create_here_list(here, cmd, i);
 			if (compt)
 				return ;
 		}
-		else if (compt > 2)
+		else if (compt > 2 && not_in_quotes(&cmd[i]))
 		{
 			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
 			return ;

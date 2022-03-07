@@ -6,89 +6,49 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/05 17:48:30 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/07 10:40:30 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pipex_close(int *fd, int fd_in, int *temp, int in)
+int	ft_pipex_close(int *fd, int fd_in, t_pipe data)
 {
 	close(fd[0]);
 	close(fd[1]);
 	if (fd_in > 0)
 		close(fd_in);
-	if (temp[0] > 2)
-		close(temp[0]);
-	if (temp[1] > 2)
-		close(temp[1]);
-	if (in > 2)
-		close(in);
+	if (data.in > 2)
+		close(data.in);
+	if (data.out > 2)
+		close(data.out);
 	return (0);
 }
 
-int	ft_pipex_check_in(t_line *arg, int fd_in, int *temp)
+int	ft_pipex_check_in(t_line *arg, int fd_in)
 {
-	int	i;
-
-	i = 0;
-	temp[0] = 0;
-	temp[1] = 0;
-	//check et recup path aboslue ou si build in maison
-	//en fonciton gerer le in
-	//priorite de < << sur entree fd_in
 	if (!arg->indir)
-	{
 		return (fd_in);
-		//lire depuis de fd
-		//rien a faire ? 1er jsp, les autres recoient normal (fd[0])
-	}
 	if (arg->indir)
-	{
-		//verifier si fichier existe, ou pas ? voir si open le fait solo
-		//open infile et dup2 file dans 0
 		return (arg->indir);
-	}
-/*	if (arg->indir )
-	{
-		if (pipe(temp) == -1)
-		{
-			printf("probleme ici \n");
-			return (-1);
-		}
-		//infile = input
-		//creation pipe avant ensuite rediriger str dans dams fd[1]
-		//passer fd[1] en 0
-		while (arg->infile[i])
-			write(temp[1], arg->infile + i++, 1);
-		return (temp[0]);
-	}*/
-	printf("test etrange,CHECK IN a supprimer\n");
-
 	return (0);
 }
 
 int	ft_pipex_check_out(t_line *arg, int *fd)
 {
-	if (!arg->outdir)
+	if (arg->outdir == 1)
 	{
 		if (arg->next == 0)
 			return (1);
 		else
 			return (fd[1]);
-		//ecrire sortie standard / sortie vers next pipe
 		return (0);
 	}
 	if (arg->outdir)
 		return (arg->outdir);
-	//ici
-	printf("test etrange, a supprimer\n");
-	//sdfss
 	return (-1);
 
 }
-
-//t_env	*ft_get_var(char *search, t_env *env)
 
 char	*ft_pipex_path(char **temp_cmd, char **path)
 {
@@ -101,7 +61,7 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 //printf("ft_pipex_path = 0\n");
 	if (!path || path[0] == 0)
 	{
-		printf("bash: %s: No such file or directory\n", temp_cmd[0]);//mettre bon message erreur
+		printf("bash: %s: No such file or directory\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
 		return (0);
 	}
 	while (path[i])
@@ -121,60 +81,54 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 		free(res);
 		i++;
 	}
-	printf("bash: %s: Command not found\n", temp_cmd[0]);//mettre bon message erreur
+	printf("bash: %s: Command not found\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
 
 	return (0);
 }
 
-void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path)
+void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 {
-	int out;
-	int	in;
-	int	temp[2];
-	char	*path_res;
-
-	char **temp_cmd;
-	temp_cmd = ft_split(arg->cmd, ' ');
-	if (temp_cmd == 0)
+	data.cmd_treat = ft_split(arg->cmd, ' ');
+	if (data.cmd_treat == 0)
 	{
-		exit (0);
+		exit (1);
 	}
 
 	//verifier path cmd / si existe  err 127
 	//verif entree , path , redir entry
 	//verif sortie , redir exi
 	//arg->env = env_to_str(arg)
-	path_res = ft_pipex_path(temp_cmd, path);
-	if (!path_res)
+	data.path_res = ft_pipex_path(data.cmd_treat, data.path);
+	if (!data.path_res)
 	{
 		//close
 		//free
 		exit (127);
 	}
-	in = ft_pipex_check_in(arg, fd_in, temp);
-	if (in == -1)
+	data.in = ft_pipex_check_in(arg, fd_in);
+	if (data.in == -1)
 	{
 //		printf("%s : %s\n", arg->outfile, strerror(errno));
-		ft_pipex_close(fd, fd_in, temp, in);
+		ft_pipex_close(fd_pipe, fd_in, data);
 		//free
 		exit (1);
 	}
-	out = ft_pipex_check_out(arg, fd);
-	if (out == -1)
+	data.out = ft_pipex_check_out(arg, fd_pipe);
+	if (data.out == -1)
 	{
 //		printf("%s : %s\n", arg->outfile, strerror(errno));
-		ft_pipex_close(fd, fd_in, temp, in);
+		ft_pipex_close(fd_pipe, fd_in, data);
 		//free
 		exit (1);
 	}
-	dup2(out, 1);//dup2 sortie
-	dup2(in, 0);
+	dup2(data.out, 1);//dup2 sortie
+	dup2(data.in, 0);
 
-	ft_pipex_close(fd, fd_in, temp, in);
-	if (out > 2)
-		close (out);
+	ft_pipex_close(fd_pipe, fd_in, data);
+	if (data.out > 2)
+		close (data.out);
 	//close les fd
-execve(path_res, temp_cmd, arg->env);
+execve(data.path_res, data.cmd_treat, arg->env);
 //printf("coucou\n");
 exit(1);
 	//free propre

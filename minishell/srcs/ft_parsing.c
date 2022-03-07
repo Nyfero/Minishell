@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 18:03:28 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/05 18:14:18 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,30 +88,27 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	return ;
 }
 
-int	check_builtin(char *str, t_env **env)
+int	check_builtin(t_line *line, t_env **env)
 {
 	char	**tmp;
 	int		ret;
 
 	ret = 0;
-	tmp = ft_split_minishell(str, ' ');
+	tmp = ft_split_minishell(line->cmd, ' ');
 	if (ft_strncmp(tmp[0], "env", 4) == 0)
-		return (ft_env(tmp, env));
+		return (ft_env(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
 		return (ft_unset(tmp, env));
-	else if (ft_strncmp(tmp[0], "export", 7) == 0)
-		return (ft_export(tmp, env));
+	/*else if (ft_strncmp(tmp[0], "export", 7) == 0)
+		return (ft_export(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
-		return (ft_cd(tmp, env));
+		return (ft_cd(tmp, env);
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
-	{
-		ft_free_ls(tmp);
-		return (-1);
-	}
+		return (ft_exit(tmp));
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
-		return (ft_pwd());
+		return (ft_pwd(line));
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
-		return (ft_echo(tmp));
+		return (ft_echo(tmp, line));*/
 	ft_free_ls(tmp);
-	return (-5);
+	return (-1);
 }
