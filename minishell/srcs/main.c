@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 15:59:36 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 13:39:38 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			printf("AMOUR\n");
 			parsing(&env, &line, inpt);
-			printf("HAINE\n");
 			if (line)
 			{
 				pipex_entry(line, &env);

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 12:11:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 14:13:54 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ typedef struct s_line
 **	2 = <<
 **	outdir same things
 */
+
+typedef struct s_pipe
+{
+	char	*path_res;
+	char	**path;
+	char	**cmd_treat;
+	int		in;
+	int		out;
+
+}	t_pipe;
 
 typedef struct s_env
 {
@@ -158,6 +168,7 @@ int		ft_pwd(void);
 //	ft_export.c
 int		ft_export(char **str, t_env **env, t_line *line);
 int		ft_export_arg(char **str, t_env **env);
+int		export_create_env(char *str, t_env **env);
 int		export_replace_or_create(char *str, t_env **env, t_env *ptr);
 
 //	ft_export_utils.c
@@ -185,10 +196,19 @@ t_env	*ft_get_var(char *search, t_env *env);
 //	cd.c
 int		ft_cd(char **str, t_env **env);
 
+/********************************/
+/*------------EXEC--------------*/
+/********************************/
+
+
 //	pipex_child.c
-void	ft_pipex_child(t_line *arg, int *fd, int fd_in, char **path);
+void	ft_pipex_child(t_line *arg, int *fd, int fd_in, t_pipe data);
 
 //	pipex_main.c
-int		pipex_entry(t_line *arg, t_env **env);
+int	pipex_entry(t_line *arg, t_env **env);
+
+// pipex_tools.c
+int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
+int	ft_pipex_close(int *fd, int fd_in, t_pipe *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/05 17:05:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 12:19:41 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,28 @@
 //
 //}
 
-int	ft_pipex(t_line *arg, int fd_in, char **path)
+int	ft_parcours_env_perso(t_env *env)//asuppra la fin
+{
+	if (env == 0)
+		return (0);
+	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
+	if (env->next)
+		ft_parcours_env_perso(env->next);
+	return (0);
+}
+
+int ft_parcous_arg(t_line *arg)//a suppr a la fin
+{
+	if (!arg)
+		return (0);
+	printf("cmd = %s\n", arg->cmd);
+	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
+	if (arg->next != 0)
+		return (ft_parcous_arg(arg->next));
+	return (0);
+}
+
+int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 {
 	pid_t	child;
 	int		fd[2];
@@ -33,27 +54,25 @@ int	ft_pipex(t_line *arg, int fd_in, char **path)
 	if (pipe(fd) == -1)//creation du pipe
 	{
 		printf("Alpha = %s\n", strerror(errno));
-		//free arg si besoin
-		return (0);
+		return (1);
 	}
 	child = fork();//creation child
 	if (child == -1)
 	{
 		printf("Bravo = %s\n", strerror(errno));
 		//close pipe
-		//free arg si besoin
-		return (0);
+		return (1);
 	}
 	if (child == 0)//envoie child
 	{
-		ft_pipex_child(arg, fd, fd_in, path);
+		ft_pipex_child(arg, fd, fd_in, data);
 	}
 	if (fd_in > 0)
 		close(fd_in);
 	close(fd[1]);
 
 	if (arg->next)//child next
-		ret = ft_pipex(arg->next, fd[0], path);
+		ret = ft_pipex(arg->next, fd[0], data);
 
 	close(fd[0]);
 	waitpid(child, &status, 0);
@@ -68,76 +87,66 @@ int	ft_pipex(t_line *arg, int fd_in, char **path)
 	return (ret);
 }
 
-int	ft_parcours_env_perso(t_env *env)
-{
-	if (env == 0)
-		return (0);
-	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
-	if (env->next)
-		ft_parcours_env_perso(env->next);
-	return (0);
-}
-
-int ft_parcous_arg(t_line *arg)
-{
-	if (!arg)
-		return (0);
-	printf("cmd = %s\n", arg->cmd);
-	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
-	if (arg->next != 0)
-		return (ft_parcous_arg(arg->next));
-	return (0);
-}
-
 int	pipex_entry(t_line *arg, t_env **env)
 {
-	(void)env;
-
-	//int i = -1;
-	char	**path;
+	t_pipe	data;
 	t_env	*res;
 
-printf("pipex entry\n");
+printf("pipex entry\n");//suppr
 
-	if (check_builtin(arg, env) != -1)
-		return (0);
-ft_parcous_arg(arg);
+ft_parcous_arg(arg);//a suppr a la fin
 
-printf("pipex sub_entry\n");
+//ft_parcours_env_perso(*env);
 
-	path = 0;
+printf("pipex sub_entry\n");//suppr
+
+	data.path = 0;
+	data.out = -1;
+	data.in= -1;
+	data.path_res = 0;
+	data.cmd_treat = 0;
 	res = 0;
 	//check_builtin();
+	if (!arg->next && check_builtin(arg, env) != -1)
+	{
+		printf("ONE CONNAND && BUILDINT\n");//suppr
+		return (0);
+	}
+	printf("multiple CONNAND || !BUILDINT\n");//suppr
 
-	if (!arg->next)
-		printf("one command\n");//alors pas de pipe
-	//ft_parcours_env_perso(*env);
 	if (*env)
 	{
 		res = ft_get_var("PATH", *env);
 		if (res)
 		{
-			path = ft_split(res->var, ':');
-			if (!path)
+			data.path = ft_split(res->var, ':');
+			if (!data.path)
 			{
-				printf("malloc error pipex entry 001\n");
+				printf("malloc error pipex entry 001\n");//a modifier
 				//Cannot allocate memory
-				return (12);
+				return (1);
 			}
-			int i = 0;
-			while (path[i])
+			int i = 0;//suppr
+			while (data.path[i])//suppr
 			{
-				printf("path[%d] = %s\n", i, path[i]);
-				i++;
+				printf("data.path[%d] = %s\n", i, data.path[i]);//suppr
+				i++;//suppr
 			}
 		}
 	}
-//printf("ALPHA %s\n", res->var);
 	//check arg
 	//changer char **env  pour fit avec le vrai
-	int resu = 0;
-	resu = ft_pipex(arg, 0, path); //t_line, int step
+	int ret = 0;
+	ret = ft_pipex(arg, 0, data); //t_line, int step
 	printf("FIN PIPEX\n");
-	return (resu);
-	//return reussite ou numero erreur
+	//free path;
+	int	j = 0;
+	while (data.path[j])
+	{
+		free(data.path[j]);
+		j++;
+	}
+	if (data.path)
+		free(data.path);
+	return (ret);
 }
