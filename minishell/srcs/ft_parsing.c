@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 16:47:05 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:12:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ int	check_builtin(t_line *line, t_env **env)
 		return (ft_export(tmp, env, line));
 	/*else if (ft_strncmp(tmp[0], "cd", 3) == 0)
 		return (ft_cd(tmp, env);*/
-	/*else if (ft_strncmp(tmp[0], "exit", 5) == 0)
+	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		return (ft_exit(tmp));
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
 		return (ft_pwd(line));
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
-		return (ft_echo(tmp, line));*/
+		return (ft_echo(tmp, line));
 	ft_free_ls(tmp);
 	return (-1);
 }

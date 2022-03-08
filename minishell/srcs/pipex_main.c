@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 17:09:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:47:45 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 
 printf("pipex entry\n");//suppr
 
-ft_parcous_arg(arg);//a suppr a la fin
+//ft_parcous_arg(arg);//a suppr a la fin
 
 //ft_parcours_env_perso(*env);
 
@@ -109,11 +109,10 @@ printf("pipex sub_entry\n");//suppr
 	//check_builtin();
 	if (!arg->next && check_builtin(arg, env) != -1)
 	{
-		printf("ONE CONNAND && BUILDINT\n");//suppr
+		printf("ONE COMMAND && BUILTIN\n");//suppr
 		return (0);
 	}
-	printf("multiple CONNAND || !BUILDINT\n");//suppr
-
+	printf("multiple COMMAND || NO BUILTIN\n");//suppr
 	if (*env)
 	{
 		res = ft_get_var("PATH", *env);
@@ -126,12 +125,12 @@ printf("pipex sub_entry\n");//suppr
 				//Cannot allocate memory
 				return (1);
 			}
-			int i = 0;//suppr
+/*			int i = 0;//suppr
 			while (data.path[i])//suppr
 			{
 				printf("data.path[%d] = %s\n", i, data.path[i]);//suppr
 				i++;//suppr
-			}
+			}*/
 		}
 	}
 	//check arg

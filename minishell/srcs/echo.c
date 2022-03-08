@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 10:44:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:09:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	check_flags(char **str)
 	int	j;
 	int	flags;
 
-	i = 1;
+	i = 0;
 	flags = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		j = 0;
 		if (str[i][j] == '-')
@@ -29,34 +29,28 @@ static int	check_flags(char **str)
 			while (str[i][j] == 'n')
 				j++;
 			if (str[i][j] == 0)
-			{
 				flags += 1;
-				i++;
-			}
-			else
-				return (ft_error("BAD FLAGS"));
 		}
-		return (flags);
+		else
+			return (flags);
 	}
-	return (ft_error("NO ARG"));
+	return (flags);
 }
 
-int	ft_echo(char **str)
+int	ft_echo(char **str, t_line *line)
 {
 	int	i;
 	int	j;
 
 	j = check_flags(str);
-	if (j == -1)
-		return (0);
-	i = j + 1;
-	while (str[i])
+	i = j;
+	while (str[++i])
 	{
-		printf("%s", str[i++]);
+		ft_putstr_fd(str[i], line->outdir);
 		if (str[i])
-			printf(" ");
+			ft_putstr_fd(" ", line->outdir);
 	}
 	if (j == 0)
-		printf("\n");
+		ft_putendl_fd("", line->outdir);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 18:15:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 17:38:10 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	ft_env(char **str, t_env **env, t_line *line)
 	{
 		if (ptr->flags == 0)
 		{
-				ft_putstr_fd(ptr->name, line->outdir);
-				ft_putstr_fd("=", line->outdir);
-				ft_putendl_fd(ptr->var, line->outdir);
+			ft_putstr_fd(ptr->name, line->outdir);
+			ft_putstr_fd("=", line->outdir);
+			ft_putendl_fd(ptr->var, line->outdir);
 		}
 		ptr = ptr->next;
 	}

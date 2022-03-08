@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 16:57:34 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 13:04:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
+			printf("AMOUR\n");
 			parsing(&env, &line, inpt);
 			printf("HAINE\n");
 			if (line)
 			{
-				ft_parcours_env_perso(env);
 				pipex_entry(line, &env);
 				add_history(inpt);
 				destroy_list_line(&line);

@@ -1,27 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 15:12:58 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 14:33:20 by gsap             ###   ########.fr       */
+/*   Created: 2022/03/08 15:14:04 by gsap              #+#    #+#             */
+/*   Updated: 2022/03/08 16:11:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_line *line)
+int	ft_exit(char **tmp)
 {
-	char	cwd[10000];
+	int	i;
 
-	if (!getcwd(cwd, sizeof(cwd)))
+	if (tmp[2])
 	{
-		perror("getcwd() error");
+		ft_putendl_fd("exit : too many arguments", 2);
 		return (1);
 	}
+	if (!tmp[1])
+	{
+		ft_putendl_fd("exit", 1);
+		exit(0);
+	}
 	else
-		ft_putendl_fd(cwd, line->outdir);
+	{
+		i = -1;
+		while (tmp[1][++i])
+		{
+			if (!ft_isdigit(tmp[1][i]))
+			{
+				ft_putstr_fd("exit : ", 2);
+				ft_putstr_fd(tmp[1], 2);
+				ft_putendl_fd(": numeric arguments required", 2);
+				exit(2);
+			}
+		}
+		ft_putendl_fd("exit", 1);
+		i = ft_atoi(tmp[1]);
+		if (i > 256)
+			i = i % 256;
+		exit(i);
+	}
 	return (0);
 }

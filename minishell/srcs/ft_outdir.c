@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 16:20:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 17:40:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
 	return (0);
 }
 
-int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
+int	put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 {
 	int		i;
 	t_dir	*ptr;
@@ -79,7 +79,6 @@ int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 		return (1);
 	return (0);
 }
-
 
 void	create_out_list(t_dir **out, char *cmd, int i, int flag)
 {
