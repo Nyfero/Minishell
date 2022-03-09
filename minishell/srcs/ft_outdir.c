@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 13:19:38 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 17:39:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
 	while (cmd[++i])
 	{
 		compt = 0;
-		while (cmd[i] == '>')
+		while (cmd[i] == '>' && bool_not_in_quotes(&cmd[i]))
 		{
 			i++;
 			compt++;
 		}
-		if (compt == 1 && bool_not_in_quotes(&cmd[i]))
+		if (compt == 1)
 			create_out_list(out, cmd, i, 1);
-		else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
+		else if (compt == 2)
 			create_out_list(out, cmd, i, 2);
-		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
+		else if (compt > 2)
 			return (ft_error("syntax error near unexpected token `>'\n"));
 	}
 	if (!*out)

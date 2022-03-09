@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/05 15:56:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/07 16:58:11 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,38 @@
 //
 //	temp = ft_get_var("PWD");
 //}
+
+
+//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Partie visiblement USELESS
+//	printf("path = -%s-\n", path);
+	/*if (!path[0])
+=======*/
+/*	if (!path[0])
+	{
+		printf("path vide\n" );
+		return (0);
+	}
+	fd = opendir(path);
+	if (fd == 0 && errno == 20)
+	{
+//		printf("OPEN\n");
+		printf("errno = %d\n", errno);
+		printf("cd: %s: %s\n", path, strerror(errno));
+		return (1);
+	}
+	if (fd != 0)
+		closedir(fd);
+	if (access(path, X_OK | F_OK) != 0)
+	{
+//		printf("ACCES\n");
+		printf("cd: %s: %s\n", path, strerror(errno));
+		return (1);
+	}*/
+//	printf("acces possible a -%s-\n", path);
+//faire le deplacement*/
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Partie visiblement inutile
+//pour ft_cd_path
+
 
 char	*ft_cd_cdpath(char *str, char **path)
 {
@@ -73,34 +105,7 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	(void)path;
 	(void)env;
 	(void)str;
-//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Partie visiblement USELESS
-//	printf("path = -%s-\n", path);
-	/*if (!path[0])
-=======*/
-/*	if (!path[0])
-	{
-		printf("path vide\n" );
-		return (0);
-	}
-	fd = opendir(path);
-	if (fd == 0 && errno == 20)
-	{
-//		printf("OPEN\n");
-		printf("errno = %d\n", errno);
-		printf("cd: %s: %s\n", path, strerror(errno));
-		return (1);
-	}
-	if (fd != 0)
-		closedir(fd);
-	if (access(path, X_OK | F_OK) != 0)
-	{
-//		printf("ACCES\n");
-		printf("cd: %s: %s\n", path, strerror(errno));
-		return (1);
-	}*/
-//	printf("acces possible a -%s-\n", path);
-//faire le deplacement*/
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Partie visiblement inutile
+
 	if (chdir(path) == -1)
 	{
 		printf("cd: %s: %s\n", path, strerror(errno));
@@ -108,7 +113,7 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	}
 
 	printf("END FT_CD_PATH (changement OLDPWD et PWD ici)\n");
-	//changer OLDPWD
+	//ft_change_OLDPWD(env);
 	//changer PWD
 
 	//si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
@@ -132,11 +137,10 @@ int	ft_cd_alpha(char *str, t_env **env)
 
 	(void)env;
 	(void)str;
-/*if (!str || str == '~' || str == "" || str == "--")*/
 	if (!str || !ft_strncmp(str, "--", 3))
 	{
 		res = ft_get_var("HOME", *env);
-		if (res)//check home existe
+		if (res)
 		{
 //			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
 			ft_cd_path(res->var, env, str);
@@ -150,7 +154,7 @@ int	ft_cd_alpha(char *str, t_env **env)
 	else if (!ft_strncmp(str, "-", 2))
 	{
 		res = ft_get_var("OLDPWD", *env);
-		if (!res)/*Verifier si OLDPWD existe*/
+		if (!res || res->flags == 1 || res->flags == 3)/*Verifier si OLDPWD existe*/
 		{
 			printf("cd: OLDPWD not set\n\n"); /*OLDPWD n'existe pas*/
 			return (1);
@@ -168,10 +172,8 @@ int	ft_cd_alpha(char *str, t_env **env)
 	}
 	else /*gerer cas $$ $LANG etc... Pas besoin : checker path*/
 	{
-		//check CDPATH exist
-		printf("salut\n");
 		res = ft_get_var("CDPATH", *env);
-		printf("salut res = %p\n", res);
+		printf("salut res = %p\n", res);//a suppr
 		if (res && str[0] != '.')
 		{
 			cdpath = ft_split(res->var, ':');
@@ -182,8 +184,8 @@ int	ft_cd_alpha(char *str, t_env **env)
 				return (12);
 			}
 
-			int i = 0;
-			while (cdpath[i])
+			int i = 0;//a suppr
+			while (cdpath[i])//a suppr
 			{
 				printf("cdpath[%d] = %s\n", i, cdpath[i]);
 				i++;
@@ -196,14 +198,14 @@ int	ft_cd_alpha(char *str, t_env **env)
 			}
 			else
 			{
-				printf("final CDPATH= %s\n", temp);
+				printf("final CDPATH= %s\n", temp);//a suppr
 				ret = ft_cd_path(temp, env, str);
 				free(temp);
 				return (ret);
 			}
 		}
 
-		printf("sortie voire le cas : %s\nNormalelent cas PATH en param\n", str);
+		printf("sortie voire le cas : %s\nNormalelent cas PATH en param\n", str);//a suppr
 		return (ft_cd_path(str, env, str));
 	}
 	return (0);

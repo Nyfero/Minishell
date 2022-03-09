@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 13:18:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 17:38:24 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	put_here_doc(t_dir **here, char *cmd)
 	while (cmd[++i])
 	{
 		compt = 0;
-		while (cmd[i] == '<')
+		while (cmd[i] == '<' && bool_not_in_quotes(&cmd[i]))
 		{
 			i++;
 			compt++;
 		}
-		if (compt == 2 && bool_not_in_quotes(&cmd[i]))
+		if (compt == 2)
 		{
 			compt = create_here_list(here, cmd, i);
 			if (compt)
@@ -105,6 +105,7 @@ t_dir	*create_here_maillon(char *cmd, int i)
 	lim = grep_indir(&cmd[i - 2]);
 	if (!lim)
 		return (NULL);
+	lim = ft_strtrim(lim, "\"");
 	tmp->len_lim = ft_strlen(lim);
 	tmp->fd = write_here_doc_on_fd(lim);
 	free(lim);

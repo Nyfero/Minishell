@@ -6,41 +6,34 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/08 15:47:45 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 17:11:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//si next == 0 pas de dup2
-//child ont leur propre env
-//si build in envoyer copie factice de env
-
-//void	ft_pipex_init(t_line *arg)
-//{
-//
-//}
-
-int	ft_parcours_env_perso(t_env *env)//asuppra la fin
-{
-	if (env == 0)
-		return (0);
-	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
-	if (env->next)
-		ft_parcours_env_perso(env->next);
-	return (0);
-}
-
-int ft_parcous_arg(t_line *arg)//a suppr a la fin
-{
-	if (!arg)
-		return (0);
-	printf("cmd = %s\n", arg->cmd);
-	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
-	if (arg->next != 0)
-		return (ft_parcous_arg(arg->next));
-	return (0);
-}
+/*
+**int	ft_parcours_env_perso(t_env *env)//asuppra la fin
+**{
+**	if (env == 0)
+**		return (0);
+**	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
+**	if (env->next)
+**		ft_parcours_env_perso(env->next);
+**	return (0);
+**}
+**
+**int ft_parcous_arg(t_line *arg)//a suppr a la fin
+**{
+**	if (!arg)
+**		return (0);
+**	printf("cmd = %s\n", arg->cmd);
+**	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
+**	if (arg->next != 0)
+**		return (ft_parcous_arg(arg->next));
+**	return (0);
+**}
+*/
 
 int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 {
@@ -53,14 +46,14 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	status = 0;
 	if (pipe(fd) == -1)//creation du pipe
 	{
-		printf("Alpha = %s\n", strerror(errno));
+		//printf("Alpha = %s\n", strerror(errno));
 		return (1);
 	}
 	child = fork();//creation child
 	if (child == -1)
 	{
-		printf("Bravo = %s\n", strerror(errno));
-		//close pipe
+		//printf("Bravo = %s\n", strerror(errno));
+		ft_pipex_close(fd, fd_in, 0);
 		return (1);
 	}
 	if (child == 0)//envoie child
@@ -91,14 +84,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 {
 	t_pipe	data;
 	t_env	*res;
-
-printf("pipex entry\n");//suppr
-
-//ft_parcous_arg(arg);//a suppr a la fin
-
-//ft_parcours_env_perso(*env);
-
-printf("pipex sub_entry\n");//suppr
+	int		ret;
 
 	data.path = 0;
 	data.out = -1;
@@ -106,13 +92,11 @@ printf("pipex sub_entry\n");//suppr
 	data.path_res = 0;
 	data.cmd_treat = 0;
 	res = 0;
-	//check_builtin();
-	if (!arg->next && check_builtin(arg, env) != -1)
-	{
-		printf("ONE COMMAND && BUILTIN\n");//suppr
-		return (0);
-	}
-	printf("multiple COMMAND || NO BUILTIN\n");//suppr
+	printf("cmd pipex=%s\n", arg->cmd);
+	ret = check_builtin(arg, env);
+	if (!arg->next && ret != -1)
+		return (ret);
+	printf("Pas cool\n");
 	if (*env)
 	{
 		res = ft_get_var("PATH", *env);
@@ -121,31 +105,16 @@ printf("pipex sub_entry\n");//suppr
 			data.path = ft_split(res->var, ':');
 			if (!data.path)
 			{
-				printf("malloc error pipex entry 001\n");//a modifier
-				//Cannot allocate memory
+				printf("Cannot allocate memory\n");//a modifier
 				return (1);
 			}
-/*			int i = 0;//suppr
-			while (data.path[i])//suppr
-			{
-				printf("data.path[%d] = %s\n", i, data.path[i]);//suppr
-				i++;//suppr
-			}*/
 		}
 	}
-	//check arg
-	//changer char **env  pour fit avec le vrai
-	int ret = 0;
-	ret = ft_pipex(arg, 0, data); //t_line, int step
-	printf("FIN PIPEX %d\n", ret);
+	ret = ft_pipex(arg, 0, data);
+	printf("FIN PIPEX\n");
 	//free path;
-	int	j = 0;
-	while (data.path[j])
-	{
-		free(data.path[j]);
-		j++;
-	}
 	if (data.path)
-		free(data.path);
+		ft_free_ls(data.path);
+	printf("ret = %d\n", ret);
 	return (ret);
 }

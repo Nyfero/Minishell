@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putstr_fd_oneline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/22 14:07:57 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 16:57:10 by gsap             ###   ########.fr       */
+/*   Created: 2022/03/09 16:58:48 by gsap              #+#    #+#             */
+/*   Updated: 2022/03/09 16:59:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd_oneline(char *s, int fd)
 {
-	int	i;
-
-	i = -1;
-	while (s[++i])
-		write(fd, &s[i], 1);
+	write(fd, &s, ft_strlen(s));
 }
