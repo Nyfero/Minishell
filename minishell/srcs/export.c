@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 12:11:02 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 17:36:08 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,45 +48,85 @@ int	ft_export(char **str, t_env **env, t_line *line)
 
 int	ft_export_arg(char **str, t_env **env)
 {
-	t_env	*ptr;
 	int		i;
+	int		tmp;
 	int		ret;
 
 	i = 0;
 	ret = 0;
-	ptr = *env;
-	while (ptr->next)
-		ptr = ptr->next;
+	tmp = 0;
+	if (!*env)
+		tmp = export_create_env(str[++i], env);
+	if (tmp)
+		ret = tmp;
 	while (str[++i])
-		ret = export_replace_or_create(str[i], env, ptr);
+	{
+		tmp = export_replace_or_create(str[i], env);
+		if (tmp && !ret)
+			ret = tmp;
+	}
 	return (ret);
 }
 
-int	export_replace_or_create(char *str, t_env **env, t_env *ptr)
+int	export_create_env(char *str, t_env **env)
 {
-	char	**ls;
-	t_env	*tmp;
-
 	if (check_valid_export(str) == 0)
 	{
 		if (format_key_value(str) == 0)
-		{
-			ls = ft_split_minishell(str, '=');
-			tmp = ft_get_var(ls[0], *env);
-			if (!tmp)
-				ptr->next = create_env_maillon(str, 0);
-			else
-				tmp = mod_env_maillon(str, tmp, 0);
-			ft_free_ls(ls);
-		}
+			*env = create_env_maillon(str, 0);
+		else
+			*env = create_env_maillon(str, 1);
+		if (!*env)
+			return (1);
+		return (0);
+	}
+	return (1);
+}
+
+int	export_replace_or_create(char *str, t_env **env)
+{
+	t_env	*tmp;
+	t_env	*ptr;
+
+	ptr = *env;
+	while (ptr->next)
+		ptr = ptr->next;
+	if (check_valid_export(str) == 0)
+	{
+		if (format_key_value(str) == 0)
+			return (export_format_key_value(str, env, ptr));
 		else
 		{
 			tmp = ft_get_var(str, *env);
 			if (!tmp)
 				ptr->next = create_env_maillon(str, 1);
+			if (!ptr->next)
+				return (1);
 		}
-		ptr = ptr->next;
 		return (0);
 	}
 	return (1);
+}
+
+int	export_format_key_value(char *str, t_env **env, t_env *ptr)
+{
+	char	**var;
+	t_env	*tmp;
+
+	var = ft_split_minishell(str, '=');
+	tmp = ft_get_var(var[0], *env);
+	if (!tmp)
+	{
+		ptr->next = create_env_maillon(str, 0);
+		if (!ptr->next)
+			return (1);
+	}
+	else
+	{
+		tmp = mod_env_maillon(var[1], tmp, 0);
+		if (!tmp)
+			return (1);
+	}
+	ft_free_ls(var);
+	return (0);
 }

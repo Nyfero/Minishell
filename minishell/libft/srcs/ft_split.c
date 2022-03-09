@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 12:35:41 by gsap              #+#    #+#             */
-/*   Updated: 2021/06/03 10:47:14 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 15:08:41 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	**ft_alloc_tab(char const *s, char c)
 		while (*s && (*s != c))
 			s++;
 	}
-	tab = (char **)malloc(sizeof(char **) * (i + 1));
+	tab = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!tab)
 		return (NULL);
 	tab[i] = NULL;

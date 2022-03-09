@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 13:51:57 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:39:55 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,6 @@ int	check_builtin(t_line *line, t_env **env)
 
 	ret = 0;
 	tmp = ft_split_minishell(line->cmd, ' ');
-
-printf("tmp[0] = %s\n", tmp[0]);//a suppr
-
 	if (ft_strncmp(tmp[0], "env", 4) == 0)
 		return (ft_env(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
@@ -105,13 +102,13 @@ printf("tmp[0] = %s\n", tmp[0]);//a suppr
 	else if (ft_strncmp(tmp[0], "export", 7) == 0)
 		return (ft_export(tmp, env, line));
 	/*else if (ft_strncmp(tmp[0], "cd", 3) == 0)
-		return (ft_cd(tmp, env);
+		return (ft_cd(tmp, env);*/
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		return (ft_exit(tmp));
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
 		return (ft_pwd(line));
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
-		return (ft_echo(tmp, line));*/
+		return (ft_echo(tmp, line));
 	ft_free_ls(tmp);
 	return (-1);
 }

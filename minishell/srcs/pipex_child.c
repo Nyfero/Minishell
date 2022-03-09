@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 17:00:26 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/09 16:14:43 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 //printf("ft_pipex_path = 0\n");
 	if (!path || path[0] == 0)
 	{
-		printf("bash: %s: No such file or directory\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
+	//	printf("bash: %s: No such file or directory\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
 		return (0);
 	}
 	while (path[i])
@@ -82,7 +82,6 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 		free(res);
 		i++;
 	}
-	printf("bash: %s: Command not found\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
 	return (0);
 }
 
@@ -92,16 +91,19 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 	t_env *test;
 
 	test = 0;
-
 	data.cmd_treat = ft_split(arg->cmd, ' ');
 	if (data.cmd_treat == 0)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
+	printf("treat A= %s\n",data.cmd_treat[0]);
+	int i = -1;
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
-	
+	printf("ALPHA %s\n", "lol" );
+	printf("treat[0][0] B= %d\n",data.cmd_treat[0][0]);
+	printf("ALPHA %s\n", "lol" );
 	init_env(&test, arg->env);
 	if (test == 0)
 	{
@@ -117,40 +119,59 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-
+	printf("avant buit\n");
 	ret = check_builtin(arg, &test);
 	if (ret != -1)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit(ret);
 	}
+		printf("treat C= %s\n",data.cmd_treat[0]);
 
-
+	char	cwd[10000];
 	data.path_res = ft_pipex_path(data.cmd_treat, data.path);
+	printf("path = %s\n", data.path_res );
 	if (!data.path_res)
 	{
-		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-		exit (127);
+		printf("0\n");
+		if (!getcwd(cwd, sizeof(cwd)))
+		{
+			printf("8\n");
+			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+			exit (127);
+		}
+		char *temp;
+		temp = ft_strjoin(cwd, "/");
+		printf("temp= %s\ntreat = %s\n",temp,  data.cmd_treat[0]);
+		if (!access(data.cmd_treat[0], F_OK | X_OK))
+			data.path_res = ft_strjoin_and_free_s1(temp, data.cmd_treat[0]);
+		if (!data.path_res)
+		{
+			if (!data.path || data.path[0] == 0)		
+				printf("bash: %s: No such file or directory\n", data.cmd_treat[0]);//mettre bon message erreur sur bonne sortie
+			else
+				printf("bash: %s: Command not found\n", data.cmd_treat[0]);//mettre bon message erreur sur bonne sortie
+			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+			exit (2);
+		}
 	}
-	//data.in = ft_pipex_check_in(arg, fd_in);
-	if (data.in == -1)
+	printf("8\n");
+//data.in = ft_pipex_check_in(arg, fd_in);
+	if (data.in == -1 || data.out == -1)
 	{
-//		printf("%s : %s\n", arg->outfile, strerror(errno));
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-		exit (1);
-	}
-	//data.out = ft_pipex_check_out(arg, fd_pipe);
-	if (data.out == -1)
-	{
-//		printf("%s : %s\n", arg->outfile, strerror(errno));
-		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-		exit (1);
+		exit (3);
 	}
 	dup2(data.out, 1);
 	dup2(data.in, 0);
 
 	ft_pipex_close(fd_pipe, fd_in, &data);
+//execve(data.path_res, data.cmd_treat, arg->env);
+i = 0;
+while (data.cmd_treat[i])
+	printf("data.cmd_treat= %s\n", data.cmd_treat[i++]);
 execve(data.path_res, data.cmd_treat, arg->env);
+
 ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 exit(1);
 

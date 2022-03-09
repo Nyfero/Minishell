@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 11:48:30 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/08 13:04:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	line = NULL;
 	env = NULL;
-	init_env(&env, envp);
+	if (init_env(&env, envp))
+		exit(1);
 	//init_signal();
 	while (1)
 	{

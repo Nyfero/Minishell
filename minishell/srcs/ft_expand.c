@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/04 15:00:07 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/08 18:47:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_expand(char const *inpt, t_env **env)
 	while (dup[++i])
 	{
 		j = -1;
-		while (++j < 3)
+		while (dup[i][++j])
 			dup[i] = ft_expand_utils(dup[i], j, env);
 		if (i > 0)
 		{
@@ -47,14 +47,14 @@ char	*ft_expand_utils(char *dup, int j, t_env **env)
 
 	if (dup[j] == '$')
 	{
-		if (dup[j + 1] && dup[1] != '<' && dup[j + 1] != '$')
+		if (dup[j + 1] && dup[1] != '<' && dup[j + 1] != '>')
 		{
 			ptr = ft_get_var(&dup[j + 1], *env);
 			if (ptr)
 			{
 				tmp = ft_substr(dup, 0, j);
-				tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
 				free(dup);
+				tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
 				dup = tmp;
 			}
 			else

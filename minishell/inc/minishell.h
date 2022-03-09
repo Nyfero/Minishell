@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/07 16:57:38 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:40:23 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_pipe
 	char	**cmd_treat;
 	int		in;
 	int		out;
-
 }	t_pipe;
 
 typedef struct s_env
@@ -160,33 +159,38 @@ char	*remove_out(char *expand);
 /********************************/
 
 //	echo.c
-int		ft_echo(char **str);
+int		ft_echo(char **str, t_line *line);
+
+//	exit.c
+int		ft_exit(char **tmp);
 
 //	pwd.c
-int		ft_pwd(void);
+int		ft_pwd(t_line *line);
 
-//	ft_export.c
+//	export.c
 int		ft_export(char **str, t_env **env, t_line *line);
 int		ft_export_arg(char **str, t_env **env);
-int		export_replace_or_create(char *str, t_env **env, t_env *ptr);
+int		export_create_env(char *str, t_env **env);
+int		export_replace_or_create(char *str, t_env **env);
+int		export_format_key_value(char *str, t_env **env, t_env *ptr);
 
 //	ft_export_utils.c
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
 
-//	ft_unset.c
+//	unset.c
 int		ft_unset(char **str, t_env **env);
 int		check_meta(char *s);
 int		check_token(char *s);
 void	del_env_maillon(t_env *ptr, t_env **env);
 
-//	ft_env.c
+//	env.c
 int		ft_env(char **str, t_env **env, t_line *line);
 int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
 
 //	ft_env_func.c
-void	init_env(t_env **env, char **envp);
+int		init_env(t_env **env, char **envp);
 t_env	*create_env_maillon(char *str, int flags);
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags);
 void	destroy_env(t_env **env);
@@ -203,15 +207,14 @@ void	ft_change_OLDPWD(t_env **env);
 /*------------EXEC--------------*/
 /********************************/
 
-
 //	pipex_child.c
 void	ft_pipex_child(t_line *arg, int *fd, int fd_in, t_pipe data);
 
 //	pipex_main.c
-int	pipex_entry(t_line *arg, t_env **env);
+int		pipex_entry(t_line *arg, t_env **env);
 
 // pipex_tools.c
-int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
-int	ft_pipex_close(int *fd, int fd_in, t_pipe *data);
+int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
+int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
 
 #endif
