@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 13:32:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 13:19:04 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	put_infile(t_dir **infile, char *cmd)
 			i++;
 			compt++;
 		}
-		if (compt == 1 && not_in_quotes(&cmd[i]))
+		if (compt == 1 && bool_not_in_quotes(&cmd[i]))
 		{
 			compt = create_infile_list(infile, cmd, i);
 			if (compt)

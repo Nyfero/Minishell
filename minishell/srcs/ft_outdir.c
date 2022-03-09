@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 17:40:19 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 13:19:38 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
 			i++;
 			compt++;
 		}
-		if (compt == 1 && not_in_quotes(&cmd[i]))
+		if (compt == 1 && bool_not_in_quotes(&cmd[i]))
 			create_out_list(out, cmd, i, 1);
-		else if (compt == 2 && not_in_quotes(&cmd[i]))
+		else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
 			create_out_list(out, cmd, i, 2);
-		else if (compt > 2 && not_in_quotes(&cmd[i]))
+		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
 			return (ft_error("syntax error near unexpected token `>'\n"));
 	}
 	if (!*out)
@@ -58,11 +58,11 @@ int	put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 		}
 		if (i <= ptr->pos)
 		{
-			if (compt == 1 && not_in_quotes(&cmd[i]))
+			if (compt == 1 && bool_not_in_quotes(&cmd[i]))
 				create_out_list(out, cmd, i, 1);
-			else if (compt == 2 && not_in_quotes(&cmd[i]))
+			else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
 				create_out_list(out, cmd, i, 2);
-			else if (compt > 2 && not_in_quotes(&cmd[i]))
+			else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
 				return (ft_error("syntax error near unexpected token `>'\n"));
 		}
 		else

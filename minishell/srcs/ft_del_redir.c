@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 13:47:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 13:49:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 13:20:30 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*remove_here(char *expand)
 	while (expand[++i])
 	{
 		compt = 0;
-		while (expand[i] == '<' && not_in_quotes(&expand[i]))
+		while (expand[i] == '<' && bool_not_in_simple(&expand[i]))
 		{
 			i++;
 			compt++;
@@ -51,7 +51,7 @@ char	*remove_here(char *expand)
 				i++;
 			while (expand[i] && ((expand[i] != ' ' && expand[i] != '|'
 				&& expand[i] != '<' && expand[i] != '>')
-					|| !not_in_quotes(&expand[i])))
+					|| !bool_not_in_quotes(&expand[i])))
 				i++;
 			after = ft_strdup(" ");
 			while (compt++ < i)
@@ -79,7 +79,7 @@ char	*remove_infile(char *expand)
 	while (expand[++i])
 	{
 		compt = 0;
-		while (expand[i] == '<' && not_in_quotes(&expand[i]))
+		while (expand[i] == '<' && bool_not_in_quotes(&expand[i]))
 		{
 			i++;
 			compt++;
@@ -95,7 +95,7 @@ char	*remove_infile(char *expand)
 				i++;
 			while (expand[i] && ((expand[i] != ' ' && expand[i] != '|'
 					&& expand[i] != '<' && expand[i] != '>')
-						|| !not_in_quotes(&expand[i])))
+						|| !bool_not_in_quotes(&expand[i])))
 				i++;
 			after = ft_strdup(" ");
 			while (compt++ < i)
@@ -123,7 +123,7 @@ char	*remove_out(char *expand)
 	while (expand[++i])
 	{
 		compt = 0;
-		while (expand[i] == '>' && not_in_quotes(&expand[i]))
+		while (expand[i] == '>' && bool_not_in_quotes(&expand[i]))
 		{
 			i++;
 			compt++;
@@ -144,7 +144,7 @@ char	*remove_out(char *expand)
 				i++;
 			while (expand[i] && ((expand[i] != ' ' && expand[i] != '|'
 					&& expand[i] != '<' && expand[i] != '>')
-						|| !not_in_quotes(&expand[i])))
+						|| !bool_not_in_quotes(&expand[i])))
 				i++;
 			after = ft_strdup(" ");
 			while (compt++ < i)

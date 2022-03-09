@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 16:39:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 11:59:21 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		put_env_on_line(t_env **env, t_line *line)
 	return (0);
 }
 
-void	fill_line(char *cmd, t_line *ptr, char *expand)
+void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
 {
 	t_dir	*here;
 	t_dir	*infile;
@@ -106,8 +106,8 @@ void	fill_line(char *cmd, t_line *ptr, char *expand)
 		tmp = go_to_last(&out);
 		ptr->outdir = tmp->fd;
 	}
-	expand = ft_remove_redir(expand);
-	ptr->cmd = ft_strdup(expand);
+	expand = ft_remove_redir(cmd);
+	ptr->cmd = ft_strdup(ft_expand(expand, env));
 	return ;
 }
 

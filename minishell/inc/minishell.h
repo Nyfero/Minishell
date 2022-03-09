@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 17:36:15 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/09 13:14:08 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,12 @@ void	handle_sigquit(int sig);
 //	ft_tools.c
 int		ft_dir_access(char *str);
 int		ft_file_access(char	*str);
-int		not_in_quotes(char const *s);
 t_dir	*go_to_last(t_dir **list);
+
+//	ft_quotes.c
+int		bool_not_in_quotes(char const *s);
+int		bool_not_in_simple(char const *s);
+int		bool_not_in_double(char const *s);
 
 /********************************/
 /*---------PARSING--------------*/
@@ -117,7 +121,7 @@ int		check_builtin(t_line *line, t_env **env);
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
 int		put_env_on_line(t_env **env, t_line *line);
-void	fill_line(char *cmd, t_line *ptr, char *expand);
+void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env);
 void	destroy_list_line(t_line **line);
 
 //	ft_limiteur.c
