@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 14:15:19 by gsap              #+#    #+#             */
-/*   Updated: 2021/05/28 10:25:29 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 17:06:09 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_is_sep(char c, char const *sep)
 	return (0);
 }
 
-size_t	compt_deb(char const *s1, char const *set)
+static int	compt_deb(char const *s1, char const *set)
 {
 	size_t	i;
 
@@ -36,45 +36,39 @@ size_t	compt_deb(char const *s1, char const *set)
 	return (i);
 }
 
-size_t	compt_fin(char const *s1, char const *set)
+static int	compt_fin(char const *s1, char const *set)
 {
-	size_t	x;
+	size_t	compt;
 	size_t	i;
 
-	x = 0;
-	i = 0;
-	while (s1[i])
-		i++;
-	if (i > 1)
+	compt = 0;
+	i = ft_strlen(s1) - 1;
+	while (i > 0 && ft_is_sep(s1[i], set))
 	{
+		compt++;
 		i--;
-		while (ft_is_sep(s1[i], set))
-		{
-			x++;
-			i--;
-		}
 	}
-	return (x);
+	return (compt);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*str;
-	size_t	i;
-	size_t	x;
+	int	i;
+	int	x;
 
 	if (!s1)
 		return (NULL);
 	if (!set)
-		str = ft_strdup(s1);
+		return (ft_strdup(s1));
 	else
 	{
 		i = compt_deb(s1, set);
 		x = compt_fin(s1, set);
-		if ((i - x) < ft_strlen(s1))
+		if ((i - x) < (int)ft_strlen(s1))
 			str = ft_substr(s1, i, ft_strlen(s1) - (i + x));
 		else
-			return (NULL);
+			return (ft_strdup(s1));
 	}
 	return (str);
 }

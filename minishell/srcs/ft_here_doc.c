@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 17:38:24 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 16:01:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	create_here_list(t_dir **here, char *cmd, int i)
 	if (!*here)
 	{
 		*here = create_here_maillon(cmd, i);
-		if (!*here)
+		if (!*here || (*here)->fd == -1)
 			return (1);
 	}
 	else
@@ -87,7 +87,7 @@ int	create_here_list(t_dir **here, char *cmd, int i)
 		ptr = go_to_last(here);
 		close(ptr->fd);
 		ptr->next = create_here_maillon(cmd, i);
-		if (!ptr->next)
+		if (!ptr->next || ptr->next->fd == -1)
 			return (1);
 	}
 	return (0);
@@ -101,15 +101,13 @@ t_dir	*create_here_maillon(char *cmd, int i)
 	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
 		return (NULL);
-	tmp->pos = i - 2;
-	lim = grep_indir(&cmd[i - 2]);
+	tmp->fd = -1;
+	tmp->next = NULL;
+	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (NULL);
-	lim = ft_strtrim(lim, "\"");
-	tmp->len_lim = ft_strlen(lim);
+		return (tmp);
 	tmp->fd = write_here_doc_on_fd(lim);
 	free(lim);
-	tmp->next = NULL;
 	return (tmp);
 }
 
@@ -123,6 +121,8 @@ int	check_last_indir(char const *cmd)
 	int		i;
 
 	i = ft_strlen(cmd) - 1;
+	/*if (cmd[i] == '<')
+		return (0);*/
 	while (i >= 0)
 	{
 		if (cmd[i] == '<' && bool_not_in_quotes(&cmd[i]))

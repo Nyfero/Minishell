@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 18:18:47 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 15:20:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	put_infile(t_dir **infile, char *cmd)
 			i++;
 			compt++;
 		}
-		printf("compt %d\n", compt);
 		if (compt == 1)
 		{
 			compt = create_infile_list(infile, cmd, i);
@@ -75,19 +74,14 @@ t_dir	*create_infile_maillon(char *cmd, int i)
 	if (!tmp)
 		return (NULL);
 	tmp->pos = i - 1;
+	tmp->fd = -1;
 	tmp->next = NULL;
-	lim = grep_indir(&cmd[i - 2]);
-	printf("lim:%s\n", lim);
+	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-	{
-		tmp->fd = -1;
 		return (tmp);
-	}
-	lim = ft_strtrim(lim, "\"");
-	tmp->len_lim = ft_strlen(lim);
 	if (check_infile_access(lim))
 	{
-		tmp->fd = -1;
+		free(lim);
 		return (tmp);
 	}
 	tmp->fd = open(lim, O_RDONLY);

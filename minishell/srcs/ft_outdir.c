@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 17:39:05 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 16:05:22 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,11 @@ t_dir	*create_out_maillon(char *cmd, int i, int flag)
 	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
 		return (NULL);
-	tmp->pos = i - 1;
-	if (flag == 2)
-		tmp->pos = i - 2;
+	tmp->fd = -1;
 	tmp->next = NULL;
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (NULL);
-	tmp->len_lim = ft_strlen(lim);
+		return (tmp);
 	if (flag == 1)
 		tmp->fd = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else

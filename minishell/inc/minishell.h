@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 16:19:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 17:19:02 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_env
 typedef struct s_dir
 {
 	int				pos;
-	int				len_lim;
 	int				fd;
 	struct s_dir	*next;
 }	t_dir;
@@ -108,6 +107,8 @@ t_dir	*go_to_last(t_dir **list);
 int		bool_not_in_quotes(char const *s);
 int		bool_not_in_simple(char const *s);
 int		bool_not_in_double(char const *s);
+char	*del_double(char *lim);
+char	*del_quotes(char *lim);
 
 /********************************/
 /*---------PARSING--------------*/

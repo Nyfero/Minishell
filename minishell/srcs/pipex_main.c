@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/09 17:11:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 13:38:20 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	pipex_entry(t_line *arg, t_env **env)
 	ret = check_builtin(arg, env);
 	if (!arg->next && ret != -1)
 		return (ret);
-	printf("Pas cool\n");
 	if (*env)
 	{
 		res = ft_get_var("PATH", *env);

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 13:13:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 13:13:23 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 17:19:04 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,29 @@ int	bool_not_in_double(char const *s)
 	if ((compt % 2))
 		return (0);
 	return (1);
+}
+
+char	*del_double(char *lim)
+{
+	char 	*tmp;
+
+	tmp = ft_strtrim(lim, "\"");
+	if (!tmp)
+		return (NULL);
+	return (tmp);
+}
+
+char	*del_quotes(char *lim)
+{
+	char	*tmp;
+	char	*tmp_bis;
+
+	tmp = ft_strtrim(lim, "\"");
+	if (!tmp)
+		return (NULL);
+	tmp_bis = ft_strtrim(tmp, "\'");
+	free(tmp);
+	if (!tmp_bis)
+		return (NULL);
+	return (tmp_bis);
 }

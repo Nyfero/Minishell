@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/09 18:15:51 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 13:38:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ t_dir	*go_to_last(t_dir **list)
 {
 	t_dir	*ptr;
 
-	printf("list %p\n", *list);
 	ptr = *list;
 	while (ptr->next != NULL)
 		ptr = ptr->next;
-	printf("ptr->fd:%d\n", ptr->fd);
 	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 18:14:36 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 16:14:01 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,34 +91,29 @@ void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
 	here = NULL;
 	infile = NULL;
 	out = NULL;
-	printf("ici\n");
 	put_here_doc(&here, cmd);
-	printf("ici\n");
  	bis = put_infile(&infile, expand);
-	printf("bis = %d\n", bis);
 	ret = check_last_indir(cmd);
-	printf("ret = %d\n", ret);
-	if (ret == 1)
+	if (ret)
 	{
-		tmp = go_to_last(&infile);
+		if (ret == 1)
+			tmp = go_to_last(&infile);
+		else
+			tmp = go_to_last(&here);
 		if (!tmp)
-			printf("error\n");
+			ptr->indir = -1;
 	}
-	else if (ret == 2)
-		tmp = go_to_last(&here);
 	if (ret && bis != 1)
 		ptr->indir = tmp->fd;
-	printf("ici\n");
 	ret = put_outdir(&out, &infile, bis, expand);
 	if (!ret)
 	{
 		tmp = go_to_last(&out);
 		ptr->outdir = tmp->fd;
 	}
-	printf("ici\n");
 	expand = ft_remove_redir(cmd);
-	printf("ici\n");
 	ptr->cmd = ft_strdup(ft_expand(expand, env));
+	ptr->cmd = del_quotes(ptr->cmd);
 	return ;
 }
 

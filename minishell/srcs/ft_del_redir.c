@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 13:47:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 16:25:24 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 13:39:58 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ char	*ft_remove_redir(char *expand)
 {
 	char	*tmp;
 
-	printf("before tmp:%s\n", expand);
 	tmp = remove_here(expand);
 	tmp = remove_infile(tmp);
 	tmp = remove_out(tmp);
-	printf("after tmp:%s\n", tmp);
 	return (tmp);
 }
 
