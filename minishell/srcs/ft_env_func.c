@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 14:29:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/12 09:09:19 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,15 @@ t_env	*create_env_maillon(char *str, int flags)
 
 t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 {
+printf("ALPHA %s\n", "1");//suppr
 	if (ptr->var)
 		free(ptr->var);
+printf("ALPHA %s\n", "2");//suppr
 	ptr->var = NULL;
 	ptr->flags = flags;
+printf("ALPHA %s\n", "3");//suppr
 	ptr->var = ft_strdup(str);
+printf("ALPHA %s\n", "4");//suppr
 	if (!ptr->var)
 		return (0);
 	return (ptr);

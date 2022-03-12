@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 18:19:53 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/12 08:48:24 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int		ft_cd(char **str, t_env **env);
 
 //	cd_tools.c
 
-void	ft_change_OLDPWD(t_env **env);
+int	ft_change_OLDPWD(t_env **env);
 
 /********************************/
 /*------------EXEC--------------*/

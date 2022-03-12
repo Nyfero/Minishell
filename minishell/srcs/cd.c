@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/09 18:19:48 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/12 09:01:13 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,9 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	}
 
 	printf("END FT_CD_PATH (changement OLDPWD et PWD ici)\n");
-	//ft_change_OLDPWD(env);
+	ft_change_OLDPWD(env);
 	//changer PWD
+	printf("SUB CHANGEMENT\n");
 
 	//si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 	//sinon add fin avec = t_env	*create_env_maillon(char *str, int flags)

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/09 18:15:00 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/12 09:11:47 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env	*ft_last_env(t_env	*env)
 	return (env);
 }
 
-void	ft_change_OLDPWD(t_env **env)
+int	ft_change_OLDPWD(t_env **env)
 {
 	t_env	*old;
 	t_env	*pwd;
@@ -34,21 +34,23 @@ void	ft_change_OLDPWD(t_env **env)
 	pwd = ft_get_var("PWD", *env);
 	if (!old)//unset creer
 	{
+		printf("OLD UNSET\n");//suppr
 		temp = ft_last_env(*env);
 		if (!pwd || pwd->flags % 2 == 1)// pwd == 1 / 3
 		{
-			create_env_maillon(temp,"OLDPWD", 3);
+			temp->next = create_env_maillon("OLDPWD", 3);
 
 			//3
 		}
 		else // 0 / 2
 		{
-			create_env_maillon(temp, wd->var, 2);
+			temp->next = create_env_maillon(pwd->var, 2);
 			//2
 		}
 	}
 	else if (old->flags % 2 == 1)// old pwd == 1 / 3
 	{
+		printf("OLD impair\n");//suppr
 		if (!pwd ||pwd->flags % 2 == 1)// pwd == 1 / 3
 		{
 			old = mod_env_maillon("", old, old->flags);
@@ -67,7 +69,8 @@ void	ft_change_OLDPWD(t_env **env)
 	}
 	else if (old->flags % 2 == 0)//old == 0 / 2
 	{
-		if (pwd->flags % 2 == 1)// pwd == 1 / 3
+		printf("OLD paire\n");//suppr
+		if (!pwd || pwd->flags % 2 == 1)// pwd == 1 / 3
 		{
 			old = mod_env_maillon("", old, old->flags + 1);
 			if (!old)
@@ -82,4 +85,5 @@ void	ft_change_OLDPWD(t_env **env)
 			//inchange
 		}
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/12 08:16:38 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/12 08:53:06 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 {
 	int		ret;
 	t_env	*test;
-	//char	cwd[10000];
+	char 	*temp;
+	char	cwd[10000];
 
 	test = 0;
 	data.cmd_treat = ft_split(arg->cmd, ' ');
@@ -136,41 +137,43 @@ printf("Alpha 1\n");
 		{
 			printf("! data path\n");
 		}
-		char *temp;
 
-		char	cwd[10000];
-
-		if (!getcwd(cwd, sizeof(cwd)))
+		if (!data.path_res)
 		{
-			perror("getcwd() error");
-			exit (1);
-		}
-		temp = ft_strjoin(cwd, "/");
-		if (!temp)
-			exit (1);
-		temp = ft_strjoin_and_free_s1(temp, data.cmd_treat[0]);
-		if (!temp)
-			exit (1);
-		if (!access(temp, F_OK))//check si dans dossier si oui passer comme '.' '/'
-		{// exactement pareil que cas '.' '/'
-			printf("path unset mais cmd trouver\n");//a suppr
-			if (ft_file_access(data.cmd_treat[0]) == -1)
+			if (!getcwd(cwd, sizeof(cwd)))
 			{
-				printf("bash: %s: Is a directory\n", data.cmd_treat[0]);
-				ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-				exit (126);
+				perror("getcwd() error");
+				exit (1);
 			}
-			else if (ft_file_access(data.cmd_treat[0]) == 0)
-			{
-				printf("bash: %s: No such file or directory\n", data.cmd_treat[0]);//mettre bon message erreur sur bonne sortie
-				ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-				exit (127);
+			temp = ft_strjoin(cwd, "/");
+			if (!temp)
+				exit (1);
+			data.path_res = ft_strjoin_and_free_s1(temp, data.cmd_treat[0]);
+			if (!data.path_res)
+				exit (1);
+			if (!access(temp, F_OK) && !data.path)//check si dans dossier si oui passer comme '.' '/'
+			{// exactement pareil que cas '.' '/'
+				printf("path unset mais cmd trouver\n");//a suppr
+				if (ft_file_access(data.cmd_treat[0]) == -1)
+				{
+					printf("bash: %s: Is a directory\n", data.cmd_treat[0]);//modif
+					ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+					exit (126);
+				}
+				else if (ft_file_access(data.cmd_treat[0]) == 0)
+				{
+					printf("bash: %s: No such file or directory\n", data.cmd_treat[0]);//mettre bon message erreur sur bonne sortie
+					ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+					exit (127);
+				}
+				else if (access(data.cmd_treat[0] , F_OK | X_OK))
+				{
+					printf("bash: %s: Permission denied\n", data.cmd_treat[0]);//modif
+					exit (126);
+				}
+
 			}
-			else if (access(data.cmd_treat[0] , F_OK | X_OK))
-			{
-				printf("bash: %s: Permission denied\n", data.cmd_treat[0]);
-				exit (126);
-			}
+
 		}
 		else if (data.path && data.path_res == 0)
 		{
@@ -187,15 +190,15 @@ printf("Alpha 1\n");
 		printf("path unset mais cmd trouvervalide \n");
 	}
 
-printf("Alpha 1.b\n");
+printf("Alpha 1.b\n");//suppr
 
 
-printf("Alpha 2\n");
+printf("Alpha 2\n");//suppr
 	if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
 	{
 		if (ft_file_access(data.cmd_treat[0]) == -1)
 		{
-			printf("bash: %s: Is a directory\n", data.cmd_treat[0]);
+			printf("bash: %s: Is a directory\n", data.cmd_treat[0]);//modif
 			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 			exit (126);
 		}
@@ -207,7 +210,7 @@ printf("Alpha 2\n");
 		}
 		else if (access(data.cmd_treat[0] , F_OK | X_OK))
 		{
-			printf("bash: %s: Permission denied\n", data.cmd_treat[0]);
+			printf("bash: %s: Permission denied\n", data.cmd_treat[0]);//modif
 			exit (126);
 		}
 	}
