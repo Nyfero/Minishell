@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/09 15:38:02 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/12 08:26:29 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,21 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.path_res = 0;
 	data.cmd_treat = 0;
 	res = 0;
-	if (!arg->next && check_builtin(arg, env) != -1)
+
+	if (!arg->next)
 	{
+		printf("coucou 0built in solo test\n");
 		ret = check_builtin(arg, env);
 		if (ret != -1)
 			return (ret);
 	}
 	if (*env)
 	{
+		printf("coucou 0\n");
 		res = ft_get_var("PATH", *env);
 		if (res)
 		{
+			printf("coucou 1\n");
 			data.path = ft_split(res->var, ':');
 			if (!data.path)
 			{
@@ -113,8 +117,9 @@ int	pipex_entry(t_line *arg, t_env **env)
 	}
 	ret = ft_pipex(arg, 0, data);
 	printf("FIN PIPEX\n");
+	printf("ret = %d\n", ret);
 	//free path;
-	if (data.path)
+	if (data.path )
 		ft_free_ls(data.path);
 	printf("ret = %d\n", ret);
 	return (ret);

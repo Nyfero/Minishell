@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 14:07:57 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 15:38:31 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/10 14:40:26 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	ft_putstr_fd(char *s, int fd)
 
 	i = 0;
 	if (s)
-		write(fd, &s, ft_strlen(s));
+		write(fd, s, ft_strlen(s));
 }
