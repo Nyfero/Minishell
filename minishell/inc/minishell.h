@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 09:27:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 11:32:14 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ int		check_nbr_pipe(char **cmd, char const *inpt);
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
-int		put_env_on_line(t_env **env, t_line *line);
 void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env);
 void	destroy_list_line(t_line **line);
 
@@ -157,7 +156,7 @@ t_dir	*create_out_maillon(char *cmd, int i, int flag);
 
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
-char	*ft_expand_utils(char *dup, int j, t_env **env);
+char	*ft_expand_var(char *dup, int j, t_env **env);
 
 //	ft_del_redir.c
 char	*ft_remove_redir(char *expand);

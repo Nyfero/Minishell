@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 09:43:58 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 11:30:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,12 @@ t_line	*create_line(t_env **env)
 	if (!line)
 		return (NULL);
 	line->cmd = NULL;
-	if (put_env_on_line(env, line))
-		return (NULL);
+	line->env = env_to_str(env);
+	line->path = NULL;
 	line->indir = 0;
 	line->outdir = 1;
 	line->next = NULL;
 	return (line);
-}
-
-int		put_env_on_line(t_env **env, t_line *line)
-{
-	t_env	*tmp;
-
-	tmp = NULL;
-	if (!*env)
-		line->env = NULL;
-	else
-	{
-		line->env = env_to_str(env);
-		tmp = ft_get_var("PATH", *env);
-	}
-	if (!tmp)
-		line->path = NULL;
-	else
-	{
-		line->path = ft_split(tmp->var, ':');
-		if (!line->path)
-			return (1);
-	}
-	return (0);
 }
 
 void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
