@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/14 08:57:17 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:09:05 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,8 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 	char	*res;
 
 	i = 0;
-	//check built in
-//printf("ft_pipex_path = 0\n");
 	if (!path || path[0] == 0)
-	{
-	//	printf("bash: %s: No such file or directory\n", temp_cmd[0]);//mettre bon message erreur sur bonne sortie
 		return (0);
-	}
 	while (path[i])
 	{
 		test = ft_strjoin(path[i], "/");
@@ -61,10 +56,7 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 		if (!res)
 			return (0);
 		if (access(res, F_OK) == 0)
-		{
-		//	printf("PATH = %s\n", res);
 			return (res);
-		}
 		free(res);
 		i++;
 	}
@@ -174,6 +166,12 @@ printf("Alpha 1\n");
 				}
 
 			}
+			else if (access(data.path_res, F_OK))
+			{
+				printf("bash: %s: No such file or directory\n", data.cmd_treat[0]);//mettre bon message erreur sur bonne sortie
+				ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+				exit (127);
+			}
 
 		}
 		else if (data.path && data.path_res == 0)
@@ -181,12 +179,6 @@ printf("Alpha 1\n");
 			printf("bash: %s: Command not found\n", data.cmd_treat[0]);//modifier
 			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 			exit (127);
-		}
-		else if (!data.path_res)
-		{
-			printf("bash: %s: No such file or directory\n", data.cmd_treat[0]);//mettre bon message erreur sur bonne sortie
-			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-			exit (127);//exit 127
 		}
 		printf("path set\n");//a suppr
 	}
@@ -227,6 +219,7 @@ i = 0;//suppr
 while (data.cmd_treat[i])//suppr
 	printf("end data.cmd_treat= %s\n", data.cmd_treat[i++]);//suppr
 printf("EXEC\n");//a suppr
+
 if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
 	execve(data.cmd_treat[0], data.cmd_treat, arg->env);
 execve(data.path_res, data.cmd_treat, arg->env);

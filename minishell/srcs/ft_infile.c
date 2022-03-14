@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 13:32:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 08:50:50 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	put_infile(t_dir **infile, char *cmd)
 	while (cmd[++i])
 	{
 		compt = 0;
-		while (cmd[i] == '<')
+		while (cmd[i] == '<' && bool_not_in_quotes(&cmd[i]))
 		{
 			i++;
 			compt++;
 		}
-		if (compt == 1 && not_in_quotes(&cmd[i]))
+		if (compt == 1)
 		{
 			compt = create_infile_list(infile, cmd, i);
 			if (compt)
@@ -74,17 +74,14 @@ t_dir	*create_infile_maillon(char *cmd, int i)
 	if (!tmp)
 		return (NULL);
 	tmp->pos = i - 1;
+	tmp->fd = -1;
 	tmp->next = NULL;
-	lim = grep_indir(&cmd[i - 2]);
+	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-	{
-		tmp->fd = -1;
 		return (tmp);
-	}
-	tmp->len_lim = ft_strlen(lim);
 	if (check_infile_access(lim))
 	{
-		tmp->fd = -1;
+		free(lim);
 		return (tmp);
 	}
 	tmp->fd = open(lim, O_RDONLY);
@@ -112,6 +109,29 @@ int	check_infile_access(char *lim)
 			ft_putstr_fd(": Is a directory\n", 2);
 		free(lim);
 		return (1);
+	}
+	return (0);
+}
+
+/*
+**	Une fonction qui me dis si j'ai en dernier un here doc ou un infile
+**	Renvoie 2 si here_doc, 1 si infile et 0 sinon
+*/
+
+int	check_last_indir(char const *cmd)
+{
+	int		i;
+
+	i = ft_strlen(cmd) - 1;
+	while (i >= 0)
+	{
+		if (cmd[i] == '<' && bool_not_in_quotes(&cmd[i]))
+		{
+			if ((i - 1) >= 0 && cmd[i - 1] == '<')
+				return (2);
+			return (1);
+		}
+		i--;
 	}
 	return (0);
 }

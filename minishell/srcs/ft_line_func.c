@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_line_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 16:39:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 11:32:03 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,38 +48,15 @@ t_line	*create_line(t_env **env)
 	if (!line)
 		return (NULL);
 	line->cmd = NULL;
-	if (put_env_on_line(env, line))
-		return (NULL);
+	line->env = env_to_str(env);
+	line->path = NULL;
 	line->indir = 0;
 	line->outdir = 1;
 	line->next = NULL;
 	return (line);
 }
 
-int		put_env_on_line(t_env **env, t_line *line)
-{
-	t_env	*tmp;
-
-	tmp = NULL;
-	if (!*env)
-		line->env = NULL;
-	else
-	{
-		line->env = env_to_str(env);
-		tmp = ft_get_var("PATH", *env);
-	}
-	if (!tmp)
-		line->path = NULL;
-	else
-	{
-		line->path = ft_split(tmp->var, ':');
-		if (!line->path)
-			return (1);
-	}
-	return (0);
-}
-
-void	fill_line(char *cmd, t_line *ptr, char *expand)
+void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
 {
 	t_dir	*here;
 	t_dir	*infile;
@@ -88,16 +65,22 @@ void	fill_line(char *cmd, t_line *ptr, char *expand)
 	int		ret;
 	int		bis;
 
+	(void)env;
 	here = NULL;
 	infile = NULL;
 	out = NULL;
 	put_here_doc(&here, cmd);
  	bis = put_infile(&infile, expand);
 	ret = check_last_indir(cmd);
-	if (ret == 1)
-		tmp = go_to_last(&infile);
-	else if (ret == 2)
-		tmp = go_to_last(&here);
+	if (ret)
+	{
+		if (ret == 1)
+			tmp = go_to_last(&infile);
+		else
+			tmp = go_to_last(&here);
+		if (!tmp)
+			ptr->indir = -1;
+	}
 	if (ret && bis != 1)
 		ptr->indir = tmp->fd;
 	ret = put_outdir(&out, &infile, bis, expand);
@@ -106,8 +89,8 @@ void	fill_line(char *cmd, t_line *ptr, char *expand)
 		tmp = go_to_last(&out);
 		ptr->outdir = tmp->fd;
 	}
-	expand = ft_remove_redir(expand);
-	ptr->cmd = ft_strdup(expand);
+	expand = ft_remove_redir(cmd);
+	ptr->cmd = del_quotes(expand);
 	return ;
 }
 

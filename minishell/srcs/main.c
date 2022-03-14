@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 13:04:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 14:37:54 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	//init_signal();
 	while (1)
 	{
+		init_signal();
 		inpt = readline("Prompt> ");
 		if (!inpt)
 		{
@@ -38,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("AMOUR\n");
 			parsing(&env, &line, inpt);
 			printf("HAINE\n");
+			//printf("line->in:%d\nline->out:%d\n", line->indir, line->outdir);
 			if (line)
 			{
 				pipex_entry(line, &env);

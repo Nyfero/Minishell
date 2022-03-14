@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/02/28 10:45:15 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 16:10:26 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	handle_sigint(int sig)
 	if (sig == 0)
 		;
 	printf("\nPrompt> ");
+
 }
 
 /*
@@ -40,6 +41,7 @@ void	handle_sigint(int sig)
 */
 void	handle_sigquit(int sig)
 {
+	ft_putstr_fd("\b\b  \b\b", 1);
 	if (sig == 0)
 		;
 }

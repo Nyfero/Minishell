@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 11:53:43 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/03 14:33:47 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/10 14:24:36 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*grep_indir(char const *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '<' && not_in_quotes(&str[i]))
+		if (str[i] == '<' && bool_not_in_quotes(&str[i]))
 		{
 			j = i;
 			while (str[i] == '<')
@@ -51,9 +51,12 @@ char	*get_limiteur(const char *str)
 	if (str[i] == '<' || str[i] == '>')
 		return (error_limiteur(str[i]));
 	while (str[i] && ((str[i] != ' ' && str[i] != '|' && str[i] != '<'
-				&& str[i] != '>') || !not_in_quotes(&str[i])))
+				&& str[i] != '>') || !bool_not_in_quotes(&str[i])))
 		i++;
 	lim = ft_substr(str, j, i - j);
+	if (!lim)
+		return (NULL);
+	lim = del_quotes(lim);
 	if (!lim)
 		return (NULL);
 	return (lim);
@@ -61,7 +64,7 @@ char	*get_limiteur(const char *str)
 
 char	*error_limiteur(const char str)
 {
-	if (str == 0)
+	if (!str)
 		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
 	else if (str == '<')
 		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);

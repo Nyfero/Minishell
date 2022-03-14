@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 08:46:42 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:32:18 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_env
 typedef struct s_dir
 {
 	int				pos;
-	int				len_lim;
 	int				fd;
 	struct s_dir	*next;
 }	t_dir;
@@ -90,6 +89,7 @@ typedef struct s_dir
 int		ft_error(char *err);
 void	print_error_wrpath(char *s);
 void	print_error_idf(char *s);
+void	warning_here_doc(char *s, int x);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
@@ -102,8 +102,14 @@ void	handle_sigquit(int sig);
 //	ft_tools.c
 int		ft_dir_access(char *str);
 int		ft_file_access(char	*str);
-int		not_in_quotes(char const *s);
 t_dir	*go_to_last(t_dir **list);
+
+//	ft_quotes.c
+int		bool_not_in_quotes(char const *s);
+int		bool_not_in_simple(char const *s);
+int		bool_not_in_double(char const *s);
+char	*del_double(char *lim);
+char	*del_quotes(char *lim);
 
 /********************************/
 /*---------PARSING--------------*/
@@ -113,11 +119,14 @@ t_dir	*go_to_last(t_dir **list);
 void	parsing(t_env **env, t_line **line, char const *inpt);
 int		check_builtin(t_line *line, t_env **env);
 
+//	ft_check_pipe.c
+int		check_pipe(char **cmd, char const *inpt);
+int		check_nbr_pipe(char **cmd, char const *inpt);
+
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
-int		put_env_on_line(t_env **env, t_line *line);
-void	fill_line(char *cmd, t_line *ptr, char *expand);
+void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env);
 void	destroy_list_line(t_line **line);
 
 //	ft_limiteur.c
@@ -127,16 +136,17 @@ char	*error_limiteur(const char str);
 
 //	ft_here_doc.c
 int		write_here_doc_on_fd(char *lim);
+void	get_here_doc(char *lim, int fd[2]);
 void	put_here_doc(t_dir **here, char *cmd);
 int		create_here_list(t_dir **here, char *cmd, int i);
 t_dir	*create_here_maillon(char *cmd, int i);
-int		check_last_indir(char const *cmd);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
 int		create_infile_list(t_dir **infile, char *cmd, int i);
 t_dir	*create_infile_maillon(char *cmd, int i);
 int		check_infile_access(char *lim);
+int		check_last_indir(char const *cmd);
 
 //	ft_outdir.c
 int		put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd);

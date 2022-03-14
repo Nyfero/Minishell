@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/05 13:32:33 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 09:42:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 int	write_here_doc_on_fd(char *lim)
 {
 	int		fd[2];
-	char	*line;
-	int		i;
 
 	if (pipe(fd) == -1)
 	{
@@ -28,7 +26,21 @@ int	write_here_doc_on_fd(char *lim)
 		return (-1);
 	}
 	write(1, "here_doc>", 9);
+	get_here_doc(lim, fd);
+	close(fd[1]);
+	return (fd[0]);
+}
+
+void	get_here_doc(char *lim, int fd[2])
+{
+	char	*line;
+	int		i;
+	int		x;
+
+	x = 1;
 	line = get_next_line(0);
+	if (!line)
+		return (warning_here_doc(lim, x));
 	while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
 		i = 0;
@@ -37,11 +49,12 @@ int	write_here_doc_on_fd(char *lim)
 		write(fd[1], "\n", 1);
 		free(line);
 		write(1, "here_doc>", 9);
+		x++;
 		line = get_next_line(0);
+		if (!line)
+			return (warning_here_doc(lim, x));
 	}
-	close(fd[1]);
 	free(line);
-	return (fd[0]);
 }
 
 void	put_here_doc(t_dir **here, char *cmd)
@@ -53,20 +66,20 @@ void	put_here_doc(t_dir **here, char *cmd)
 	while (cmd[++i])
 	{
 		compt = 0;
-		while (cmd[i] == '<')
+		while (cmd[i] == '<' && bool_not_in_quotes(&cmd[i]))
 		{
 			i++;
 			compt++;
 		}
-		if (compt == 2 && not_in_quotes(&cmd[i]))
+		if (compt == 2)
 		{
 			compt = create_here_list(here, cmd, i);
 			if (compt)
 				return ;
 		}
-		else if (compt > 2 && not_in_quotes(&cmd[i]))
+		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
 		{
-			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+			ft_putendl_fd("syntax error near unexpected token `<'", 2);
 			return ;
 		}
 	}
@@ -79,7 +92,7 @@ int	create_here_list(t_dir **here, char *cmd, int i)
 	if (!*here)
 	{
 		*here = create_here_maillon(cmd, i);
-		if (!*here)
+		if (!*here || (*here)->fd == -1)
 			return (1);
 	}
 	else
@@ -87,7 +100,7 @@ int	create_here_list(t_dir **here, char *cmd, int i)
 		ptr = go_to_last(here);
 		close(ptr->fd);
 		ptr->next = create_here_maillon(cmd, i);
-		if (!ptr->next)
+		if (!ptr->next || ptr->next->fd == -1)
 			return (1);
 	}
 	return (0);
@@ -101,36 +114,12 @@ t_dir	*create_here_maillon(char *cmd, int i)
 	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
 		return (NULL);
-	tmp->pos = i - 2;
-	lim = grep_indir(&cmd[i - 2]);
+	tmp->fd = -1;
+	tmp->next = NULL;
+	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (NULL);
-	tmp->len_lim = ft_strlen(lim);
+		return (tmp);
 	tmp->fd = write_here_doc_on_fd(lim);
 	free(lim);
-	tmp->next = NULL;
 	return (tmp);
-}
-
-/*
-**	Une fonction qui me dis si j'ai en dernier un here doc ou un infile
-**	Renvoie 2 si here_doc, 1 si infile et 0 sinon
-*/
-
-int	check_last_indir(char const *cmd)
-{
-	int		i;
-
-	i = ft_strlen(cmd) - 1;
-	while (i >= 0)
-	{
-		if (cmd[i] == '<' && not_in_quotes(&cmd[i]))
-		{
-			if ((i - 1) >= 0 && cmd[i - 1] == '<')
-				return (2);
-			return (1);
-		}
-		i--;
-	}
-	return (0);
 }

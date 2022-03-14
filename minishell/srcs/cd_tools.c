@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/14 10:02:38 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 10:57:24 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 //si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 	//sinon add fin avec = t_env	*create_env_maillon(char *str, int flags)
+
+//cas unset PATH;export PATH; 
 
 t_env	*ft_last_env(t_env	*env)
 {
@@ -28,22 +30,43 @@ int	ft_change_PWD(t_env **env)
 {
 	t_env	*pwd;
 	t_env	*temp;
+	char	*str;
+	char	cwd[10000];
 
 	pwd = ft_get_var("PWD", *env);
+	if (!getcwd(cwd, sizeof(cwd)))
+	{
+		perror("getcwd() error");//modifier
+		return (1);
+	}
+	printf("cwd =%s\n", cwd);//suppr
 	if (!pwd)
 	{
 		temp = ft_last_env(*env);
-		temp->next = create_env_maillon("PWD", 2);
-		//create
+		str = ft_strjoin("PWD=", cwd);
+		if (!str)
+			return (1);
+		temp->next = create_env_maillon(str, 2);
+		free(str);
 	}
 	else if (pwd->flags == 3 || pwd->flags == 2)
 	{
-
+		pwd = mod_env_maillon(cwd, pwd, 2);
+		if (!pwd)
+			return (1);
 	}
 	else if (pwd->flags == 0 || pwd->flags == 1)
 	{
-		
+		pwd = mod_env_maillon(cwd, pwd, 0);
+		if (!pwd)
+			return (1);
 	}
+	printf("search new pwd\n");//suppr
+	pwd = ft_get_var("PWD", *env);//suppr
+	printf("pwd->flags = %d\n", pwd->flags);//suppr
+	printf("pwd->name = %s\n", pwd->name);//suppr
+	printf("pwd->var = %s\n", pwd->var);//suppr
+	printf("end search new pwd\n");//suppr
 	return (0);
 }
 
@@ -74,6 +97,7 @@ int	ft_change_OLDPWD(t_env **env)
 				return (1);
 			printf("str= %s\n", str);//suppr
 			temp->next = create_env_maillon(str, 2);//probleme oldpwd apparait pas dans echo
+			free(str);
 			//2
 		}
 	}
