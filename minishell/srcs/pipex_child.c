@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/12 08:53:06 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 08:57:17 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,10 @@ printf("Alpha 1\n");
 		data.path_res = ft_pipex_path(data.cmd_treat, data.path);
 		if (!data.path || !data.path[0])
 		{
-			printf("! data path\n");
+			printf("! data path\n");//a suppr
 		}
 
+	printf("data.path_res = %s\n", data.path_res);
 		if (!data.path_res)
 		{
 			if (!getcwd(cwd, sizeof(cwd)))
@@ -187,7 +188,7 @@ printf("Alpha 1\n");
 			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 			exit (127);//exit 127
 		}
-		printf("path unset mais cmd trouvervalide \n");
+		printf("path set\n");//a suppr
 	}
 
 printf("Alpha 1.b\n");//suppr

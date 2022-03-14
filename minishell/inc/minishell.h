@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/12 08:48:24 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 08:46:42 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,5 +216,7 @@ int		pipex_entry(t_line *arg, t_env **env);
 // pipex_tools.c
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
+int		ft_change_PWD(t_env **env);
+
 
 #endif

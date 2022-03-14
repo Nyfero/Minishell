@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/12 08:26:29 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 09:21:19 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.cmd_treat = 0;
 	res = 0;
 
+	printf("debut pipex\n");//suppr
 	if (!arg->next)
 	{
 		printf("coucou 0built in solo test\n");
