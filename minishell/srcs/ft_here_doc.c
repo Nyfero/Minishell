@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/10 16:01:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 09:42:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 int	write_here_doc_on_fd(char *lim)
 {
 	int		fd[2];
-	char	*line;
-	int		i;
 
 	if (pipe(fd) == -1)
 	{
@@ -28,7 +26,21 @@ int	write_here_doc_on_fd(char *lim)
 		return (-1);
 	}
 	write(1, "here_doc>", 9);
+	get_here_doc(lim, fd);
+	close(fd[1]);
+	return (fd[0]);
+}
+
+void	get_here_doc(char *lim, int fd[2])
+{
+	char	*line;
+	int		i;
+	int		x;
+
+	x = 1;
 	line = get_next_line(0);
+	if (!line)
+		return (warning_here_doc(lim, x));
 	while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
 		i = 0;
@@ -37,11 +49,12 @@ int	write_here_doc_on_fd(char *lim)
 		write(fd[1], "\n", 1);
 		free(line);
 		write(1, "here_doc>", 9);
+		x++;
 		line = get_next_line(0);
+		if (!line)
+			return (warning_here_doc(lim, x));
 	}
-	close(fd[1]);
 	free(line);
-	return (fd[0]);
 }
 
 void	put_here_doc(t_dir **here, char *cmd)
@@ -66,7 +79,7 @@ void	put_here_doc(t_dir **here, char *cmd)
 		}
 		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
 		{
-			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+			ft_putendl_fd("syntax error near unexpected token `<'", 2);
 			return ;
 		}
 	}
@@ -109,29 +122,4 @@ t_dir	*create_here_maillon(char *cmd, int i)
 	tmp->fd = write_here_doc_on_fd(lim);
 	free(lim);
 	return (tmp);
-}
-
-/*
-**	Une fonction qui me dis si j'ai en dernier un here doc ou un infile
-**	Renvoie 2 si here_doc, 1 si infile et 0 sinon
-*/
-
-int	check_last_indir(char const *cmd)
-{
-	int		i;
-
-	i = ft_strlen(cmd) - 1;
-	/*if (cmd[i] == '<')
-		return (0);*/
-	while (i >= 0)
-	{
-		if (cmd[i] == '<' && bool_not_in_quotes(&cmd[i]))
-		{
-			if ((i - 1) >= 0 && cmd[i - 1] == '<')
-				return (2);
-			return (1);
-		}
-		i--;
-	}
-	return (0);
 }

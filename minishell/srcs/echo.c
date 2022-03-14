@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 17:04:41 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 09:38:24 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	ft_echo(char **str, t_line *line)
 	int	i;
 	int	j;
 
+	if (!str)
+	{
+		ft_putendl_fd("", line->outdir);
+		return (0);
+	}
 	j = check_flags(str);
 	i = j;
 	while (str[++i])

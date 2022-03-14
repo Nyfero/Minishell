@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/10 17:19:02 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 09:27:10 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_dir
 int		ft_error(char *err);
 void	print_error_wrpath(char *s);
 void	print_error_idf(char *s);
+void	warning_here_doc(char *s, int x);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
@@ -118,6 +119,10 @@ char	*del_quotes(char *lim);
 void	parsing(t_env **env, t_line **line, char const *inpt);
 int		check_builtin(t_line *line, t_env **env);
 
+//	ft_check_pipe.c
+int		check_pipe(char **cmd, char const *inpt);
+int		check_nbr_pipe(char **cmd, char const *inpt);
+
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
@@ -132,16 +137,17 @@ char	*error_limiteur(const char str);
 
 //	ft_here_doc.c
 int		write_here_doc_on_fd(char *lim);
+void	get_here_doc(char *lim, int fd[2]);
 void	put_here_doc(t_dir **here, char *cmd);
 int		create_here_list(t_dir **here, char *cmd, int i);
 t_dir	*create_here_maillon(char *cmd, int i);
-int		check_last_indir(char const *cmd);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
 int		create_infile_list(t_dir **infile, char *cmd, int i);
 t_dir	*create_infile_maillon(char *cmd, int i);
 int		check_infile_access(char *lim);
+int		check_last_indir(char const *cmd);
 
 //	ft_outdir.c
 int		put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd);
@@ -205,7 +211,6 @@ t_env	*ft_get_var(char *search, t_env *env);
 int		ft_cd(char **str, t_env **env);
 
 //	cd_tools.c
-
 void	ft_change_OLDPWD(t_env **env);
 
 /********************************/
