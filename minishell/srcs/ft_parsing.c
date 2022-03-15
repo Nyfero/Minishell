@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 09:26:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 10:34:18 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 		i++;
 		ptr = ptr->next;
 	}
-	ft_free_ls(cmd);
+	free(cmd);
 	return ;
 }
 

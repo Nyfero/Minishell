@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 13:13:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/10 17:19:04 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 11:04:31 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ int	bool_not_in_simple(char const *s)
 	int	i;
 
 	compt = 0;
-	i = -1;
-	while(s[++i])
+	i = 0;
+	while(s[i])
+	{
 		if (s[i] == '\'')
 			compt++;
+		i++;
+	}
 	if ((compt % 2))
 		return (0);
 	return (1);
@@ -44,10 +47,13 @@ int	bool_not_in_double(char const *s)
 	int	i;
 
 	compt = 0;
-	i = -1;
-	while(s[++i])
-		if (s[i] == '\"')
+	i = 0;
+	while(s[i])
+	{
+		if (s[++i] == '\"')
 			compt++;
+		i++;
+	}
 	if ((compt % 2))
 		return (0);
 	return (1);
@@ -56,24 +62,68 @@ int	bool_not_in_double(char const *s)
 char	*del_double(char *lim)
 {
 	char 	*tmp;
+	char	*after;
+	int		i;
 
-	tmp = ft_strtrim(lim, "\"");
-	if (!tmp)
+	i = -1;
+	while (lim[++i])
+	{
+		if (lim[i] == '\"' && bool_not_in_simple(&lim[i]))
+		{
+			tmp = ft_substr(lim, 0, i);
+			if (lim[i + 1])
+			{
+				after = ft_substr(lim, i + 1, ft_strlen(lim) - i);
+				free(lim);
+				lim = ft_strjoin_and_free_all(tmp, after);
+			}
+			else
+			{
+				free(lim);
+				lim = ft_strdup(tmp);
+				free(tmp);
+			}
+			if (!lim)
+				return (NULL);
+		}
+	}
+	if (!lim)
 		return (NULL);
-	return (tmp);
+	return (lim);
 }
 
 char	*del_quotes(char *lim)
 {
-	char	*tmp;
-	char	*tmp_bis;
+	char 	*tmp;
+	char	*after;
+	int		i;
 
-	tmp = ft_strtrim(lim, "\"");
-	if (!tmp)
+	i = 0;
+	while (lim[i])
+	{
+		if ((lim[i] == '\"' && bool_not_in_simple(&lim[i]))
+			|| (lim[i] == '\'' && bool_not_in_double(&lim[i])))
+		{
+			tmp = ft_substr(lim, 0, i);
+			if (lim[i + 1])
+			{
+				after = ft_substr(lim, i + 1, ft_strlen(lim) - i);
+				free(lim);
+				lim = ft_strjoin_and_free_all(tmp, after);
+			}
+			else
+			{
+				free(lim);
+				lim = ft_strdup(tmp);
+				free(tmp);
+			}
+			if (!lim)
+				return (NULL);
+		}
+		else
+			i++;
+	}
+	if (!lim)
 		return (NULL);
-	tmp_bis = ft_strtrim(tmp, "\'");
-	free(tmp);
-	if (!tmp_bis)
-		return (NULL);
-	return (tmp_bis);
+	return (lim);
 }

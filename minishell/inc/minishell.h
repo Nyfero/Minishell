@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 11:32:14 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 10:09:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,16 @@ t_dir	*create_out_maillon(char *cmd, int i, int flag);
 
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
-char	*ft_expand_var(char *dup, int j, t_env **env);
+char	*ft_expand_var(char *dup, t_env **env);
+char	*expand_no_quotes(char *dup, int i, t_env **env);
+char	*expand_with_quotes(char *dup, int i, t_env **env);
+t_env	*check_good_expand(char *str, int i, t_env **env);
 
 //	ft_del_redir.c
 char	*ft_remove_redir(char *expand);
-char	*remove_here(char *expand);
-char	*remove_infile(char *expand);
-char	*remove_out(char *expand);
+char	*remove_infile(char *expand, int i);
+char	*remove_out(char *expand, int i);
+char	*blank_replace(char *tmp, char *expand, int i, int compt);
 
 /********************************/
 /*---------BUILTIN--------------*/

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 11:44:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 12:00:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_expand(char const *inpt, t_env **env)
 		else
 			expand = ft_strdup(dup[i]);
 	}
-	printf("expand = %s\n", expand);
+	free(dup);
 	return (expand);
 }
 
@@ -46,7 +46,6 @@ char	*ft_expand(char const *inpt, t_env **env)
 char	*ft_expand_var(char *dup, t_env **env)
 {
 	char	*tmp;
-	t_env	*ptr;
 	int		i;
 
 	i = -1;
@@ -58,7 +57,6 @@ char	*ft_expand_var(char *dup, t_env **env)
 				tmp = expand_no_quotes(dup, i, env);
 			else
 				tmp = expand_with_quotes(dup, i, env);
-			free(dup);
 			return (tmp);
 		}
 	}
@@ -76,7 +74,6 @@ char	*expand_no_quotes(char *dup, int i, t_env **env)
 		tmp = ft_substr(dup, 0, i);
 		if (!tmp)
 			return (NULL);
-		free(dup);
 		tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
 		if (!tmp)
 			return (NULL);
@@ -86,7 +83,35 @@ char	*expand_no_quotes(char *dup, int i, t_env **env)
 		tmp = ft_substr(dup, 0, i);
 		if (!tmp)
 			return (NULL);
-		free(dup);
+	}
+	return (tmp);
+}
+
+char	*expand_with_quotes(char *dup, int i, t_env **env)
+{
+	t_env	*ptr;
+	char	*tmp;
+
+	tmp = del_double(dup);
+	printf("tmp = %s\n", tmp);
+	if (!bool_not_in_simple(&tmp[i]))
+		return (del_quotes(tmp));
+	tmp = del_quotes(tmp);
+	ptr = check_good_expand(tmp, i, env);
+	if (ptr)
+	{
+		tmp = ft_substr(dup, 0, i);
+		if (!tmp)
+			return (NULL);
+		tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
+		if (!tmp)
+			return (NULL);
+	}
+	else
+	{
+		tmp = ft_substr(dup, 0, i);
+		if (!tmp)
+			return (NULL);
 	}
 	return (tmp);
 }
@@ -95,7 +120,6 @@ t_env	*check_good_expand(char *str, int i, t_env **env)
 {
 	char	*tmp;
 	t_env	*ptr;
-	int		j;
 
 	if (str[i + 1])
 		tmp = ft_strdup(&str[i + 1]);
@@ -103,10 +127,12 @@ t_env	*check_good_expand(char *str, int i, t_env **env)
 		return (NULL);
 	if (!tmp)
 		return (NULL);
-	ptr = ft_get_var(str, *env);
+	if (tmp[i] == '<' || tmp[i] == '>')
+	{
+		free(tmp);
+		return (NULL);
+	}
+	ptr = ft_get_var(tmp, *env);
 	free(tmp);
 	return (ptr);
 }
-if (dup[j + 1] && dup[j + 1] != '<' && dup[j + 1] != '>')
-{
-	ptr = ft_get_var(&dup[j + 1], *env);
