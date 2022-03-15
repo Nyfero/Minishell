@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 09:21:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 09:26:07 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 18:08:50 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	check_pipe(char **cmd, char const *inpt)
 			return (1);
 		}
 	}
+	if (check_quotes(inpt))
+		return (1);
 	return (0);
 }
 
@@ -59,6 +61,31 @@ int	check_nbr_pipe(char **cmd, char const *inpt)
 	if (compt != ft_lstrlen(cmd) - 1)
 	{
 		ft_putendl_fd("syntax error near unexpected token `|'", 2);
+		return (1);
+	}
+	return (0);
+}
+
+int	check_quotes(char const *inpt)
+{
+	int	i;
+	int	compt_1;
+	int	compt_2;
+
+	i = 0;
+	compt_1 = 0;
+	compt_2 = 0;
+	while (inpt[i])
+	{
+		if (inpt[i] == '\'' && compt_2 % 2 == 0)
+			compt_1++;
+		if (inpt[i] == '\"' && compt_1 % 2 == 0)
+			compt_2++;
+		i++;
+	}
+	if (compt_1 % 2 || compt_2 % 2)
+	{
+		ft_putendl_fd("syntax error near `'' or `\"'", 2);
 		return (1);
 	}
 	return (0);

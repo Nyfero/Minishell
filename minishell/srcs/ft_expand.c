@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 12:00:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 18:09:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ char	*ft_expand(char const *inpt, t_env **env)
 	char	*expand;
 	int		i;
 
-	if (!*env)
-		return ((char *)inpt);
+
 	dup = ft_split_minishell(inpt, ' ');
 	i = -1;
 	expand = NULL;
 	while (dup[++i])
 	{
+		printf("dup[i] = %s\n", dup[i]);
 		dup[i] = ft_expand_var(dup[i], env);
+		printf("0\n");
 		if (i > 0)
 		{
 			expand = ft_strjoin_and_free_s1(expand, " ");
@@ -33,15 +34,12 @@ char	*ft_expand(char const *inpt, t_env **env)
 		}
 		else
 			expand = ft_strdup(dup[i]);
+		printf("expand:%s\n", expand);
 	}
-	free(dup);
+	if (dup)
+		free(dup);
 	return (expand);
 }
-
-/*
-**	2 Cas: soit $ est dans des quotes soit il ne l'est pas. S'il ne l'est pas i
-**	est bon sinon je dois retirer de i les quotes.
-*/
 
 char	*ft_expand_var(char *dup, t_env **env)
 {
@@ -54,24 +52,24 @@ char	*ft_expand_var(char *dup, t_env **env)
 		if (dup[i] == '$')
 		{
 			if (bool_not_in_quotes(&dup[i]))
-				tmp = expand_no_quotes(dup, i, env);
+				tmp = expand_no_quotes(dup, env);
 			else
-				tmp = expand_with_quotes(dup, i, env);
+				tmp = expand_with_quotes(dup, env);
 			return (tmp);
 		}
 	}
 	return (dup);
 }
 
-char	*expand_no_quotes(char *dup, int i, t_env **env)
+char	*expand_no_quotes(char *dup, t_env **env)
 {
 	t_env	*ptr;
 	char	*tmp;
 
-	ptr = check_good_expand(dup, i, env);
+	ptr = check_good_expand(dup, get_dolls(dup), env);
 	if (ptr)
 	{
-		tmp = ft_substr(dup, 0, i);
+		tmp = ft_substr(dup, 0, get_dolls(dup));
 		if (!tmp)
 			return (NULL);
 		tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
@@ -80,27 +78,81 @@ char	*expand_no_quotes(char *dup, int i, t_env **env)
 	}
 	else
 	{
-		tmp = ft_substr(dup, 0, i);
+		tmp = ft_substr(dup, 0, get_dolls(dup));
 		if (!tmp)
 			return (NULL);
 	}
 	return (tmp);
 }
 
-char	*expand_with_quotes(char *dup, int i, t_env **env)
+char	*jgourlin(char *tmp, t_env **env, int *nb)
 {
+	int		i;
 	t_env	*ptr;
-	char	*tmp;
+	char	*bis;
+printf("bravo 1\n");
+	i = 1;
+	while (ft_isalpha(tmp[i]) || tmp[i] == '_')
+		i++;
+	bis = ft_substr(tmp, 1, i - 1);
+	if (!bis)
+		return (NULL);
+	ptr = ft_get_var(bis, *env);
+	free(bis);
+	*nb += i;
+	printf("bravo 2\n");
+	if (ptr)
+		return (ptr->var);
+	else
+		return (NULL);
+}
 
-	tmp = del_double(dup);
-	printf("tmp = %s\n", tmp);
-	if (!bool_not_in_simple(&tmp[i]))
-		return (del_quotes(tmp));
-	tmp = del_quotes(tmp);
-	ptr = check_good_expand(tmp, i, env);
+char	*expand_with_quotes(char *dup, t_env **env)
+{
+	printf("deb truc dup = |%s|\n", dup);
+	char	*tmp;
+	char	*res;
+printf("alpha jgour 0\n");
+	if (dup[0] == '\'')
+		return (del_simple(dup));
+
+	int	i = 1;
+	int j = 1;
+	tmp = NULL;
+	res = NULL;
+	printf("alpha 1\ndup=%s\n", dup);
+	res = ft_strdup("");
+	while (dup[i] && dup[i] != '\"')
+	{
+		printf("alpha 2\n");
+		if (dup[i] == '$')
+		{
+			printf("alpha 3 i=%02d\n",i);//suppr
+			printf("i=%d j=%d", i, j);//suppr
+			if (i != j)
+			{
+				tmp = ft_substr(dup, j, i - 1);
+				res = ft_strjoin_and_free_all(res, tmp);
+				printf("test_0 = |%s|\n", res);//suppr
+			}
+
+
+			tmp = jgourlin(dup + i, env, &i);
+			res = ft_strjoin_and_free_s1(res, tmp);
+			printf("i=(%02d)test_1 = %s\n", i, res);//suppr
+
+			j = i;
+		}
+		i++;
+	}
+	printf("alpha 4`\n");
+	printf("fianl=|%s|\n", res);
+	/*tmp = del_quotes(dup);
+	printf("tmp:%s\n", tmp);
+	ptr = check_good_expand(del_quotes(tmp), get_dolls(tmp), env);
 	if (ptr)
 	{
-		tmp = ft_substr(dup, 0, i);
+		tmp = ft_substr(dup, 0, get_dolls(tmp));
 		if (!tmp)
 			return (NULL);
 		tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
@@ -109,11 +161,12 @@ char	*expand_with_quotes(char *dup, int i, t_env **env)
 	}
 	else
 	{
-		tmp = ft_substr(dup, 0, i);
+		tmp = ft_substr(dup, 0, get_dolls(tmp));
 		if (!tmp)
 			return (NULL);
-	}
-	return (tmp);
+	}*/
+
+	return (res);
 }
 
 t_env	*check_good_expand(char *str, int i, t_env **env)
@@ -121,13 +174,14 @@ t_env	*check_good_expand(char *str, int i, t_env **env)
 	char	*tmp;
 	t_env	*ptr;
 
-	if (str[i + 1])
-		tmp = ft_strdup(&str[i + 1]);
-	else
-		return (NULL);
+	tmp = ft_strdup(&str[i + 1]);
+	free(str);
 	if (!tmp)
 		return (NULL);
-	if (tmp[i] == '<' || tmp[i] == '>')
+	printf("str:%s\n", tmp);
+	if (!tmp)
+		return (NULL);
+	if (tmp[0] == '<' || tmp[0] == '>')
 	{
 		free(tmp);
 		return (NULL);
@@ -135,4 +189,15 @@ t_env	*check_good_expand(char *str, int i, t_env **env)
 	ptr = ft_get_var(tmp, *env);
 	free(tmp);
 	return (ptr);
+}
+
+int	get_dolls(char *dup)
+{
+	int	i;
+
+	i = -1;
+	while (dup[++i])
+		if (dup[i] == 36)
+			return (i);
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 13:13:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 11:04:31 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 16:42:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ int	bool_not_in_quotes(char const *s)
 int	bool_not_in_simple(char const *s)
 {
 	int	compt;
+	int	d_quotes;
 	int	i;
 
 	compt = 0;
 	i = 0;
+	d_quotes = 0;
 	while(s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\"')
+			d_quotes++;
+		if (s[i] == '\'' && d_quotes % 2 == 0)
 			compt++;
 		i++;
 	}
@@ -44,13 +48,17 @@ int	bool_not_in_simple(char const *s)
 int	bool_not_in_double(char const *s)
 {
 	int	compt;
+	int	s_quotes;
 	int	i;
 
 	compt = 0;
 	i = 0;
+	s_quotes = 0;
 	while(s[i])
 	{
-		if (s[++i] == '\"')
+		if (s[i] == '\'')
+			s_quotes++;
+		if (s[i] == '\"' && s_quotes % 2 == 0)
 			compt++;
 		i++;
 	}
@@ -59,7 +67,7 @@ int	bool_not_in_double(char const *s)
 	return (1);
 }
 
-char	*del_double(char *lim)
+char	*del_simple(char *lim)
 {
 	char 	*tmp;
 	char	*after;
@@ -68,7 +76,7 @@ char	*del_double(char *lim)
 	i = -1;
 	while (lim[++i])
 	{
-		if (lim[i] == '\"' && bool_not_in_simple(&lim[i]))
+		if (lim[i] == '\'' && bool_not_in_double(&lim[i]))
 		{
 			tmp = ft_substr(lim, 0, i);
 			if (lim[i + 1])

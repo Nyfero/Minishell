@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 12:02:45 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 14:47:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	create_list_line(t_line **line, int len, t_env **env)
 
 	if (len == 0)
 		return ;
-	i = -1;
-	while (++i < len)
+	i = 0;
+	while (++i <= len)
 	{
 		if (!*line)
 		{
@@ -56,12 +56,13 @@ t_line	*create_line(t_env **env)
 	return (line);
 }
 
-void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
+void	fill_line(char *cmd, t_line *ptr, t_env **env)
 {
 	t_dir	*here;
 	t_dir	*infile;
 	t_dir	*out;
 	t_dir	*tmp;
+	char	*expand;
 	int		ret;
 	int		bis;
 
@@ -70,6 +71,7 @@ void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
 	infile = NULL;
 	out = NULL;
 	put_here_doc(&here, cmd);
+	expand = ft_expand(cmd, env);
  	bis = put_infile(&infile, expand);
 	ret = check_last_indir(cmd);
 	if (ret)
@@ -89,8 +91,9 @@ void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env)
 		tmp = go_to_last(&out);
 		ptr->outdir = tmp->fd;
 	}
+	free(expand);
 	expand = ft_remove_redir(cmd);
-	ptr->cmd = del_quotes(ft_expand(expand, env));
+	ptr->cmd = ft_expand(del_quotes(expand), env);
 	return ;
 }
 

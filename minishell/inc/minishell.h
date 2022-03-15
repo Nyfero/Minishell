@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 10:09:28 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 18:09:10 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_dir	*go_to_last(t_dir **list);
 int		bool_not_in_quotes(char const *s);
 int		bool_not_in_simple(char const *s);
 int		bool_not_in_double(char const *s);
-char	*del_double(char *lim);
+char	*del_simple(char *lim);
 char	*del_quotes(char *lim);
 
 /********************************/
@@ -122,11 +122,12 @@ int		check_builtin(t_line *line, t_env **env);
 //	ft_check_pipe.c
 int		check_pipe(char **cmd, char const *inpt);
 int		check_nbr_pipe(char **cmd, char const *inpt);
+int		check_quotes(char const *inpt);
 
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
-void	fill_line(char *cmd, t_line *ptr, char *expand, t_env **env);
+void	fill_line(char *cmd, t_line *ptr, t_env **env);
 void	destroy_list_line(t_line **line);
 
 //	ft_limiteur.c
@@ -157,9 +158,10 @@ t_dir	*create_out_maillon(char *cmd, int i, int flag);
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_var(char *dup, t_env **env);
-char	*expand_no_quotes(char *dup, int i, t_env **env);
-char	*expand_with_quotes(char *dup, int i, t_env **env);
+char	*expand_no_quotes(char *dup, t_env **env);
+char	*expand_with_quotes(char *dup, t_env **env);
 t_env	*check_good_expand(char *str, int i, t_env **env);
+int		get_dolls(char *dup);
 
 //	ft_del_redir.c
 char	*ft_remove_redir(char *expand);

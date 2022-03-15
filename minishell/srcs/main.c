@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 11:51:41 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 14:17:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		inpt = readline("Prompt> ");
 		if (!inpt)
 		{
-			printf("exit\n");
+			ft_putendl_fd("exit", 1);
 			break ;
 		}
 		else

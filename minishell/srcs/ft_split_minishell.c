@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 13:17:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 17:20:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,26 @@
 
 static char	**ft_alloc_tmp(char const *s, char c)
 {
-	size_t	i;
+	size_t	compt;
+	int		i;
 	char	**tmp;
 
 	i = 0;
-	while (*s)
+	compt = 0;
+	while (s[i])
 	{
-		if (*s && (*s == c))
-			s++;
-		if (*s && bool_not_in_quotes(s))
-			if (*s++)
-				i++;
-		while (*s && (*s != c))
-			s++;
+		if (s[i] && s[i] == c)
+			i++;
+		if (s[i] && bool_not_in_quotes(&s[i]))
+			if (s[++i])
+				compt++;
+		while (s[i] && (s[i] != c))
+			i++;
 	}
-	tmp = ft_calloc(sizeof(char **), i + 1);
+	tmp = ft_calloc(sizeof(char **), compt + 1);
 	if (!tmp)
 		return (NULL);
-	tmp[i] = NULL;
+	tmp[compt] = NULL;
 	return (tmp);
 }
 
@@ -67,16 +69,16 @@ static char	**ft_split_tmp(char const *s, char c, char **split)
 	while (*s)
 	{
 		i = 0;
-		if (*s && (*s == c) && bool_not_in_quotes(s))
+		while (*s && (*s == c))
 			s++;
-		while ((*s && (*s != c)) || (!(bool_not_in_quotes(s)) && *s == c))
+		while ((*s && *s != c) || (!bool_not_in_quotes(s) && *s == c))
 		{
 			i++;
 			s++;
 		}
 		if (i > 0)
 		{
-			split[j] = ft_calloc(sizeof(char), i + 1);
+			split[j] = (char *)malloc(sizeof(char) * (i + 1));
 			if (!split[j])
 				return (ft_free_split(split, j));
 			split[j] = ft_assign_tmp(s, split[j], i);
