@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/10 13:38:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 10:58:51 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,35 @@ t_dir	*go_to_last(t_dir **list)
 	while (ptr->next != NULL)
 		ptr = ptr->next;
 	return (ptr);
+}
+
+int	get_dolls(char *dup)
+{
+	int	i;
+
+	i = -1;
+	while (dup[++i])
+		if (dup[i] == 36)
+			return (i);
+	return (-1);
+}
+
+char	*ft_get_name(char *tmp, t_env **env)
+{
+	int		i;
+	t_env	*ptr;
+	char	*bis;
+
+	i = 1;
+	while (ft_isalpha(tmp[i]) || tmp[i] == '_')
+		i++;
+	bis = ft_substr(tmp, 1, i - 1);
+	if (!bis)
+		return (NULL);
+	ptr = ft_get_var(bis, *env);
+	free(bis);
+	if (ptr)
+		return (ptr->var);
+	else
+		return (NULL);
 }

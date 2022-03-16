@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 18:09:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 10:59:07 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	handle_sigquit(int sig);
 int		ft_dir_access(char *str);
 int		ft_file_access(char	*str);
 t_dir	*go_to_last(t_dir **list);
+int		get_dolls(char *dup);
+char	*ft_get_name(char *tmp, t_env **env);
 
 //	ft_quotes.c
 int		bool_not_in_quotes(char const *s);
@@ -160,7 +162,7 @@ char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_var(char *dup, t_env **env);
 char	*expand_no_quotes(char *dup, t_env **env);
 char	*expand_with_quotes(char *dup, t_env **env);
-t_env	*check_good_expand(char *str, int i, t_env **env);
+t_env	*check_good_expand(char *str, t_env **env);
 int		get_dolls(char *dup);
 
 //	ft_del_redir.c

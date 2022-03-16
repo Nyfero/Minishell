@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 17:20:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 10:44:33 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static char	**ft_alloc_tmp(char const *s, char c)
 		if (s[i] && s[i] == c)
 			i++;
 		if (s[i] && bool_not_in_quotes(&s[i]))
-			if (s[++i])
+			if (s[i + 1])
 				compt++;
 		while (s[i] && (s[i] != c))
 			i++;
 	}
+	printf("compt = %zu\n", compt);
 	tmp = ft_calloc(sizeof(char **), compt + 1);
 	if (!tmp)
 		return (NULL);

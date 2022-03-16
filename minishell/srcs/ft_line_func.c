@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 14:47:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 11:01:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 	infile = NULL;
 	out = NULL;
 	put_here_doc(&here, cmd);
+	printf("first expand :%s\n", cmd);
 	expand = ft_expand(cmd, env);
+	printf("end expand :%s\n", expand);
  	bis = put_infile(&infile, expand);
 	ret = check_last_indir(cmd);
 	if (ret)
@@ -91,9 +93,10 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 		tmp = go_to_last(&out);
 		ptr->outdir = tmp->fd;
 	}
-	free(expand);
-	expand = ft_remove_redir(cmd);
-	ptr->cmd = ft_expand(del_quotes(expand), env);
+	expand = ft_remove_redir(expand);
+	printf("second expand :%s\n", expand);
+	ptr->cmd = ft_expand(expand, env);
+	printf("ptr->cmd:%s\n", ptr->cmd);
 	return ;
 }
 
