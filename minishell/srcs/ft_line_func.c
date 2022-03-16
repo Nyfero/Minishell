@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:50:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 14:28:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 		ptr->outdir = tmp->fd;
 	}
 	expand = ft_remove_redir(expand);
-	printf("second expand :%s\n", expand);
+	printf("remove redir :%s\n", expand);
 	ptr->cmd = del_quotes(expand);
 	printf("ptr->cmd:%s\n", ptr->cmd);
 	return ;

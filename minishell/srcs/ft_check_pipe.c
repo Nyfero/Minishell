@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 09:21:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 18:08:50 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 14:25:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	check_pipe(char **cmd, char const *inpt)
 			return (1);
 		}
 	}
-	if (check_quotes(inpt))
-		return (1);
 	return (0);
 }
 
@@ -77,13 +75,13 @@ int	check_quotes(char const *inpt)
 	compt_2 = 0;
 	while (inpt[i])
 	{
-		if (inpt[i] == '\'' && compt_2 % 2 == 0)
+		if (inpt[i] == '\'' && (compt_2 % 2) == 0)
 			compt_1++;
-		if (inpt[i] == '\"' && compt_1 % 2 == 0)
+		if (inpt[i] == '\"' && (compt_1 % 2) == 0)
 			compt_2++;
 		i++;
 	}
-	if (compt_1 % 2 || compt_2 % 2)
+	if ((compt_1 % 2) || (compt_2 % 2))
 	{
 		ft_putendl_fd("syntax error near `'' or `\"'", 2);
 		return (1);

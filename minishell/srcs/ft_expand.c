@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:40:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 14:06:29 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	*expand_with_quotes(char *dup, t_env **env)
 			else
 				j = i + 1 + ft_strlen(ptr->name);
 			after = ft_substr(dup, j, ft_strlen(dup));
+			printf("after:%s\n", after);
 			free(dup);
 			if (!ptr)
 				dup = ft_strjoin_and_free_all(before, after);
@@ -134,8 +135,8 @@ t_env	*check_good_expand(char *str, t_env **env)
 	{
 		ptr = ft_get_var("!", *env);
 		if (!ptr)
-			ptr = create_env_maillon("!=$", 10);
 		return (ptr);
+		ptr = create_env_maillon("!=$", 10);
 	}
 	while (ft_isalpha(str[i]) || str[i] == '_')
 		i++;

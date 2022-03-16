@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 13:13:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/15 16:42:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 14:33:18 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	bool_not_in_simple(char const *s)
 	d_quotes = 0;
 	while(s[i])
 	{
-		if (s[i] == '\"')
+		if (s[i] == '\"' && compt % 2 == 0)
 			d_quotes++;
 		if (s[i] == '\'' && d_quotes % 2 == 0)
 			compt++;
@@ -56,7 +56,7 @@ int	bool_not_in_double(char const *s)
 	s_quotes = 0;
 	while(s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\'' && compt % 2 == 0)
 			s_quotes++;
 		if (s[i] == '\"' && s_quotes % 2 == 0)
 			compt++;
