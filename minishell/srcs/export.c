@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 17:36:08 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 16:35:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_export(char **str, t_env **env, t_line *line)
 	{
 		while (ptr)
 		{
-			ft_putstr_fd("declare -x ", line->outdir);
+			ft_putstr_fd("export ", line->outdir);
 			ft_putstr_fd(ptr->name, line->outdir);
 			if (ptr->flags == 0)
 			{

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:48:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 18:21:41 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@
 # define WR_PATH ": No such file or directory"
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
-
-typedef struct s_glo
-{
-	int status;
-	int	ret;
-}	t_glo;
 
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
@@ -162,13 +156,19 @@ int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd);
 void	create_out_list(t_dir **out, char *cmd, int i, int flag);
 t_dir	*create_out_maillon(char *cmd, int i, int flag);
 
+//	ft_outdir_utils.c
+void	choice_outdir(int compt, t_dir **out, char *cmd, int i);
+int		close_last_fd(t_dir **out);
+
 //	ft_expand.c
 char	*ft_expand(char const *inpt, t_env **env);
 char	*ft_expand_var(char *dup, t_env **env);
 char	*expand_no_quotes(char *dup, t_env **env);
 char	*expand_with_quotes(char *dup, t_env **env);
+char	*replace_expand(char *dup, int i, t_env **env);
+
+//	ft_expand_utils.c
 t_env	*check_good_expand(char *str, t_env **env);
-int		get_dolls(char *dup);
 
 //	ft_del_redir.c
 char	*ft_remove_redir(char *expand);
@@ -223,7 +223,7 @@ int		ft_cd(char **str, t_env **env);
 
 //	cd_tools.c
 
-int	ft_change_OLDPWD(t_env **env);
+int		ft_change_OLDPWD(t_env **env);
 
 /********************************/
 /*------------EXEC--------------*/
@@ -239,6 +239,5 @@ int		pipex_entry(t_line *arg, t_env **env);
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
 int		ft_change_PWD(t_env **env);
-
 
 #endif
