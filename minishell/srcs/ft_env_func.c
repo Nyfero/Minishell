@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 14:29:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/14 10:10:48 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_env	*create_env_maillon(char *str, int flags)
 		j++;
 	tmp->name = ft_substr(str, 0, i);
 	tmp->var = NULL;
-	if (flags == 0)
+	if (flags == 0 || flags == 2)
 		tmp->var = ft_substr(str, i + 1, j);
 	tmp->flags = flags;
 	tmp->next = NULL;

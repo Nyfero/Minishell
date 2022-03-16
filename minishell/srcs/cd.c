@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/07 16:58:11 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:33:47 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,45 +29,6 @@
 **
 **cd "" = rien (juste gerer les PWD OLDPWD)
 */
-
-//int	ft_cd_chenv(char*path, t_env *env)
-//{
-//	t_env	*temp;
-//
-//	temp = ft_get_var("PWD");
-//}
-
-
-//vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Partie visiblement USELESS
-//	printf("path = -%s-\n", path);
-	/*if (!path[0])
-=======*/
-/*	if (!path[0])
-	{
-		printf("path vide\n" );
-		return (0);
-	}
-	fd = opendir(path);
-	if (fd == 0 && errno == 20)
-	{
-//		printf("OPEN\n");
-		printf("errno = %d\n", errno);
-		printf("cd: %s: %s\n", path, strerror(errno));
-		return (1);
-	}
-	if (fd != 0)
-		closedir(fd);
-	if (access(path, X_OK | F_OK) != 0)
-	{
-//		printf("ACCES\n");
-		printf("cd: %s: %s\n", path, strerror(errno));
-		return (1);
-	}*/
-//	printf("acces possible a -%s-\n", path);
-//faire le deplacement*/
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Partie visiblement inutile
-//pour ft_cd_path
-
 
 char	*ft_cd_cdpath(char *str, char **path)
 {
@@ -113,8 +74,12 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	}
 
 	printf("END FT_CD_PATH (changement OLDPWD et PWD ici)\n");
-	//ft_change_OLDPWD(env);
+	if (ft_change_OLDPWD(env))
+		return (1);
+	if (ft_change_PWD(env))
+		return (1);
 	//changer PWD
+	printf("SUB CHANGEMENT\n");
 
 	//si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 	//sinon add fin avec = t_env	*create_env_maillon(char *str, int flags)
@@ -143,7 +108,7 @@ int	ft_cd_alpha(char *str, t_env **env)
 		if (res)
 		{
 //			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
-			ft_cd_path(res->var, env, str);
+			return (ft_cd_path(res->var, env, str));
 		}
 		else
 		{
@@ -162,7 +127,7 @@ int	ft_cd_alpha(char *str, t_env **env)
 		else /*OLDPWD existe*/
 		{
 //			printf("NAME = %s\nVAR = %s\n", res->name, res->var);
-			ft_cd_path(res->var, env, str);
+			return (ft_cd_path(res->var, env, str));
 		}
 	}
 	else if (str[0] == '-')

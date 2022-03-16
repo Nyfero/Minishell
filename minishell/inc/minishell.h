@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 12:21:23 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 13:48:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@
 # define WR_PATH ": No such file or directory"
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
+
+typedef struct s_glo
+{
+	int status;
+	int	ret;
+}	t_glo;
 
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
@@ -216,7 +222,8 @@ t_env	*ft_get_var(char *search, t_env *env);
 int		ft_cd(char **str, t_env **env);
 
 //	cd_tools.c
-void	ft_change_OLDPWD(t_env **env);
+
+int	ft_change_OLDPWD(t_env **env);
 
 /********************************/
 /*------------EXEC--------------*/
@@ -231,5 +238,7 @@ int		pipex_entry(t_line *arg, t_env **env);
 // pipex_tools.c
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
+int		ft_change_PWD(t_env **env);
+
 
 #endif

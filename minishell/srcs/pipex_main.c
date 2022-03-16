@@ -6,11 +6,47 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/10 13:38:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/15 08:56:39 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+**	ctr + c
+**	return 130
+*/
+void	handle_sigint_2(int sig)
+{
+	if (sig == 0)
+		;
+	printf("\n");
+}
+
+/*
+**	ctr + \
+**	^\Quit (core dumped) dans child
+**	return 131
+*/
+void	handle_sigquit_2(int sig)
+{
+	ft_putstr_fd("Quit (core dumped)\n", 2);
+	if (sig == 0)
+		;
+}
+
+void	init_signal_2(void)
+{
+	struct sigaction	sint;
+	struct sigaction	squit;
+
+	sint.sa_handler = &handle_sigint_2;
+	sint.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sint, NULL);
+	squit.sa_handler = &handle_sigquit_2;
+	squit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &squit, NULL);
+}
 
 /*
 **int	ft_parcours_env_perso(t_env *env)//asuppra la fin
@@ -92,15 +128,22 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.path_res = 0;
 	data.cmd_treat = 0;
 	res = 0;
-	printf("cmd pipex=%s\n", arg->cmd);
-	ret = check_builtin(arg, env);
-	if (!arg->next && ret != -1)
-		return (ret);
+init_signal_2();
+//	printf("debut pipex\n");//suppr
+	if (!arg->next)
+	{
+//		printf("coucou 0built in solo test\n");
+		ret = check_builtin(arg, env);
+		if (ret != -1)
+			return (ret);
+	}
 	if (*env)
 	{
+//		printf("coucou 0\n");
 		res = ft_get_var("PATH", *env);
-		if (res)
+		if (res->var)
 		{
+//			printf("coucou 1\n");
 			data.path = ft_split(res->var, ':');
 			if (!data.path)
 			{
@@ -110,9 +153,10 @@ int	pipex_entry(t_line *arg, t_env **env)
 		}
 	}
 	ret = ft_pipex(arg, 0, data);
-	printf("FIN PIPEX\n");
+//	printf("FIN PIPEX\n");
+//	printf("ret = %d\n", ret);
 	//free path;
-	if (data.path)
+	if (data.path )
 		ft_free_ls(data.path);
 	printf("ret = %d\n", ret);
 	return (ret);
