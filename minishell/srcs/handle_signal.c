@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 16:10:26 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:44:25 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,17 @@ void	init_signal(void)
 
 /*
 **	ctr + c
+**	ret 130
 */
 void	handle_sigint(int sig)
 {
 	if (sig == 0)
 		;
-	printf("\nPrompt> ");
+	write(1, "\n", 1);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
+	
 
 }
 

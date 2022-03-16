@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/14 16:09:05 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/15 08:55:50 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-	printf("treat A= %s\n",data.cmd_treat[0]);//suppr
+//	printf("treat A= %s\n",data.cmd_treat[0]);//suppr
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
 	init_env(&test, arg->env);
@@ -118,19 +118,19 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		exit (1);//exit 1
 	}
 
-printf("Alpha 1\n");
+//printf("Alpha 1\n");
 
 	if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
 		data.path_res = 0;
 	else
 	{
 		data.path_res = ft_pipex_path(data.cmd_treat, data.path);
-		if (!data.path || !data.path[0])
-		{
-			printf("! data path\n");//a suppr
-		}
+	//	if (!data.path || !data.path[0])
+	//	{
+	//		printf("! data path\n");//a suppr
+	//	}
 
-	printf("data.path_res = %s\n", data.path_res);
+//	printf("data.path_res = %s\n", data.path_res);
 		if (!data.path_res)
 		{
 			if (!getcwd(cwd, sizeof(cwd)))
@@ -146,7 +146,7 @@ printf("Alpha 1\n");
 				exit (1);
 			if (!access(temp, F_OK) && !data.path)//check si dans dossier si oui passer comme '.' '/'
 			{// exactement pareil que cas '.' '/'
-				printf("path unset mais cmd trouver\n");//a suppr
+//				printf("path unset mais cmd trouver\n");//a suppr
 				if (ft_file_access(data.cmd_treat[0]) == -1)
 				{
 					printf("bash: %s: Is a directory\n", data.cmd_treat[0]);//modif
@@ -180,13 +180,13 @@ printf("Alpha 1\n");
 			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 			exit (127);
 		}
-		printf("path set\n");//a suppr
+//		printf("path set\n");//a suppr
 	}
 
-printf("Alpha 1.b\n");//suppr
+//printf("Alpha 1.b\n");//suppr
 
 
-printf("Alpha 2\n");//suppr
+//printf("Alpha 2\n");//suppr
 	if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
 	{
 		if (ft_file_access(data.cmd_treat[0]) == -1)
@@ -208,17 +208,17 @@ printf("Alpha 2\n");//suppr
 		}
 	}
 
-printf("Alpha 3\n");
+//printf("Alpha 3\n");
 
 	dup2(data.out, 1);
 	dup2(data.in, 0);
 
 	ft_pipex_close(fd_pipe, fd_in, &data);
-int i = 0;//suppr
-i = 0;//suppr
-while (data.cmd_treat[i])//suppr
-	printf("end data.cmd_treat= %s\n", data.cmd_treat[i++]);//suppr
-printf("EXEC\n");//a suppr
+//int i = 0;//suppr
+//i = 0;//suppr
+//while (data.cmd_treat[i])//suppr
+//	printf("end data.cmd_treat= %s\n", data.cmd_treat[i++]);//suppr
+//printf("EXEC\n");//a suppr
 
 if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
 	execve(data.cmd_treat[0], data.cmd_treat, arg->env);

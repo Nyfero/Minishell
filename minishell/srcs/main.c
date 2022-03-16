@@ -6,22 +6,26 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 14:37:54 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:24:23 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_glo	g_glo;
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*inpt;
 	t_line	*line;
 	t_env	*env;
-
+			
 	(void)argc;
 	(void)argv;
 	line = NULL;
 	env = NULL;
+	g_glo.status = 0;
+	g_glo.ret = 0;
 	if (init_env(&env, envp))
 		exit(1);
 	//init_signal();
@@ -29,6 +33,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signal();
 		inpt = readline("Prompt> ");
+		if (g_glo.status == 1 && inpt)
+		{
+			
+		}
 		if (!inpt)
 		{
 			printf("exit\n");
@@ -48,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			free(inpt);
 		}
+		g_glo.status = 0 ;
 	}
 	clear_history();
 	destroy_env(&env);

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 11:32:18 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/15 12:59:59 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@
 # define WR_PATH ": No such file or directory"
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
+
+typedef struct s_glo
+{
+	int status;
+	int	ret;
+}	t_glo;
 
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
