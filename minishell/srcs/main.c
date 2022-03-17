@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:49:18 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 17:24:53 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_glo	g_glo;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -24,8 +22,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	line = NULL;
 	env = NULL;
-	g_glo.status = 0;
-	g_glo.ret = 0;
 	if (init_env(&env, envp))
 		exit(1);
 	//init_signal();
@@ -33,10 +29,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signal();
 		inpt = readline("Prompt> ");
-		if (g_glo.status == 1 && inpt)
-		{
-
-		}
 		if (!inpt)
 		{
 			ft_putendl_fd("exit", 1);
@@ -56,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 			}
 			free(inpt);
 		}
-		g_glo.status = 0 ;
 	}
 	clear_history();
 	destroy_env(&env);

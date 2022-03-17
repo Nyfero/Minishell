@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_line_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:50:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 17:23:52 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,7 @@ void	destroy_list_line(t_line **line)
 		aux->outdir = 0;
 		if (aux->cmd)
 			free(aux->cmd);
-		if (aux->env)
-			ft_free_ls(aux->env);
+		ft_free_ls(aux->env);
 		if (aux->path)
 			ft_free_ls(aux->path);
 		free(aux);
