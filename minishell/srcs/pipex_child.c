@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 17:23:49 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 18:04:55 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ printf("ALPHA 2\n");
 //	printf("treat A= %s\n",data.cmd_treat[0]);//suppr
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
+
+ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+		exit (1);
+
 	init_env(&data.env, arg->env);
 	if (data.env == 0)
 	{

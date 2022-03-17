@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrlen.c                                       :+:      :+:    :+:   */
+/*   ft_outdir_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/20 14:13:18 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 15:44:53 by gsap             ###   ########.fr       */
+/*   Created: 2022/03/16 18:15:05 by gsap              #+#    #+#             */
+/*   Updated: 2022/03/16 18:15:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
+#include "minishell.h"
 
-int	ft_lstrlen(char **ls)
+void	choice_outdir(int compt, t_dir **out, char *cmd, int i)
 {
-	int	i;
+	if (compt == 1 && bool_not_in_quotes(&cmd[i]))
+		create_out_list(out, cmd, i, 1);
+	else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
+		create_out_list(out, cmd, i, 2);
+}
 
-	i = 0;
-	if (ls)
-		while (ls[i])
-			i++;
-	return (i);
+int	close_last_fd(t_dir **out)
+{
+	t_dir	*ptr;
+
+	ptr = go_to_last(out);
+	close(ptr->fd);
+	return (1);
 }

@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrlen.c                                       :+:      :+:    :+:   */
+/*   ft_expand_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/20 14:13:18 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 15:44:53 by gsap             ###   ########.fr       */
+/*   Created: 2022/03/16 16:51:03 by gsap              #+#    #+#             */
+/*   Updated: 2022/03/16 16:52:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
+#include "minishell.h"
 
-int	ft_lstrlen(char **ls)
+t_env	*check_good_expand(char *str, t_env **env)
 {
-	int	i;
+	int		i;
+	t_env	*ptr;
+	char	*bis;
 
-	i = 0;
-	if (ls)
-		while (ls[i])
-			i++;
-	return (i);
+	i = 1;
+	if (!str[i])
+	{
+		ptr = ft_get_var("!", *env);
+		if (!ptr)
+			ptr = create_env_maillon("!=$", 10);
+		return (ptr);
+	}
+	while (ft_isalpha(str[i]) || str[i] == '_')
+		i++;
+	bis = ft_substr(str, 1, i - 1);
+	if (!bis)
+		return (NULL);
+	ptr = ft_get_var(bis, *env);
+	free(bis);
+	return (ptr);
 }

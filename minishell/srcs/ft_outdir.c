@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/10 16:05:22 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 18:16:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,23 @@ int	put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 	t_dir	*ptr;
 	int		compt;
 
-	i = -1;
+	i = 0;
 	ptr = go_to_last(infile);
-	while (cmd[++i])
+	while (cmd[i])
 	{
 		compt = 0;
-		while (cmd[i] == '>')
-		{
-			i++;
+		while (cmd[i++] == '>')
 			compt++;
-		}
 		if (i <= ptr->pos)
-		{
-			if (compt == 1 && bool_not_in_quotes(&cmd[i]))
-				create_out_list(out, cmd, i, 1);
-			else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
-				create_out_list(out, cmd, i, 2);
-			else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
+		{	
+			if (compt < 2)
+				choice_outdir(compt, out, cmd, i);
+			if (compt > 2 && bool_not_in_quotes(&cmd[i]))
 				return (ft_error("syntax error near unexpected token `>'\n"));
 		}
 		else
-		{
 			if (*out)
-			{
-				ptr = go_to_last(out);
-				close(ptr->fd);
-			}
-			return (1);
-		}
+				return (close_last_fd(out));
 	}
 	if (!*out)
 		return (1);

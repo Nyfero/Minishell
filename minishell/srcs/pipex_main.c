@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 13:18:16 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 18:03:50 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ void	init_signal_2(void)
 **		ft_parcours_env_perso(env->next);
 **	return (0);
 **}
-**
-**int ft_parcous_arg(t_line *arg)//a suppr a la fin
-**{
-**	if (!arg)
-**		return (0);
-**	printf("cmd = %s\n", arg->cmd);
-**	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
-**	if (arg->next != 0)
-**		return (ft_parcous_arg(arg->next));
-**	return (0);
-**}
-*/
+***/
+int ft_parcous_arg(t_line *arg)//a suppr a la fin
+{
+	if (!arg)
+		return (0);
+	printf("cmd = %s\n", arg->cmd);
+	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
+	if (arg->next != 0)
+		return (ft_parcous_arg(arg->next));
+	return (0);
+}
+
 
 int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 {
@@ -80,12 +80,16 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 
 	child = -1;
 	status = 0;
+	fd[0] = 0;
+	fd[1] = 0;
 	if (pipe(fd) == -1)//creation du pipe
 	{
 		//printf("Alpha = %s\n", strerror(errno));
 		return (1);
 	}
 	child = fork();//creation child
+
+
 	if (child == -1)
 	{
 		//printf("Bravo = %s\n", strerror(errno));
@@ -156,7 +160,6 @@ int	pipex_entry(t_line *arg, t_env **env)
 	ret = ft_pipex(arg, 0, data);
 	printf("FIN PIPEX\n");
 	printf("ret = %d\n", ret);
-	//free path;
 	if (data.path )
 		ft_free_ls(data.path);
 	printf("ret = %d\n", ret);

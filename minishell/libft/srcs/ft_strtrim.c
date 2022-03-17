@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 14:15:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/10 17:06:09 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 16:54:01 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static int	compt_fin(char const *s1, char const *set)
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*str;
-	int	i;
-	int	x;
+	int		i;
+	int		x;
 
 	if (!s1)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:49:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 17:20:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,22 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	t_line	*ptr;
 	int		i;
 
-	if (!inpt)
+	if (inpt[0] == 0)
 		return ;
 	cmd = ft_split_minishell(inpt, '|');
-	printf("parsing\n");
 	if (ft_strncmp(cmd[0], inpt, ft_strlen(inpt)))
 		if (check_pipe(cmd, inpt))
 			return ;
+	if (check_quotes(inpt))
+		return ;
+	printf("len cmd:%d\n", ft_lstrlen(cmd));
 	create_list_line(line, ft_lstrlen(cmd), env);
+	ft_parcous_arg(*line);
 	if (!line)
 		return ;
 	ptr = *line;
 	i = 0;
-	while (ptr != NULL)
+	while (ptr)
 	{
 		fill_line(cmd[i], ptr, env);
 		i++;

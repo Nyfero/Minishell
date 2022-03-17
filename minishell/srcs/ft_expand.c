@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 13:40:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/16 16:51:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ char	*expand_no_quotes(char *dup, t_env **env)
 
 char	*expand_with_quotes(char *dup, t_env **env)
 {
-	char	*before;
-	char	*after;
 	t_env	*ptr;
 	int		i;
 	int		j;
@@ -95,26 +93,16 @@ char	*expand_with_quotes(char *dup, t_env **env)
 	if (dup[0] == '\'')
 		return (dup);
 	i = 0;
-	j = 0;
 	while (dup[i])
 	{
 		if (dup[i] == '$')
 		{
-			before = ft_substr(dup, j, i);
 			ptr = check_good_expand(&dup[i], env);
 			if (!ptr)
 				j = i;
 			else
 				j = i + 1 + ft_strlen(ptr->name);
-			after = ft_substr(dup, j, ft_strlen(dup));
-			free(dup);
-			if (!ptr)
-				dup = ft_strjoin_and_free_all(before, after);
-			else
-			{
-				dup = ft_strjoin_and_free_s1(before, ptr->var);
-				dup = ft_strjoin_and_free_all(dup, after);
-			}
+			dup = replace_expand(dup, i, env);
 			i = j;
 		}
 		if (i < (int)ft_strlen(dup))
@@ -123,27 +111,27 @@ char	*expand_with_quotes(char *dup, t_env **env)
 	return (dup);
 }
 
-t_env	*check_good_expand(char *str, t_env **env)
+char	*replace_expand(char *dup, int i, t_env **env)
 {
-	int		i;
+	char	*before;
+	char	*after;
 	t_env	*ptr;
-	char	*bis;
+	int		j;
 
-	i = 1;
-	if (!str[i])
+	before = ft_substr(dup, 0, i);
+	ptr = check_good_expand(&dup[i], env);
+	if (!ptr)
+		j = i;
+	else
+		j = i + 1 + ft_strlen(ptr->name);
+	after = ft_substr(dup, j, ft_strlen(dup));
+	free(dup);
+	if (!ptr)
+		dup = ft_strjoin_and_free_all(before, after);
+	else
 	{
-		ptr = ft_get_var("!", *env);
-		if (!ptr)
-			ptr = create_env_maillon("!=$", 10);
-		return (ptr);
+		dup = ft_strjoin_and_free_s1(before, ptr->var);
+		dup = ft_strjoin_and_free_all(dup, after);
 	}
-	while (ft_isalpha(str[i]) || str[i] == '_')
-		i++;
-	bis = ft_substr(str, 1, i - 1);
-	if (!bis)
-		return (NULL);
-	printf("str:%s\n", bis);
-	ptr = ft_get_var(bis, *env);
-	free(bis);
-	return (ptr);
+	return (dup);
 }

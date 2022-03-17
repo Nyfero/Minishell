@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 15:41:22 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 18:03:37 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int	ft_pipex_close(int *fd, int fd_in, t_pipe *data)
 {
-	close(fd[0]);
-	close(fd[1]);
+	if (fd[0] > 2)
+		close(fd[0]);
+	if (fd[1] > 2)
+		close(fd[1]);
 	if (fd_in > 0)
 		close(fd_in);
-	if (data->in > 2)
-		close(data->in);
-	if (data->out > 2)
-		close(data->out);
+	if (data)
+	{
+		if (data->in > 2)
+			close(data->in);
+		if (data->out > 2)
+			close(data->out);
+	}
 	return (0);
 }
 

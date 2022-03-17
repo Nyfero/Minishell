@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 17:24:53 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 17:26:55 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int argc, char **argv, char **envp)
 	env = NULL;
 	if (init_env(&env, envp))
 		exit(1);
-	//init_signal();
 	while (1)
 	{
 		init_signal();
@@ -41,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 			printf("HAINE\n");
 			if (line)
 			{
-				printf("line->in:%d\nline->out:%d\n", line->indir, line->outdir);
 				pipex_entry(line, &env);
 				add_history(inpt);
 				destroy_list_line(&line);

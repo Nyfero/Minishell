@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/14 10:57:24 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:07:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //si existe dans env use = t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 	//sinon add fin avec = t_env	*create_env_maillon(char *str, int flags)
 
-//cas unset PATH;export PATH; 
+//cas unset PATH;export PATH;
 
 t_env	*ft_last_env(t_env	*env)
 {
@@ -128,7 +128,7 @@ int	ft_change_OLDPWD(t_env **env)
 			old = mod_env_maillon("", old, old->flags + 1);
 			if (!old)
 				return (1);
-			//flags + 1	
+			//flags + 1
 		}
 		else // 0 / 2
 		{
