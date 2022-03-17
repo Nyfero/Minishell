@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 18:03:50 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 18:58:47 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	handle_sigquit_2(int sig)
 
 void	init_signal_2(void)
 {
-	struct sigaction	sint;
-	struct sigaction	squit;
+	struct sigaction	sint = {0};
+	struct sigaction	squit = {0};
 
 	sint.sa_handler = &handle_sigint_2;
 	sint.sa_flags = SA_RESTART;

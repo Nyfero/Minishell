@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 13:13:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 15:57:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 17:51:21 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	bool_not_in_double(char const *s)
 
 char	*del_simple(char *lim)
 {
-	char 	*tmp;
+	char 	*before;
 	char	*after;
 	int		i;
 
@@ -70,18 +70,18 @@ char	*del_simple(char *lim)
 	{
 		if (lim[i] == '\'' && bool_not_in_double(&lim[i]))
 		{
-			tmp = ft_substr(lim, 0, i);
+			before = ft_substr(lim, 0, i);
 			if (lim[i + 1])
 			{
 				after = ft_substr(lim, i + 1, ft_strlen(lim) - i);
 				free(lim);
-				lim = ft_strjoin_and_free_all(tmp, after);
+				lim = ft_strjoin_and_free_all(before, after);
 			}
 			else
 			{
 				free(lim);
-				lim = ft_strdup(tmp);
-				free(tmp);
+				lim = ft_strdup(before);
+				free(before);
 			}
 			if (!lim)
 				return (NULL);
@@ -92,22 +92,19 @@ char	*del_simple(char *lim)
 	return (lim);
 }
 
-char	*ft_jgourlin(char *str, char c)
+char	*get_words_in_quotes(char *str, char c)
 {
 	int	i;
 	char	*res;
 
 	i = 1;
-	//printf("bravo 1\n");
-	if (str)
-		//printf("---JGOUR entry = %s\n", str);
-	//if (!str)
-	//	return (0);
+	if (!str)
+		return (NULL);
 	while (str[i] && str[i] != c)
-	{
 		i++;
-	}
 	res = malloc(sizeof(char) * (i + 1));
+	if (!res)
+		return (NULL);
 	i = 1;
 	while (str[i] && str[i] != c)
 	{
@@ -115,71 +112,57 @@ char	*ft_jgourlin(char *str, char c)
 		i++;
 	}
 	res[i - 1] = 0;
-	//printf("---JGOUR res = %s\n", res);
 	return (res);
 }
 
-int ft_got_c(char const *s, char c)
+int ft_strchr_quotes(char const *s, char c)
 {
-//	printf("alpha 1\n");
 	int	i;
 
 	i = -1;
-	//printf("alpha 2\n");
 	if (s == 0)
 		return (0);
 	while (s[++i])
-	{
-		//printf("alpha 3\n");
 		if (s[i] == c)
 			return (1);
-		//printf("alpha 4\n");
-	}
-//	printf("alpha 5\n");
 	return (0);
 }
 
 char	*del_quotes(char *lim)
 {
-	char 	*tmp;
+	char 	*before;
 	char	*after;
+	char	*tmp;
 	int		i;
-	char	*test;
 
 	i = 0;
-	//printf("lim = %s\n", lim);
-	test = 0;
+	tmp = 0;
 	while (lim[i])
 	{
-		/*printf("lim[%d]:%c\n", i , lim[i]);
-		printf("!in double = %d\n", bool_not_in_double(&lim[i]));
-		printf("!in simple = %d\n", bool_not_in_simple(&lim[i]));
-		printf("res jgourlin = %s\n", test);*/
-		//if (((lim[i] == '\"' && bool_not_in_simple(&lim[i])) || (lim[i] == '\"' && !bool_not_in_simple(&lim[i]) && !bool_not_in_double(test)))
-		//	|| ((lim[i] == '\'' && bool_not_in_double(&lim[i])) || (lim[i] == '\'' && !bool_not_in_double(&lim[i]) && !bool_not_in_simple(test))))
-		if (((lim[i] == '\"' && bool_not_in_simple(&lim[i])) || (lim[i] == '\"' && !bool_not_in_simple(&lim[i]) && !ft_got_c(test, '\"')))
-			|| ((lim[i] == '\'' && bool_not_in_double(&lim[i])) || (lim[i] == '\'' && !bool_not_in_double(&lim[i]) && !ft_got_c(test, '\''))))
+		if (((lim[i] == '\"' && bool_not_in_simple(&lim[i])) || (lim[i] == '\"'
+			&& !bool_not_in_simple(&lim[i]) && !ft_strchr_quotes(tmp, '\"')))
+				|| ((lim[i] == '\'' && bool_not_in_double(&lim[i]))
+					|| (lim[i] == '\'' && !bool_not_in_double(&lim[i])
+						&& !ft_strchr_quotes(tmp, '\''))))
 		{
-			//test = lim + i;
-			test = ft_jgourlin(lim + i, lim[i]);
-			tmp = ft_substr(lim, 0, i);
-			//printf("tmp:%s\n", tmp);
+			if (tmp)
+				free(tmp);
+			tmp = get_words_in_quotes(lim + i, lim[i]);
+			before = ft_substr(lim, 0, i);
 			if (lim[i + 1])
 			{
 				after = ft_substr(lim, i + 1, ft_strlen(lim));
-			//	printf("after:%s\n", after);
 				free(lim);
-				lim = ft_strjoin_and_free_all(tmp, after);
+				lim = ft_strjoin_and_free_all(before, after);
 			}
 			else
 			{
 				free(lim);
-				lim = ft_strdup(tmp);
-				free(tmp);
+				lim = ft_strdup(before);
+				free(before);
 			}
 			if (!lim)
 				return (NULL);
-			//printf("lim:%s\n\n", lim);
 		}
 		else
 			i++;

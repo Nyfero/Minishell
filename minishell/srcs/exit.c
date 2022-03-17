@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:14:04 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 16:11:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 18:01:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ int	ft_exit(char **tmp)
 
 	if (tmp[2])
 	{
+		ft_free_ls(tmp);
 		ft_putendl_fd("exit : too many arguments", 2);
 		return (1);
 	}
 	if (!tmp[1])
 	{
+		ft_free_ls(tmp);
 		ft_putendl_fd("exit", 1);
 		exit(0);
 	}
@@ -36,6 +38,7 @@ int	ft_exit(char **tmp)
 				ft_putstr_fd("exit : ", 2);
 				ft_putstr_fd(tmp[1], 2);
 				ft_putendl_fd(": numeric arguments required", 2);
+				ft_free_ls(tmp);
 				exit(2);
 			}
 		}
@@ -43,7 +46,7 @@ int	ft_exit(char **tmp)
 		i = ft_atoi(tmp[1]);
 		if (i > 256)
 			i = i % 256;
+		ft_free_ls(tmp);
 		exit(i);
 	}
-	return (0);
 }

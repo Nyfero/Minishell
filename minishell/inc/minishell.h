@@ -6,7 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/03/17 17:27:14 by jgourlin         ###   ########.fr       */
+=======
+/*   Updated: 2022/03/17 18:03:48 by gsap             ###   ########.fr       */
+>>>>>>> 8124b8b4b34bc37f56f40e561609aef2610e3340
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +89,6 @@ typedef struct s_dir
 	int				fd;
 	struct s_dir	*next;
 }	t_dir;
-
-int ft_parcous_arg(t_line *arg);
 
 //	ft_error.c
 int		ft_error(char *err);
@@ -190,7 +192,7 @@ int		ft_echo(char **str, t_line *line);
 int		ft_exit(char **tmp);
 
 //	pwd.c
-int		ft_pwd(t_line *line);
+int		ft_pwd(t_line *line, char **str);
 
 //	export.c
 int		ft_export(char **str, t_env **env, t_line *line);
