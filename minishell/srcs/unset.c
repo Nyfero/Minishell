@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/09 10:39:51 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 18:02:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	ft_unset(char **str, t_env **env)
 				del_env_maillon(ptr, env);
 		}
 	}
+	ft_free_ls(str);
 	return (ret);
 }
 

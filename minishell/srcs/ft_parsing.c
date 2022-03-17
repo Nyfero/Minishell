@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 17:20:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 18:07:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 			return ;
 	if (check_quotes(inpt))
 		return ;
-	printf("len cmd:%d\n", ft_lstrlen(cmd));
 	create_list_line(line, ft_lstrlen(cmd), env);
-	ft_parcous_arg(*line);
 	if (!line)
 		return ;
 	ptr = *line;
@@ -49,8 +47,8 @@ int	check_builtin(t_line *line, t_env **env)
 	int		ret;
 
 	ret = 0;
+	tmp = 0;
 	tmp = ft_split_minishell(line->cmd, ' ');
-	printf("builtin\n");
 	if (ft_strncmp(tmp[0], "env", 4) == 0)
 		return (ft_env(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
@@ -62,7 +60,7 @@ int	check_builtin(t_line *line, t_env **env)
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		return (ft_exit(tmp));
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
-		return (ft_pwd(line));
+		return (ft_pwd(line, tmp));
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		return (ft_echo(tmp, line));
 	ft_free_ls(tmp);

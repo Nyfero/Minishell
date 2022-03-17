@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 16:22:00 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 18:08:45 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	handle_sigquit_2(int sig)
 
 void	init_signal_2(void)
 {
-	struct sigaction	sint;
-	struct sigaction	squit;
+	struct sigaction	sint = {0};
+	struct sigaction	squit = {0};
 
 	sint.sa_handler = &handle_sigint_2;
 	sint.sa_flags = SA_RESTART;
@@ -80,6 +80,8 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 
 	child = -1;
 	status = 0;
+	fd[0] = 0;
+	fd[1] = 0;
 	if (pipe(fd) == -1)//creation du pipe
 	{
 		//printf("Alpha = %s\n", strerror(errno));

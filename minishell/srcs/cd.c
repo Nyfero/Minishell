@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/14 11:33:47 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 17:59:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,21 +179,17 @@ int	ft_cd_alpha(char *str, t_env **env)
 int	ft_cd(char **str, t_env **env)
 {
 	int	i;
-	(void)env;
-	(void)str;
 
 	i = 0;
 	while (str[i])
-	{
-		printf("str[%i] == %s\n", i, str[i]);
 		i++;
-	}
 	if (i > 2)
 	{
+		ft_free_ls(str);
 		printf("bash: cd: too many arguments\n");
 		return (1);
 	}
 	ft_cd_alpha(str[1], env);
-printf("\nfin ft_cd\n\n");
+	ft_free_ls(str);
 	return (0);
 }
