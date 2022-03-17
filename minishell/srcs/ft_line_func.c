@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 18:18:11 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 16:15:53 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 	}
 	expand = ft_remove_redir(expand);
 	ptr->cmd = del_quotes(expand);
+	printf("line ptr->cmd:%s\n", ptr->cmd);
 	return ;
 }
 

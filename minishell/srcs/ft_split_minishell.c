@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 14:26:18 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 17:21:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	**ft_alloc_tmp(char const *s, char c)
 {
-	size_t	compt;
+	int		compt;
 	int		i;
 	char	**tmp;
 
@@ -25,14 +25,15 @@ static char	**ft_alloc_tmp(char const *s, char c)
 		if (s[i] && s[i] == c)
 			i++;
 		if (s[i] && bool_not_in_quotes(&s[i]))
-			compt++;
+			if (s[i + 1])
+				compt++;
 		while (s[i] && (s[i] != c))
 			i++;
 	}
-	tmp = ft_calloc(sizeof(char **), compt + 1);
+	tmp = (char **)malloc(sizeof(char *) * (compt + 1));
 	if (!tmp)
 		return (NULL);
-	tmp[compt] = NULL;
+	tmp[compt] = 0;
 	return (tmp);
 }
 
@@ -52,7 +53,7 @@ static void	*ft_free_split(char **split, size_t i)
 
 static char	*ft_assign_tmp(char const *s, char *tmp, size_t i)
 {
-	tmp[i] = '\0';
+	tmp[i] = 0;
 	s--;
 	while (i > 0)
 		tmp[--i] = *s--;

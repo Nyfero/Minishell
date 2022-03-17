@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 18:21:41 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 16:23:58 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_dir
 	int				fd;
 	struct s_dir	*next;
 }	t_dir;
+
+int ft_parcous_arg(t_line *arg);
 
 //	ft_error.c
 int		ft_error(char *err);

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/15 08:56:39 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/17 16:22:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ void	init_signal_2(void)
 **		ft_parcours_env_perso(env->next);
 **	return (0);
 **}
-**
-**int ft_parcous_arg(t_line *arg)//a suppr a la fin
-**{
-**	if (!arg)
-**		return (0);
-**	printf("cmd = %s\n", arg->cmd);
-**	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
-**	if (arg->next != 0)
-**		return (ft_parcous_arg(arg->next));
-**	return (0);
-**}
-*/
+***/
+int ft_parcous_arg(t_line *arg)//a suppr a la fin
+{
+	if (!arg)
+		return (0);
+	printf("cmd = %s\n", arg->cmd);
+	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
+	if (arg->next != 0)
+		return (ft_parcous_arg(arg->next));
+	return (0);
+}
+
 
 int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 {
@@ -129,6 +129,8 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.cmd_treat = 0;
 	res = 0;
 init_signal_2();
+
+ft_parcous_arg(arg);
 //	printf("debut pipex\n");//suppr
 	if (!arg->next)
 	{
