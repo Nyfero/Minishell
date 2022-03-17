@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 16:15:02 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 18:28:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,28 @@ char	*ft_pipex_path(char **temp_cmd, char **path)
 void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 {
 	int		ret;
-	t_env	*test;
 	char 	*temp;
 	char	cwd[10000];
+printf("ALPHA 1\narg->envv = ");
 
-	test = 0;
-	printf("pipex arg->cmd:%s\n", arg->cmd);
 	data.cmd_treat = ft_split(arg->cmd, ' ');
 	if (data.cmd_treat == 0)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
+printf("ALPHA 2\n");
 //	printf("treat A= %s\n",data.cmd_treat[0]);//suppr
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
-	init_env(&test, arg->env);
-	if (test == 0)
+
+	init_env(&data.env, arg->env);
+	if (data.env == 0)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
+printf("ALPHA 3\n");
 
 	arg->outdir = data.out;
 	arg->indir = data.in;
@@ -96,14 +97,15 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
+printf("ALPHA 4\n");
 	// EXEC BUILTIN
-	ret = check_builtin(arg, &test);
+	ret = check_builtin(arg, &data.env);
 	if (ret != -1)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit(ret);
 	}
-
+printf("ALPHA 5\n");
 	//GET PATH FOR EXEC
 	// . = exec
 	// / = chemin depuis racine
@@ -118,6 +120,7 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);//exit 1
 	}
+printf("ALPHA 6\n");
 
 //printf("Alpha 1\n");
 
@@ -136,7 +139,7 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		{
 			if (!getcwd(cwd, sizeof(cwd)))
 			{
-				perror("getcwd() error");
+				printf("getcwd() error\n");
 				exit (1);
 			}
 			temp = ft_strjoin(cwd, "/");
@@ -163,6 +166,7 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 				else if (access(data.cmd_treat[0] , F_OK | X_OK))
 				{
 					printf("bash: %s: Permission denied\n", data.cmd_treat[0]);//modif
+					ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 					exit (126);
 				}
 
@@ -205,6 +209,7 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 		else if (access(data.cmd_treat[0] , F_OK | X_OK))
 		{
 			printf("bash: %s: Permission denied\n", data.cmd_treat[0]);//modif
+			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 			exit (126);
 		}
 	}

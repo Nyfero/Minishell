@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 18:08:45 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/17 18:24:36 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 */
 void	handle_sigint_2(int sig)
 {
-	if (sig == 0)
-		;
+	(void)sig;
+
 	printf("\n");
 }
 
@@ -30,9 +30,9 @@ void	handle_sigint_2(int sig)
 */
 void	handle_sigquit_2(int sig)
 {
+	(void)sig;
+
 	ft_putstr_fd("Quit (core dumped)\n", 2);
-	if (sig == 0)
-		;
 }
 
 void	init_signal_2(void)
@@ -88,6 +88,8 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 		return (1);
 	}
 	child = fork();//creation child
+
+
 	if (child == -1)
 	{
 		//printf("Bravo = %s\n", strerror(errno));
@@ -124,15 +126,14 @@ int	pipex_entry(t_line *arg, t_env **env)
 	t_env	*res;
 	int		ret;
 
+	data.env = 0;
 	data.path = 0;
 	data.out = -1;
 	data.in= -1;
 	data.path_res = 0;
 	data.cmd_treat = 0;
 	res = 0;
-init_signal_2();
-
-ft_parcous_arg(arg);
+//init_signal_2();
 //	printf("debut pipex\n");//suppr
 	if (!arg->next)
 	{
@@ -157,9 +158,8 @@ ft_parcous_arg(arg);
 		}
 	}
 	ret = ft_pipex(arg, 0, data);
-//	printf("FIN PIPEX\n");
-//	printf("ret = %d\n", ret);
-	//free path;
+	printf("FIN PIPEX\n");
+	printf("ret = %d\n", ret);
 	if (data.path )
 		ft_free_ls(data.path);
 	printf("ret = %d\n", ret);
