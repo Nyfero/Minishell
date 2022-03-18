@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 14:33:15 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:36:04 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	ft_export(char **str, t_env **env, t_line *line)
 					ft_putstr_fd("\"", line->outdir);
 				}
 				ft_putstr_fd("\n", line->outdir);
-				printf("(%02d)\n", ptr->flags);
-
 			}
 			ptr = ptr->next;
 		}

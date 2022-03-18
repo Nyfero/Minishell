@@ -6,15 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 16:13:38 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:35:28 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-	//new->var = 0;
-	//new->name = 0;
-	//new->flags = 0;
 
 t_env	*ft_cpy_env_2(t_env *origin)
 {
@@ -35,7 +31,6 @@ t_env	*ft_cpy_env_2(t_env *origin)
 	}
 	new->flags = origin->flags;
 	new->next = 0;
-	//cpy->next = new;
 	if (origin->next)
 	{
 		new->next = ft_cpy_env_2(origin->next);
@@ -48,7 +43,6 @@ t_env	*ft_cpy_env_2(t_env *origin)
 int	ft_cpy_env(t_env **cpy, t_env *origin)
 {
 	*cpy = ft_cpy_env_2(origin);
-	printf("*-*-*-*-**-ret = %p\n", cpy);
 	if (!cpy)
 		return (1);
 	return (0);
@@ -76,20 +70,17 @@ int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 {
 	int	i;
 
-printf("bravo 1\n");
 
 	ft_pipex_close(fd, fd_in, data);
 	i = 0;
 	if (data->path_res)
 		free(data->path_res);
-printf("bravo 2\n");
 	if (data->path)
 	{
 		while (data->path[i])
 			free(data->path[i++]);
 		free(data->path);
 	}
-printf("bravo 3\n");
 	i = 0;
 	if (data->cmd_treat)
 	{
@@ -102,8 +93,8 @@ printf("bravo 3\n");
 	if (data->real_env)
 		destroy_env(&data->real_env);
 	//free env et real env
-printf("bravo 4\n");
+//printf("bravo 4\n");
 	destroy_list_line(arg);
-printf("bravo 5\n");
+//printf("bravo 5\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 15:14:17 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:36:39 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 		//printf("Alpha = %s\n", strerror(errno));
 		return (1);
 	}
-	printf("fd[0] = %d | fd[1] = %d\n", fd[0], fd[1]);
-
 	child = fork();//creation child
 
 

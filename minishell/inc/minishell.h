@@ -6,9 +6,10 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 16:09:15 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:33:58 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -88,6 +89,13 @@ typedef struct s_dir
 	int				fd;
 	struct s_dir	*next;
 }	t_dir;
+
+//	main.c
+int		main(int argc, char **argv, char **envp);
+void	del_arg(int argc, char **argv);
+int		exit_ctr_d(t_env *env);
+void	exec_line(t_line **line, t_env **env, char *inpt);
+int		close_minishell(t_env *env);
 
 //	ft_error.c
 int		ft_error(char *err);
@@ -189,6 +197,7 @@ int		ft_echo(char **str, t_line *line);
 
 //	exit.c
 int		ft_exit(char **tmp);
+int		ft_exit_arg(char **str);
 
 //	pwd.c
 int		ft_pwd(t_line *line, char **str);

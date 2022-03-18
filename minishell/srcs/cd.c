@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 17:08:55 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 18:10:31 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ printf("cd bravo 2\n");
 		res = ft_get_var("OLDPWD", *env);
 		if (!res || res->flags == 1 || res->flags == 3)/*Verifier si OLDPWD existe*/
 		{
-			printf("cd: OLDPWD not set\n\n"); /*OLDPWD n'existe pas*/
+			printf("cd: OLDPWD not set\n"); /*OLDPWD n'existe pas*/
 			return (1);
 		}
 		else /*OLDPWD existe*/
@@ -188,15 +188,16 @@ int	ft_cd(char **str, t_env **env)
 
 	i = 0;
 	while (str[i])
+	{
+		printf("str[%d]=%s\n", i, str[i]);
 		i++;
-printf("cd alplha 0\n");
+	}
 	if (i > 2)
 	{
 		ft_free_ls(str);
 		printf("bash: cd: too many arguments\n");
 		return (1);
 	}
-printf("cd alplha 1\n");
 	ft_cd_alpha(str[1], env);
 	ft_free_ls(str);
 	return (0);
