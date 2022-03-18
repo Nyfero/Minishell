@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 18:58:47 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:14:17 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	handle_sigint_2(int sig)
 {
 	(void)sig;
-	
+
 	printf("\n");
 }
 
@@ -31,7 +31,7 @@ void	handle_sigint_2(int sig)
 void	handle_sigquit_2(int sig)
 {
 	(void)sig;
-	
+
 	ft_putstr_fd("Quit (core dumped)\n", 2);
 }
 
@@ -48,17 +48,17 @@ void	init_signal_2(void)
 	sigaction(SIGQUIT, &squit, NULL);
 }
 
-/*
-**int	ft_parcours_env_perso(t_env *env)//asuppra la fin
-**{
-**	if (env == 0)
-**		return (0);
-**	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
-**	if (env->next)
-**		ft_parcours_env_perso(env->next);
-**	return (0);
-**}
-***/
+
+int	ft_parcours_env_perso(t_env *env)//asuppra la fin
+{
+	if (env == 0)
+		return (0);
+	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
+	if (env->next)
+		ft_parcours_env_perso(env->next);
+	return (0);
+}
+
 int ft_parcous_arg(t_line *arg)//a suppr a la fin
 {
 	if (!arg)
@@ -87,6 +87,8 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 		//printf("Alpha = %s\n", strerror(errno));
 		return (1);
 	}
+	printf("fd[0] = %d | fd[1] = %d\n", fd[0], fd[1]);
+
 	child = fork();//creation child
 
 
@@ -100,6 +102,7 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	{
 		ft_pipex_child(arg, fd, fd_in, data);
 	}
+	//sleep(1);
 	if (fd_in > 0)
 		close(fd_in);
 	close(fd[1]);
@@ -126,6 +129,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 	t_env	*res;
 	int		ret;
 
+	data.real_env = *env;
 	data.env = 0;
 	data.path = 0;
 	data.out = -1;
@@ -133,14 +137,17 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.path_res = 0;
 	data.cmd_treat = 0;
 	res = 0;
+
 //init_signal_2();
-//	printf("debut pipex\n");//suppr
+	printf("debut pipex\n");//suppr
+
 	if (!arg->next)
 	{
-//		printf("coucou 0built in solo test\n");
+		printf("coucou 0built in solo test\n");
 		ret = check_builtin(arg, env);
 		if (ret != -1)
 			return (ret);
+		printf("no built in\n");
 	}
 	if (*env)
 	{
@@ -157,6 +164,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 			}
 		}
 	}
+	printf("DEB PIPEX\n");
 	ret = ft_pipex(arg, 0, data);
 	printf("FIN PIPEX\n");
 	printf("ret = %d\n", ret);

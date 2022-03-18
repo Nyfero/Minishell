@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 18:07:00 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:19:19 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 int	check_builtin(t_line *line, t_env **env)
 {
 	char	**tmp;
-	int		ret;
 
-	ret = 0;
-	tmp = 0;
+
 	tmp = ft_split_minishell(line->cmd, ' ');
 	if (ft_strncmp(tmp[0], "env", 4) == 0)
 		return (ft_env(tmp, env, line));

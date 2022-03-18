@@ -6,11 +6,53 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 18:03:37 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:13:38 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+	//new->var = 0;
+	//new->name = 0;
+	//new->flags = 0;
+
+t_env	*ft_cpy_env_2(t_env *origin)
+{
+	t_env	*new;
+
+	new = 0;
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (0);
+	new->name = ft_strdup(origin->name);
+	if (!new->name)
+		return (0);
+	if (origin->var)
+	{
+		new->var = ft_strdup(origin->var);
+		if (!new->var)
+			return (0);
+	}
+	new->flags = origin->flags;
+	new->next = 0;
+	//cpy->next = new;
+	if (origin->next)
+	{
+		new->next = ft_cpy_env_2(origin->next);
+		if (!new->next)
+			return (0);
+	}
+	return (new);
+}
+
+int	ft_cpy_env(t_env **cpy, t_env *origin)
+{
+	*cpy = ft_cpy_env_2(origin);
+	printf("*-*-*-*-**-ret = %p\n", cpy);
+	if (!cpy)
+		return (1);
+	return (0);
+}
 
 int	ft_pipex_close(int *fd, int fd_in, t_pipe *data)
 {
@@ -57,6 +99,9 @@ printf("bravo 3\n");
 	}
 	if (data->env)
 		destroy_env(&data->env);
+	if (data->real_env)
+		destroy_env(&data->real_env);
+	//free env et real env
 printf("bravo 4\n");
 	destroy_list_line(arg);
 printf("bravo 5\n");

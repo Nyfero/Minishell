@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 13:18:18 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 11:50:21 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 		free(ptr->var);
 	ptr->var = NULL;
 	ptr->flags = flags;
-	ptr->var = ft_strdup(str);
+	if (str)
+		ptr->var = ft_strdup(str);
+	else
+		ptr->var = ft_strdup("");
 	if (!ptr->var)
 		return (0);
 	return (ptr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 17:38:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 14:03:18 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ char	**env_to_str(t_env **env)
 	while (ptr->next)
 	{
 		tmp[i] = ft_strjoin(ptr->name, "=");
-		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
-		ptr = ptr->next;
+		if (ptr->var)
+			tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
 		i++;
+		ptr = ptr->next;
 	}
+	printf("i :%d\n", i);
 	return (tmp);
 }

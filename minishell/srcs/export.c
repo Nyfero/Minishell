@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 18:02:17 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 14:33:15 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,21 @@ int	ft_export(char **str, t_env **env, t_line *line)
 	{
 		while (ptr)
 		{
-			ft_putstr_fd("export ", line->outdir);
-			ft_putstr_fd(ptr->name, line->outdir);
-			if (ptr->flags == 0)
+			if (ptr->flags < 2)
 			{
-				ft_putstr_fd("=\"", line->outdir);
-				ft_putstr_fd(ptr->var, line->outdir);
-				ft_putstr_fd("\"", line->outdir);
+				ft_putstr_fd("export ", line->outdir);
+				ft_putstr_fd(ptr->name, line->outdir);
+				if (ptr->flags == 0)
+				{
+					ft_putstr_fd("=\"", line->outdir);
+					if (ptr->var)
+						ft_putstr_fd(ptr->var, line->outdir);
+					ft_putstr_fd("\"", line->outdir);
+				}
+				ft_putstr_fd("\n", line->outdir);
+				printf("(%02d)\n", ptr->flags);
+
 			}
-			ft_putstr_fd("\n", line->outdir);
 			ptr = ptr->next;
 		}
 		ft_free_ls(str);

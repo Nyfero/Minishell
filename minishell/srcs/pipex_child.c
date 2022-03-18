@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 18:04:55 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:14:16 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,11 @@ printf("ALPHA 2\n");
 	data.in = ft_pipex_check_in(arg, fd_in);
 	data.out = ft_pipex_check_out(arg, fd_pipe);
 
-ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-		exit (1);
+	ft_cpy_env(&data.env, data.real_env);
+	
+	//init_env(&data.env, arg->env);
 
-	init_env(&data.env, arg->env);
+
 	if (data.env == 0)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
@@ -94,21 +95,17 @@ printf("ALPHA 3\n");
 
 	arg->outdir = data.out;
 	arg->indir = data.in;
-
 	if (arg->outdir == -1 || arg->indir == -1)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit (1);
 	}
-printf("ALPHA 4\n");
-	// EXEC BUILTIN
 	ret = check_builtin(arg, &data.env);
 	if (ret != -1)
 	{
 		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 		exit(ret);
 	}
-printf("ALPHA 5\n");
 	//GET PATH FOR EXEC
 	// . = exec
 	// / = chemin depuis racine
@@ -118,11 +115,11 @@ printf("ALPHA 5\n");
 
 
 //data.in = ft_pipex_check_in(arg, fd_in);
-	if (data.in == -1 || data.out == -1)
-	{
-		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-		exit (1);//exit 1
-	}
+//	if (data.in == -1 || data.out == -1)
+//	{
+//		ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
+//		exit (1);//exit 1
+//	}
 printf("ALPHA 6\n");
 
 //printf("Alpha 1\n");
@@ -223,11 +220,11 @@ printf("ALPHA 6\n");
 	dup2(data.in, 0);
 
 	ft_pipex_close(fd_pipe, fd_in, &data);
-//int i = 0;//suppr
-//i = 0;//suppr
-//while (data.cmd_treat[i])//suppr
-//	printf("end data.cmd_treat= %s\n", data.cmd_treat[i++]);//suppr
-//printf("EXEC\n");//a suppr
+int i = 0;//suppr
+i = 0;//suppr
+//while (arg->env[i])//suppr
+//	printf("end arg->env[i]= %s\n", arg->env[i++]);//suppr
+printf("EXEC\n");//a suppr
 
 if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
 	execve(data.cmd_treat[0], data.cmd_treat, arg->env);

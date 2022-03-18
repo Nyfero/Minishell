@@ -6,11 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/03/17 17:27:14 by jgourlin         ###   ########.fr       */
-=======
-/*   Updated: 2022/03/17 18:03:48 by gsap             ###   ########.fr       */
->>>>>>> 8124b8b4b34bc37f56f40e561609aef2610e3340
+/*   Updated: 2022/03/18 16:09:15 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +37,8 @@
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
 
+
+
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
@@ -61,6 +59,7 @@ typedef struct s_line
 
 typedef struct s_pipe
 {
+	struct s_env	*real_env;
 	struct s_env	*env;
 	char			*path_res;
 	char			**path;
@@ -244,5 +243,10 @@ int		pipex_entry(t_line *arg, t_env **env);
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
 int		ft_change_PWD(t_env **env);
+int		ft_cpy_env(t_env **cpy, t_env *origin);
+
+
+int ft_parcous_arg(t_line *arg);
+int	ft_parcours_env_perso(t_env *env);
 
 #endif

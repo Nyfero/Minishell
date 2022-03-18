@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 18:58:42 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:18:43 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 	char	*expand;
 	int		ret;
 	int		bis;
-
 	here = NULL;
 	infile = NULL;
 	out = NULL;

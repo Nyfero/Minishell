@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_minishell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 17:21:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:09:56 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static char	**ft_alloc_tmp(char const *s, char c)
 
 	i = 0;
 	compt = 0;
+	if (ft_strlen(s))
+		compt++;
 	while (s[i])
 	{
 		if (s[i] && s[i] == c)

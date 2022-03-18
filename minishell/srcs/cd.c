@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/17 17:59:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:08:55 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,10 @@ int	ft_cd_alpha(char *str, t_env **env)
 
 	(void)env;
 	(void)str;
+printf("cd bravo 0\n");
 	if (!str || !ft_strncmp(str, "--", 3))
 	{
+printf("cd bravo 1\n");
 		res = ft_get_var("HOME", *env);
 		if (res)
 		{
@@ -118,6 +120,7 @@ int	ft_cd_alpha(char *str, t_env **env)
 	}
 	else if (!ft_strncmp(str, "-", 2))
 	{
+printf("cd bravo 2\n");
 		res = ft_get_var("OLDPWD", *env);
 		if (!res || res->flags == 1 || res->flags == 3)/*Verifier si OLDPWD existe*/
 		{
@@ -132,11 +135,13 @@ int	ft_cd_alpha(char *str, t_env **env)
 	}
 	else if (str[0] == '-')
 	{
+printf("cd bravo 3\n");
 		printf("bash: cd: -%c: invalid option\n", str[1]);
 		return (2);
 	}
 	else /*gerer cas $$ $LANG etc... Pas besoin : checker path*/
 	{
+printf("cd bravo 4\n");
 		res = ft_get_var("CDPATH", *env);
 		printf("salut res = %p\n", res);//a suppr
 		if (res && str[0] != '.')
@@ -178,17 +183,20 @@ int	ft_cd_alpha(char *str, t_env **env)
 
 int	ft_cd(char **str, t_env **env)
 {
+	printf("ALPHA %s\n", "cd entry");
 	int	i;
 
 	i = 0;
 	while (str[i])
 		i++;
+printf("cd alplha 0\n");
 	if (i > 2)
 	{
 		ft_free_ls(str);
 		printf("bash: cd: too many arguments\n");
 		return (1);
 	}
+printf("cd alplha 1\n");
 	ft_cd_alpha(str[1], env);
 	ft_free_ls(str);
 	return (0);
