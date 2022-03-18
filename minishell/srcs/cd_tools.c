@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/16 14:07:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 11:43:04 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int	ft_change_OLDPWD(t_env **env)
 		printf("OLD paire\n");//suppr
 		if (!pwd || pwd->flags % 2 == 1)// pwd == 1 / 3
 		{
+			printf("salut\n");
 			old = mod_env_maillon("", old, old->flags + 1);
 			if (!old)
 				return (1);
@@ -132,6 +133,7 @@ int	ft_change_OLDPWD(t_env **env)
 		}
 		else // 0 / 2
 		{
+			printf("aurevoir\n");
 			old = mod_env_maillon(pwd->var, old, old->flags);
 			if (!old)
 				return (1);
@@ -141,6 +143,7 @@ int	ft_change_OLDPWD(t_env **env)
 	printf("search new oldpwd\n");//suppr
 	old = ft_get_var("OLDPWD", *env);//suppr
 	printf("old->flags = %d\n", old->flags);//suppr
+	printf("old->ptrname = %p\n", old->name);//suppr
 	printf("old->name = %s\n", old->name);//suppr
 	printf("old->var = %s\n", old->var);//suppr
 	printf("end search new oldpwd\n");//suppr

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:22:14 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:51:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ int	init_env(t_env **env, char **envp)
 			ptr = *env;
 			while (ptr->next != NULL)
 				ptr = ptr->next;
-			if (format_key_value(envp[i]) == 0)
-				ptr->next = create_env_maillon(envp[i], 0);
-			else
-				ptr->next = create_env_maillon(envp[i], 1);
+			ptr->next = chose_flags(envp[i], ptr->next);
 			if (!ptr->next)
 				return (1);
 		}
@@ -89,7 +86,10 @@ t_env	*mod_env_maillon(char *str, t_env *ptr, int flags)
 		free(ptr->var);
 	ptr->var = NULL;
 	ptr->flags = flags;
-	ptr->var = ft_strdup(str);
+	if (str)
+		ptr->var = ft_strdup(str);
+	else
+		ptr->var = ft_strdup("");
 	if (!ptr->var)
 		return (0);
 	return (ptr);

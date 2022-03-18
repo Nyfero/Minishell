@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 12:48:57 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:51:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,23 @@ char	**env_to_str(t_env **env)
 	while (ptr->next)
 	{
 		tmp[i] = ft_strjoin(ptr->name, "=");
-		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
+		if (ptr->var)
+			tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
 		i++;
 		ptr = ptr->next;
 	}
 	return (tmp);
+}
+
+/*
+**	Met un flag 1 si envp ne contient pas de '='
+*/
+
+t_env	*chose_flags(char *envp, t_env *ptr)
+{
+	if (format_key_value(envp) == 0)
+		ptr = create_env_maillon(envp, 0);
+	else
+		ptr = create_env_maillon(envp, 1);
+	return (ptr);
 }

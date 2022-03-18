@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:08:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:37:01 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 int	check_builtin(t_line *line, t_env **env)
 {
 	char	**tmp;
+
 
 	tmp = ft_split_minishell(line->cmd, ' ');
 	printf("len_tmp:%d\n", ft_lstrlen(tmp));

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:24:24 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:51:03 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
 
+
+
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
 {
@@ -58,6 +60,7 @@ typedef struct s_line
 
 typedef struct s_pipe
 {
+	struct s_env	*real_env;
 	struct s_env	*env;
 	char			*path_res;
 	char			**path;
@@ -209,6 +212,7 @@ int		export_format_key_value(char *str, t_env **env, t_env *ptr);
 //	ft_export_utils.c
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
+void	print_flag_0(t_env *ptr, t_line *line);
 
 //	unset.c
 int		ft_unset(char **str, t_env **env);
@@ -220,6 +224,7 @@ void	del_env_maillon(t_env *ptr, t_env **env);
 int		ft_env(char **str, t_env **env, t_line *line);
 int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
+t_env	*chose_flags(char *envp, t_env *ptr);
 
 //	ft_env_func.c
 int		init_env(t_env **env, char **envp);
@@ -249,5 +254,10 @@ int		pipex_entry(t_line *arg, t_env **env);
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
 int		ft_change_PWD(t_env **env);
+int		ft_cpy_env(t_env **cpy, t_env *origin);
+
+
+int ft_parcous_arg(t_line *arg);
+int	ft_parcours_env_perso(t_env *env);
 
 #endif

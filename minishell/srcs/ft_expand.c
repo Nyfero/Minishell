@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 15:13:36 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 19:07:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*ft_expand(char const *inpt, t_env **env)
 	while (dup[++i])
 	{
 		dup[i] = ft_expand_var(dup[i], env);
+		if (!dup[i])
+			return (NULL);
 		if (i > 0)
 		{
 			expand = ft_strjoin_and_free_s1(expand, " ");
@@ -53,9 +55,12 @@ char	*ft_expand_var(char *dup, t_env **env)
 				tmp = expand_no_quotes(dup, env);
 			else
 				tmp = expand_with_quotes(dup, env);
+			if (!tmp)
+				return (NULL);
 			return (tmp);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (dup);
 }
@@ -65,8 +70,8 @@ char	*expand_no_quotes(char *dup, t_env **env)
 	t_env	*ptr;
 	char	*tmp;
 
-	ptr = check_good_expand(dup, env);
-	if (ptr)
+	ptr = check_good_expand(&dup[get_dolls(dup)], env);
+	if (ptr && ptr->flags % 2 == 0)
 	{
 		tmp = ft_substr(dup, 0, get_dolls(dup));
 		if (!tmp)
@@ -126,7 +131,7 @@ char	*replace_expand(char *dup, int i, t_env **env)
 		j = i + 1 + ft_strlen(ptr->name);
 	after = ft_substr(dup, j, ft_strlen(dup));
 	free(dup);
-	if (!ptr)
+	if (!ptr || ptr->flags % 2)
 		dup = ft_strjoin_and_free_all(before, after);
 	else
 	{

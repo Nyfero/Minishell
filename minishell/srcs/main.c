@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:24:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:32:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	env = NULL;
 	if (init_env(&env, envp))
 		exit(1);
+	//init_signal();
 	while (1)
 	{
 		init_signal();

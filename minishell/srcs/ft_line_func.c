@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 10:39:25 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:36:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 	char	*expand;
 	int		ret;
 	int		bis;
-
 	here = NULL;
 	infile = NULL;
 	out = NULL;
