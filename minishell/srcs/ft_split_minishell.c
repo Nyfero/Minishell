@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 17:21:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:07:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,21 @@ static char	**ft_alloc_tmp(char const *s, char c)
 
 	i = 0;
 	compt = 0;
+	if (ft_strlen(s))
+		compt++;
 	while (s[i])
 	{
-		if (s[i] && s[i] == c)
+		while (s[i] && s[i] == c)
 			i++;
 		if (s[i] && bool_not_in_quotes(&s[i]))
 			if (s[i + 1])
 				compt++;
-		while (s[i] && (s[i] != c))
+		while (s[i] && s[i] != c)
 			i++;
 	}
-	tmp = (char **)malloc(sizeof(char *) * (compt + 1));
+	if (compt == 0)
+		return (NULL);
+	tmp = ft_calloc(sizeof(char *), compt + 1);
 	if (!tmp)
 		return (NULL);
 	tmp[compt] = 0;
@@ -69,16 +73,16 @@ static char	**ft_split_tmp(char const *s, char c, char **split)
 	while (*s)
 	{
 		i = 0;
-		while (*s && (*s == c))
+		while (*s && *s == c)
 			s++;
-		while ((*s && *s != c) || (!bool_not_in_quotes(s) && *s == c))
+		while (*s && (*s != c || !bool_not_in_quotes(s)))
 		{
 			i++;
 			s++;
 		}
 		if (i > 0)
 		{
-			split[j] = (char *)malloc(sizeof(char) * (i + 1));
+			split[j] = ft_calloc(sizeof(char), i + 1);
 			if (!split[j])
 				return (ft_free_split(split, j));
 			split[j] = ft_assign_tmp(s, split[j], i);

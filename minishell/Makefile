@@ -6,12 +6,12 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/03/16 18:15:50 by gsap             ###   ########.fr        #
+#    Updated: 2022/03/18 14:03:29 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-# valgrind --leak-check=full --track-fds=yes --track-origins=yes --show-leak-kinds=all --suppressions=.ignore_readline -q ./minishell
+# valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --show-leak-kinds=all --suppressions=.ignore_readline -q ./minishell
 
 #	Colors
 GREY = \e[90m

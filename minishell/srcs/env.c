@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 17:38:10 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 12:48:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char	**env_to_str(t_env **env)
 	{
 		tmp[i] = ft_strjoin(ptr->name, "=");
 		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
-		ptr = ptr->next;
 		i++;
+		ptr = ptr->next;
 	}
 	return (tmp);
 }
