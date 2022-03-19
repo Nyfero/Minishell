@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:32:54 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 14:02:30 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	main(int argc, char **argv, char **envp)
 	env = NULL;
 	if (init_env(&env, envp))
 		exit(1);
-	//init_signal();
 	while (1)
 	{
+	printf("-----init main signal\n");
 		init_signal();
 		line = NULL;
 		inpt = readline("Prompt> ");

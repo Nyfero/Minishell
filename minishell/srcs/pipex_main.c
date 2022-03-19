@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 17:36:39 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 14:56:10 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_sigint_2(int sig)
 {
 	(void)sig;
 
-	printf("\n");
+	//printf("\n");
 }
 
 /*
@@ -32,14 +32,24 @@ void	handle_sigquit_2(int sig)
 {
 	(void)sig;
 
-	ft_putstr_fd("Quit (core dumped)\n", 2);
+	//ft_putstr_fd("Quit (core dumped)\n", 2);
 }
 
 void	init_signal_2(void)
 {
-	struct sigaction	sint = {0};
-	struct sigaction	squit = {0};
-
+	struct sigaction	sint;
+	struct sigaction	squit;
+	
+	if (sigemptyset(&sint.sa_mask))
+	{
+		printf("Error: %s\n", strerror(errno));
+		return ;
+	}
+	if (sigemptyset(&squit.sa_mask))
+	{
+		printf("Error: %s\n", strerror(errno));
+		return ;
+	}
 	sint.sa_handler = &handle_sigint_2;
 	sint.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sint, NULL);
@@ -98,8 +108,12 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	}
 	if (child == 0)//envoie child
 	{
+	//	printf("-----init child signal\n");
+	//	init_signal_2();
 		ft_pipex_child(arg, fd, fd_in, data);
 	}
+	//printf("-----init child signal\n");
+	//	init_signal_2();
 	//sleep(1);
 	if (fd_in > 0)
 		close(fd_in);
@@ -136,7 +150,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.cmd_treat = 0;
 	res = 0;
 
-//init_signal_2();
+init_signal_2();
 	printf("debut pipex\n");//suppr
 
 	if (!arg->next)
