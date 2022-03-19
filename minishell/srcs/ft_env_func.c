@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:51:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 17:44:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	init_env(t_env **env, char **envp)
 		}
 		else
 		{
-			ptr = *env;
-			while (ptr->next != NULL)
-				ptr = ptr->next;
-			ptr->next = chose_flags(envp[i], ptr->next);
-			if (!ptr->next)
+			ptr = create_env_flags(envp[i], env);
+			if (!ptr)
 				return (1);
 		}
 	}
+	ptr = create_env_var(env);
+	if (!ptr)
+		return (1);
 	return (0);
 }
 

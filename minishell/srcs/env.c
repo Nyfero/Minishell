@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:51:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 16:15:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,35 @@ char	**env_to_str(t_env **env)
 **	Met un flag 1 si envp ne contient pas de '='
 */
 
-t_env	*chose_flags(char *envp, t_env *ptr)
+t_env	*create_env_flags(char *envp, t_env **env)
 {
+	t_env	*ptr;
+
+	ptr = *env;
+	while (ptr->next)
+		ptr = ptr->next;
 	if (format_key_value(envp) == 0)
-		ptr = create_env_maillon(envp, 0);
+		ptr->next = create_env_maillon(envp, 0);
 	else
-		ptr = create_env_maillon(envp, 1);
-	return (ptr);
+		ptr->next = create_env_maillon(envp, 1);
+	if (!ptr->next)
+		return (0);
+	return (ptr->next);
+}
+
+t_env	*create_env_var(t_env **env)
+{
+	t_env	*ptr;
+
+	ptr = *env;
+	while (ptr->next)
+		ptr = ptr->next;
+	ptr->next = create_env_maillon("?=0", 2);
+	if (!ptr->next)
+		return (0);
+	ptr = ptr->next;
+	ptr->next = create_env_maillon("!=$", 2);
+	if (!ptr->next)
+		return (0);
+	return (ptr->next);
 }

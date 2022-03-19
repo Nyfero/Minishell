@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 19:07:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 16:16:31 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,9 @@ char	*ft_expand_var(char *dup, t_env **env)
 {
 	char	*tmp;
 	int		i;
-	int		len;
 
 	i = 0;
-	len = (int)ft_strlen(dup) - 1;
-	while (i < len)
+	while (dup[i])
 	{
 		if (dup[i] == '$')
 		{
@@ -68,25 +66,27 @@ char	*ft_expand_var(char *dup, t_env **env)
 char	*expand_no_quotes(char *dup, t_env **env)
 {
 	t_env	*ptr;
-	char	*tmp;
+	int		j;
+	int		i;
 
-	ptr = check_good_expand(&dup[get_dolls(dup)], env);
-	if (ptr && ptr->flags % 2 == 0)
+	i = 0;
+	while (dup[i])
 	{
-		tmp = ft_substr(dup, 0, get_dolls(dup));
-		if (!tmp)
-			return (NULL);
-		tmp = ft_strjoin_and_free_s1(tmp, ptr->var);
-		if (!tmp)
-			return (NULL);
+		ptr = NULL;
+		if (dup[i] == '$')
+		{
+			ptr = check_good_expand(&dup[i], env);
+			if (!ptr)
+				j = i - 1;
+			else
+				j = i + ft_strlen(ptr->name);
+			dup = replace_expand(dup, i, env);
+			i = j;
+		}
+		if (!ptr)
+			i++;
 	}
-	else
-	{
-		tmp = ft_substr(dup, 0, get_dolls(dup));
-		if (!tmp)
-			return (NULL);
-	}
-	return (tmp);
+	return (dup);
 }
 
 char	*expand_with_quotes(char *dup, t_env **env)
@@ -100,17 +100,18 @@ char	*expand_with_quotes(char *dup, t_env **env)
 	i = 0;
 	while (dup[i])
 	{
+		ptr = NULL;
 		if (dup[i] == '$')
 		{
 			ptr = check_good_expand(&dup[i], env);
 			if (!ptr)
-				j = i;
+				j = i - 1;
 			else
-				j = i + 1 + ft_strlen(ptr->name);
+				j = i + ft_strlen(ptr->name);
 			dup = replace_expand(dup, i, env);
 			i = j;
 		}
-		if (i < (int)ft_strlen(dup))
+		if (!ptr)
 			i++;
 	}
 	return (dup);
@@ -124,12 +125,16 @@ char	*replace_expand(char *dup, int i, t_env **env)
 	int		j;
 
 	before = ft_substr(dup, 0, i);
+	if (dup[i + 1] && dup[i + 1] == '$')
+		return (replace_dolls(dup, before, i));
 	ptr = check_good_expand(&dup[i], env);
 	if (!ptr)
-		j = i;
+		j = i + len_name(&dup[i]);
 	else
 		j = i + 1 + ft_strlen(ptr->name);
 	after = ft_substr(dup, j, ft_strlen(dup));
+	if (!after)
+		after = ft_strdup("");
 	free(dup);
 	if (!ptr || ptr->flags % 2)
 		dup = ft_strjoin_and_free_all(before, after);

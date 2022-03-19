@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 11:43:04 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/18 18:43:18 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	ft_change_PWD(t_env **env)
 	printf("end search new pwd\n");//suppr
 	return (0);
 }
+
+// 3 = 2 vide
 
 int	ft_change_OLDPWD(t_env **env)
 {
@@ -143,10 +145,11 @@ int	ft_change_OLDPWD(t_env **env)
 	printf("search new oldpwd\n");//suppr
 	old = ft_get_var("OLDPWD", *env);//suppr
 	printf("old->flags = %d\n", old->flags);//suppr
-	printf("old->ptrname = %p\n", old->name);//suppr
 	printf("old->name = %s\n", old->name);//suppr
 	printf("old->var = %s\n", old->var);//suppr
 	printf("end search new oldpwd\n");//suppr
 
 	return (0);
 }
+
+//oldpwd F = 2 PB EXPORT

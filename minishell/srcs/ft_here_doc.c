@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 09:42:13 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 16:36:51 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ int	write_here_doc_on_fd(char *lim)
 {
 	int		fd[2];
 
+
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		return (-1);
 	}
+	//signal_custom_here();
 	write(1, "here_doc>", 9);
 	get_here_doc(lim, fd);
+	//init_signal();
 	close(fd[1]);
 	return (fd[0]);
 }

@@ -6,11 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 18:29:46 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 16:40:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern	int g_sig;
 
 void	init_signal(void)
 {
@@ -37,6 +39,7 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sig = 130;
 }
 
 /*
