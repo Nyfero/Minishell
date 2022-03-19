@@ -6,48 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 19:11:47 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 18:24:12 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-**	ctr + c
-**	return 130
-*/
-void	handle_sigint_2(int sig)
-{
-	(void)sig;
-
-	printf("\n");
-}
-
-/*
-**	ctr + \
-**	^\Quit (core dumped) dans child
-**	return 131
-*/
-void	handle_sigquit_2(int sig)
-{
-	(void)sig;
-
-	ft_putstr_fd("Quit (core dumped)\n", 2);
-}
-
-void	init_signal_2(void)
-{
-	struct sigaction	sint = {0};
-	struct sigaction	squit = {0};
-
-	sint.sa_handler = &handle_sigint_2;
-	sint.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sint, NULL);
-	squit.sa_handler = &handle_sigquit_2;
-	squit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &squit, NULL);
-}
-
 
 int	ft_parcours_env_perso(t_env *env)//asuppra la fin
 {
@@ -98,8 +61,12 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	}
 	if (child == 0)//envoie child
 	{
+	//	printf("-----init child signal\n");
+	//	init_signal_2();
 		ft_pipex_child(arg, fd, fd_in, data);
 	}
+	//printf("-----init child signal\n");
+	//	init_signal_2();
 	//sleep(1);
 	if (fd_in > 0)
 		close(fd_in);
@@ -136,7 +103,7 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.cmd_treat = 0;
 	res = 0;
 
-//init_signal_2();
+	signal_pipex();
 	printf("debut pipex\n");//suppr
 
 	if (!arg->next)

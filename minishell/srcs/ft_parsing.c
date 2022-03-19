@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 17:35:44 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 18:39:44 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	if (inpt[0] == 0)
 		return ;
 	cmd = ft_split_minishell(inpt, '|');
-	if (!cmd[0])
+	if (!cmd)
 	{
 		if (inpt[ft_strlen(inpt) - 1] == '|')
 			ft_putendl_fd("syntax error near unexpected token `|'", 2);
@@ -32,6 +32,11 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 			return ;
 	if (check_quotes(inpt))
 		return ;
+
+	char	**tmp;
+	tmp = ft_split(cmd[0], ' ');
+	if (!tmp[0])
+		return ;
 	create_list_line(line, ft_lstrlen(cmd), env);
 	if (!line)
 		return ;
@@ -40,6 +45,8 @@ void	parsing(t_env **env, t_line **line, char const *inpt)
 	while (ptr)
 	{
 		fill_line(cmd[i], ptr, env);
+		if (!ptr)
+			return ;
 		i++;
 		ptr = ptr->next;
 	}

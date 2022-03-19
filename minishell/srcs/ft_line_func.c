@@ -6,11 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 17:04:00 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 19:12:39 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern	int g_sig;
 
 void	create_list_line(t_line **line, int len, t_env **env)
 {
@@ -69,6 +71,9 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 	infile = NULL;
 	out = NULL;
 	put_here_doc(&here, cmd);
+	if (g_sig == 130)
+		return ;
+	signal_main();
 	expand = ft_expand(cmd, env);
  	bis = put_infile(&infile, expand);
 	ret = check_last_indir(cmd);
@@ -91,7 +96,6 @@ void	fill_line(char *cmd, t_line *ptr, t_env **env)
 	}
 	expand = ft_remove_redir(expand);
 	ptr->cmd = del_quotes(expand);
-	printf("line ptr->cmd:%s\n", ptr->cmd);
 	return ;
 }
 
@@ -106,8 +110,10 @@ void	destroy_list_line(t_line **line)
 		aux = ptr;
 		ptr = ptr->next;
 		aux->next = NULL;
-		aux->indir = 0;
-		aux->outdir = 0;
+		if (aux->indir > 0)
+			close(aux->indir);
+		if (aux->outdir > 1)
+			close(aux->outdir);
 		if (aux->cmd)
 			free(aux->cmd);
 		ft_free_ls(aux->env);

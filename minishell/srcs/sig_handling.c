@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signal.c                                    :+:      :+:    :+:   */
+/*   sig_handling.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:40:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 19:55:24 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,14 @@
 
 extern	int g_sig;
 
-void	init_signal(void)
-{
-	struct sigaction	sint;
-	struct sigaction	squit;
-
-	sint.sa_handler = &handle_sigint;
-	sint.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sint, NULL);
-	squit.sa_handler = &handle_sigquit;
-	squit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &squit, NULL);
-}
-
 /*
+**	sigint
 **	ctr + c
 **	ret 130
 */
-void	handle_sigint(int sig)
+void	sigint_main(int sig)
 {
-	if (sig == 0)
-		;
+	(void)sig;
 	write(1, "\n", 1);
 	rl_replace_line("", 1);
 	rl_on_new_line();
@@ -42,12 +29,37 @@ void	handle_sigint(int sig)
 	g_sig = 130;
 }
 
-/*
-**	ctr + \
-*/
-void	handle_sigquit(int sig)
+void	sigint_pipex(int sig)
 {
+	(void)sig;
+	g_sig = 130;
+	//printf("\n");
+}
+
+void	sigint_here_doc(int sig)
+{
+	(void)sig;
+	g_sig *= -1;
+	close(g_sig);
+	write(1, "\n", 1);
+	g_sig = 130;
+}
+
+/*
+**	sigquit
+**	ctr + \
+**	ret 131
+*/
+
+void	sigquit_main(int sig)
+{
+	(void)sig;
 	ft_putstr_fd("\b\b  \b\b", 1);
-	if (sig == 0)
-		;
+}
+
+void	sigquit_pipex(int sig)
+{
+	(void)sig;
+	g_sig = 131;
+	//ft_putstr_fd("Quit (core dumped)\n", 2);
 }

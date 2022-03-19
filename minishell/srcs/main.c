@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 17:44:46 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 19:43:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		g_sig = 0;
-		init_signal();
+		signal_main();
 		line = NULL;
 		inpt = readline("Prompt> ");
 		if (!inpt)
@@ -68,11 +68,17 @@ void	exec_line(t_line **line, t_env **env, char *inpt)
 	t_env	*ptr;
 	char	*tmp;
 
+	ptr = NULL;
+	tmp = NULL;
 	ptr = ft_get_var("?", *env);
-	tmp = ft_itoa(pipex_entry(*line, env));
+	if (g_sig != 130)
+		tmp = ft_itoa(pipex_entry(*line, env));
 	if (g_sig)
 	{
-		free(tmp);
+		if (g_sig == 131)
+			ft_putendl_fd("^\\Quit (core dumped)", 2);
+		if (tmp)
+			free(tmp);
 		tmp = ft_itoa(g_sig);
 	}
 	ptr = mod_env_maillon(tmp, ptr, 2);

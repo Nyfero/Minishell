@@ -6,11 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:36:51 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 19:58:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern	int g_sig;
 
 /*
 **	Ouvre un pipe et écrit le here doc dedans puis renvoie fd[0]
@@ -20,42 +22,50 @@ int	write_here_doc_on_fd(char *lim)
 {
 	int		fd[2];
 
-
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		return (-1);
 	}
-	//signal_custom_here();
-	write(1, "here_doc>", 9);
+	signal_here_doc();
 	get_here_doc(lim, fd);
-	//init_signal();
 	close(fd[1]);
+	if (g_sig == 130)
+	{
+		close(fd[0]);
+		return (0);
+	}
 	return (fd[0]);
 }
 
 void	get_here_doc(char *lim, int fd[2])
 {
 	char	*line;
+	int		merde[2];
 	int		i;
 	int		x;
 
 	x = 1;
-	line = get_next_line(0);
-	if (!line)
-		return (warning_here_doc(lim, x));
-	while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
+
+	pipe(merde);
+	dup2(0, merde[1]);
+	write(0, "salut", 6);
+	g_sig = merde[0] * -1;
+	line = ft_strdup("");
+	while (g_sig != 130)
 	{
+		write(1, "here_doc>", 9);
+		free(line);
+		line = get_next_line(merde[0]);
+		if (!line)
+			return (warning_here_doc(lim, x));
+		x++;
 		i = 0;
 		while (line[i])
 			write(fd[1], line + i++, 1);
 		write(fd[1], "\n", 1);
-		free(line);
-		write(1, "here_doc>", 9);
-		x++;
-		line = get_next_line(0);
-		if (!line)
-			return (warning_here_doc(lim, x));
+		if (!ft_strncmp(line, lim, ft_strlen(lim) + 1))
+			break;
 	}
 	free(line);
 }

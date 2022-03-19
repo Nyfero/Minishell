@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:40:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 19:16:46 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,17 @@ void	warning_here_doc(char *s, int x);
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
 
+//	ft_sig_init.c
+void	signal_main(void);
+void	signal_pipex(void);
+void	signal_here_doc(void);
+
 //	handle_signal.c
-void	init_signal(void);
-void	handle_sigint(int sig);
-void	handle_sigquit(int sig);
+void	sigint_main(int sig);
+void	sigint_pipex(int sig);
+void	sigint_here_doc(int sig);
+void	sigquit_main(int sig);
+void	sigquit_pipex(int sig);
 
 //	ft_tools.c
 int		ft_dir_access(char *str);
