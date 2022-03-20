@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:33:58 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 16:40:53 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 # define WR_PATH ": No such file or directory"
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
-
-
 
 // stock une commande et pointe sur la commande suivante
 typedef struct s_line
@@ -92,7 +90,7 @@ typedef struct s_dir
 
 //	main.c
 int		main(int argc, char **argv, char **envp);
-void	del_arg(int argc, char **argv);
+void	rm_rf_arg(int argc, char **argv);
 int		exit_ctr_d(t_env *env);
 void	exec_line(t_line **line, t_env **env, char *inpt);
 int		close_minishell(t_env *env);
@@ -181,6 +179,8 @@ char	*replace_expand(char *dup, int i, t_env **env);
 
 //	ft_expand_utils.c
 t_env	*check_good_expand(char *str, t_env **env);
+int		len_name(char *str);
+char	*replace_dolls(char *str, char *before, int i);
 
 //	ft_del_redir.c
 char	*ft_remove_redir(char *expand);
@@ -212,6 +212,7 @@ int		export_format_key_value(char *str, t_env **env, t_env *ptr);
 //	ft_export_utils.c
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
+void	print_flag_0(t_env *ptr, t_line *line);
 
 //	unset.c
 int		ft_unset(char **str, t_env **env);
@@ -223,6 +224,8 @@ void	del_env_maillon(t_env *ptr, t_env **env);
 int		ft_env(char **str, t_env **env, t_line *line);
 int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
+t_env	*create_env_flags(char *envp, t_env **env);
+t_env	*create_env_var(t_env **env);
 
 //	ft_env_func.c
 int		init_env(t_env **env, char **envp);

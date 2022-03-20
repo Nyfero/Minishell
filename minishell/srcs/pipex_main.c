@@ -6,12 +6,13 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/19 14:56:10 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 17:52:03 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern	int	g_sig;
 /*
 **	ctr + c
 **	return 130
@@ -19,6 +20,7 @@
 void	handle_sigint_2(int sig)
 {
 	(void)sig;
+	g_sig = 130;
 
 	//printf("\n");
 }
@@ -31,7 +33,7 @@ void	handle_sigint_2(int sig)
 void	handle_sigquit_2(int sig)
 {
 	(void)sig;
-
+	g_sig = 131;
 	//ft_putstr_fd("Quit (core dumped)\n", 2);
 }
 
@@ -108,8 +110,6 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	}
 	if (child == 0)//envoie child
 	{
-	//	printf("-----init child signal\n");
-	//	init_signal_2();
 		ft_pipex_child(arg, fd, fd_in, data);
 	}
 	//printf("-----init child signal\n");

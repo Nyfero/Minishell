@@ -6,19 +6,19 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 14:56:11 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 17:49:32 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern	int g_sig;
 
 void	init_signal(void)
 {
 	struct sigaction	sint;
 	struct sigaction	squit;
 
-	//sint.sa_handler = 0;
-	//sint.sa_sigaction = 0;
 	if (sigemptyset(&sint.sa_mask))
 	{
 		printf("Error: %s\n", strerror(errno));
@@ -50,6 +50,8 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sig = 130;
+
 }
 
 /*

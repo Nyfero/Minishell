@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:33:33 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 16:15:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,47 @@ char	**env_to_str(t_env **env)
 	while (ptr->next)
 	{
 		tmp[i] = ft_strjoin(ptr->name, "=");
-		tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
+		if (ptr->var)
+			tmp[i] = ft_strjoin_and_free_s1(tmp[i], ptr->var);
 		i++;
 		ptr = ptr->next;
 	}
-	printf("i :%d\n", i);
 	return (tmp);
+}
+
+/*
+**	Met un flag 1 si envp ne contient pas de '='
+*/
+
+t_env	*create_env_flags(char *envp, t_env **env)
+{
+	t_env	*ptr;
+
+	ptr = *env;
+	while (ptr->next)
+		ptr = ptr->next;
+	if (format_key_value(envp) == 0)
+		ptr->next = create_env_maillon(envp, 0);
+	else
+		ptr->next = create_env_maillon(envp, 1);
+	if (!ptr->next)
+		return (0);
+	return (ptr->next);
+}
+
+t_env	*create_env_var(t_env **env)
+{
+	t_env	*ptr;
+
+	ptr = *env;
+	while (ptr->next)
+		ptr = ptr->next;
+	ptr->next = create_env_maillon("?=0", 2);
+	if (!ptr->next)
+		return (0);
+	ptr = ptr->next;
+	ptr->next = create_env_maillon("!=$", 2);
+	if (!ptr->next)
+		return (0);
+	return (ptr->next);
 }

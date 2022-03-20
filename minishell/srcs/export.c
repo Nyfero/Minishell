@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:36:04 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:52:41 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,7 @@ int	ft_export(char **str, t_env **env, t_line *line)
 				ft_putstr_fd("export ", line->outdir);
 				ft_putstr_fd(ptr->name, line->outdir);
 				if (ptr->flags == 0)
-				{
-					ft_putstr_fd("=\"", line->outdir);
-					if (ptr->var)
-						ft_putstr_fd(ptr->var, line->outdir);
-					ft_putstr_fd("\"", line->outdir);
-				}
+					print_flag_0(ptr, line);
 				ft_putstr_fd("\n", line->outdir);
 			}
 			ptr = ptr->next;
@@ -93,6 +88,7 @@ int	export_replace_or_create(char *str, t_env **env)
 {
 	t_env	*tmp;
 	t_env	*ptr;
+	char	*useless;
 
 	ptr = *env;
 	while (ptr->next)
@@ -106,6 +102,13 @@ int	export_replace_or_create(char *str, t_env **env)
 			tmp = ft_get_var(str, *env);
 			if (!tmp)
 				ptr->next = create_env_maillon(str, 1);
+			else if (tmp->flags >= 2)
+			{
+				useless = ft_strdup(tmp->var);
+				tmp = mod_env_maillon(useless, tmp, tmp->flags - 2);
+				free(useless);
+				return (0);
+			}
 			if (!ptr->next)
 				return (1);
 		}

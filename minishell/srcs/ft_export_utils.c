@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:01:59 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/08 13:28:21 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/18 17:42:15 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,12 @@ int	format_key_value(char *str)
 		if (str[i] == '=')
 			compt = 0;
 	return (compt);
+}
+
+void	print_flag_0(t_env *ptr, t_line *line)
+{
+	ft_putstr_fd("=\"", line->outdir);
+	if (ptr->var)
+		ft_putstr_fd(ptr->var, line->outdir);
+	ft_putstr_fd("\"", line->outdir);
 }

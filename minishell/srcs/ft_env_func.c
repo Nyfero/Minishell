@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:33:19 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/19 17:44:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,14 @@ int	init_env(t_env **env, char **envp)
 		}
 		else
 		{
-			ptr = *env;
-			while (ptr->next != NULL)
-				ptr = ptr->next;
-			if (format_key_value(envp[i]) == 0)
-				ptr->next = create_env_maillon(envp[i], 0);
-			else
-				ptr->next = create_env_maillon(envp[i], 1);
-			if (!ptr->next)
+			ptr = create_env_flags(envp[i], env);
+			if (!ptr)
 				return (1);
 		}
 	}
+	ptr = create_env_var(env);
+	if (!ptr)
+		return (1);
 	return (0);
 }
 

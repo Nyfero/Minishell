@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 09:21:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 13:16:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/19 16:53:01 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ int	check_nbr_pipe(char **cmd, char const *inpt)
 	while (inpt[i])
 	{
 		if (inpt[i] && inpt[i] == '|' && bool_not_in_quotes(inpt))
-		{
-			i++;
 			compt++;
-		}
-		while (inpt[i] && (inpt[i] != '|'))
-			i++;
+		i++;
 	}
 	if (compt != ft_lstrlen(cmd) - 1)
 	{
