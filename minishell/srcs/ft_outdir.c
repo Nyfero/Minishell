@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 18:16:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 19:56:54 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
 		while (cmd[i++] == '>')
 			compt++;
 		if (i <= ptr->pos)
-		{	
+		{
 			if (compt < 2)
 				choice_outdir(compt, out, cmd, i);
 			if (compt > 2 && bool_not_in_quotes(&cmd[i]))
@@ -116,4 +116,20 @@ t_dir	*create_out_maillon(char *cmd, int i, int flag)
 		perror("open");
 	free(lim);
 	return (tmp);
+}
+
+void	destroy_dir(t_dir **dir)
+{
+	t_dir	*ptr;
+	t_dir	*aux;
+
+	ptr = *dir;
+	while (ptr)
+	{
+		aux = ptr;
+		ptr = ptr->next;
+		aux->next = NULL;
+		free(aux);
+	}
+	*dir = NULL;
 }

@@ -1,54 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_handling.c                                     :+:      :+:    :+:   */
+/*   garbage_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 19:00:53 by gsap             ###   ########.fr       */
+/*   Created: 2022/03/20 19:44:25 by gsap              #+#    #+#             */
+/*   Updated: 2022/03/20 20:36:46 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern	int g_sig;
-
-/*
-**	sigint
-**	ctr + c
-**	ret 130
-*/
-void	sigint_main(int sig)
+void	reset_bin(t_garbage bin)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 1);
-	rl_on_new_line();
-	rl_redisplay();
-	g_sig = 130;
+	bin.env = NULL;
+	bin.line = NULL;
+	bin.here = NULL;
+	bin.cur_here = NULL;
+	bin.inpt = NULL;
+	bin.cmd = NULL;
 }
 
-void	sigint_child(int sig)
+void	free_bin(t_garbage bin)
 {
-	(void)sig;
-	g_sig = 130;
-}
+	printf("child ptrbin = %p\n", &bin);
+	printf("child ptrcmd = %p (%s)\n",bin.cmd, bin.cmd[0]);
 
-/*
-**	sigquit
-**	ctr + \
-**	ret 131
-*/
 
-void	sigquit_main(int sig)
-{
-	(void)sig;
-	ft_putstr_fd("\b\b  \b\b", 1);
-}
-
-void	sigquit_child(int sig)
-{
-	(void)sig;
-	g_sig = 131;
+	destroy_env(&bin.env);
+	destroy_list_line(bin.line);
+	destroy_dir(bin.here);
+	free(bin.cur_here);
+	ft_free_ls(bin.cmd);
+	free(bin.inpt);
 }

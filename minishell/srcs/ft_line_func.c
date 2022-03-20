@@ -6,13 +6,11 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 19:12:39 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 17:50:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern	int g_sig;
 
 void	create_list_line(t_line **line, int len, t_env **env)
 {
@@ -56,47 +54,6 @@ t_line	*create_line(t_env **env)
 	line->outdir = 1;
 	line->next = NULL;
 	return (line);
-}
-
-void	fill_line(char *cmd, t_line *ptr, t_env **env)
-{
-	t_dir	*here;
-	t_dir	*infile;
-	t_dir	*out;
-	t_dir	*tmp;
-	char	*expand;
-	int		ret;
-	int		bis;
-	here = NULL;
-	infile = NULL;
-	out = NULL;
-	put_here_doc(&here, cmd);
-	if (g_sig == 130)
-		return ;
-	signal_main();
-	expand = ft_expand(cmd, env);
- 	bis = put_infile(&infile, expand);
-	ret = check_last_indir(cmd);
-	if (ret)
-	{
-		if (ret == 1)
-			tmp = go_to_last(&infile);
-		else
-			tmp = go_to_last(&here);
-		if (!tmp)
-			ptr->indir = -1;
-	}
-	if (ret && bis != 1)
-		ptr->indir = tmp->fd;
-	ret = put_outdir(&out, &infile, bis, expand);
-	if (!ret)
-	{
-		tmp = go_to_last(&out);
-		ptr->outdir = tmp->fd;
-	}
-	expand = ft_remove_redir(expand);
-	ptr->cmd = del_quotes(expand);
-	return ;
 }
 
 void	destroy_list_line(t_line **line)

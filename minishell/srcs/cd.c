@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 18:10:31 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/20 13:53:09 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	(void)env;
 	(void)str;
 
+printf("path = %s\n", path);
 	if (chdir(path) == -1)
 	{
 		printf("cd: %s: %s\n", path, strerror(errno));
@@ -144,7 +145,7 @@ printf("cd bravo 3\n");
 printf("cd bravo 4\n");
 		res = ft_get_var("CDPATH", *env);
 		printf("salut res = %p\n", res);//a suppr
-		if (res && str[0] != '.')
+		if (res && str[0] != '.' && str[0] != '/')
 		{
 			cdpath = ft_split(res->var, ':');
 			if (!cdpath)

@@ -6,52 +6,38 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 18:39:44 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 20:07:47 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parsing(t_env **env, t_line **line, char const *inpt)
+int	parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin)
 {
 	char	**cmd;
 	t_line	*ptr;
 	int		i;
 
-	if (inpt[0] == 0)
-		return ;
 	cmd = ft_split_minishell(inpt, '|');
-	if (!cmd)
-	{
-		if (inpt[ft_strlen(inpt) - 1] == '|')
-			ft_putendl_fd("syntax error near unexpected token `|'", 2);
-		return ;
-	}
-	if (ft_strncmp(cmd[0], inpt, ft_strlen(inpt)))
-		if (check_pipe(cmd, inpt))
-			return ;
-	if (check_quotes(inpt))
-		return ;
-
-	char	**tmp;
-	tmp = ft_split(cmd[0], ' ');
-	if (!tmp[0])
-		return ;
+	i = check_inpt(cmd, inpt);
+	if (i != 0)
+		return (i - 1);
 	create_list_line(line, ft_lstrlen(cmd), env);
 	if (!line)
-		return ;
+		return (2);
+	bin.cmd = cmd;
+	bin.line = line;
+	bin.inpt = (char *)inpt;
 	ptr = *line;
 	i = 0;
 	while (ptr)
 	{
-		fill_line(cmd[i], ptr, env);
-		if (!ptr)
-			return ;
+		fill_line(cmd[i], ptr, env, bin);
 		i++;
 		ptr = ptr->next;
 	}
 	free(cmd);
-	return ;
+	return (0);
 }
 
 int	check_builtin(t_line *line, t_env **env)

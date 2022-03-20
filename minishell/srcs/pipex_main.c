@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/19 18:24:12 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 18:36:51 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	}
 	if (child == 0)//envoie child
 	{
-	//	printf("-----init child signal\n");
-	//	init_signal_2();
 		ft_pipex_child(arg, fd, fd_in, data);
 	}
 	//printf("-----init child signal\n");
@@ -98,12 +96,12 @@ int	pipex_entry(t_line *arg, t_env **env)
 	data.env = 0;
 	data.path = 0;
 	data.out = -1;
-	data.in= -1;
+	data.in = -1;
 	data.path_res = 0;
 	data.cmd_treat = 0;
 	res = 0;
 
-	signal_pipex();
+	signal_child();
 	printf("debut pipex\n");//suppr
 
 	if (!arg->next)

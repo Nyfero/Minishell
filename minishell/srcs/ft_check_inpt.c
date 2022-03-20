@@ -1,16 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check_pipe.c                                    :+:      :+:    :+:   */
+/*   ft_check_inpt.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 09:21:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:53:01 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 17:41:56 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_inpt(char **cmd, char const *inpt)
+{
+	char	**tmp;
+
+	if (!cmd || inpt[ft_strlen(inpt) - 1] == '|')
+	{
+		if (inpt[ft_strlen(inpt) - 1] == '|')
+		{
+			ft_putendl_fd("syntax error near unexpected token `|'", 2);
+			return (3);
+		}
+		return (1);
+	}
+	if (ft_strncmp(cmd[0], inpt, ft_strlen(inpt)))
+		if (check_pipe(cmd, inpt))
+			return (3);
+	if (check_quotes(inpt))
+		return (3);
+	tmp = ft_split(cmd[0], ' ');
+	if (!tmp[0])
+		return (1);
+	ft_free_ls(tmp);
+	return (0);
+}
 
 int	check_pipe(char **cmd, char const *inpt)
 {

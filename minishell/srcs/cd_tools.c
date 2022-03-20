@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 18:43:18 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/20 13:57:33 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_change_PWD(t_env **env)
 	pwd = ft_get_var("PWD", *env);
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
-		perror("getcwd() error");//modifier
+		perror("getcwd() error\n");//modifier
 		return (1);
 	}
 	printf("cwd =%s\n", cwd);//suppr
