@@ -6,10 +6,9 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 18:01:19 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 20:47:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -142,7 +141,6 @@ int		bool_not_in_double(char const *s);
 char	*get_words_in_quotes(char *str, char c);
 int		ft_strchr_quotes(char const *s, char c);
 
-
 //	quotes_del.c
 char	*del_simple(char *lim);
 char	*replace_lim(char *lim, char *before, int i);
@@ -228,8 +226,8 @@ char	*blank_replace(char *tmp, char *expand, int i, int compt);
 int		ft_echo(char **str, t_line *line);
 
 //	exit.c
-int		ft_exit(char **tmp);
-int		ft_exit_arg(char **str);
+int		ft_exit(char **tmp, t_env **env, t_line *line);
+int		ft_exit_arg(char **str, t_env **env, t_line *line);
 
 //	pwd.c
 int		ft_pwd(t_line *line, char **str);
@@ -270,9 +268,17 @@ t_env	*ft_get_var(char *search, t_env *env);
 //	cd.c
 int		ft_cd(char **str, t_env **env);
 
-//	cd_tools.c
+//	cd_setting.c
 
-int		ft_change_OLDPWD(t_env **env);
+int		ft_change_oldpwd(t_env **env);
+int		ft_change_pwd(t_env **env);
+
+//	cd_tools.c
+int		ft_cd_error_char(char c);
+int		ft_cd_error_double(char *s1, char *s2);
+int		ft_change_oldpwd_pwd(t_env **old, int flags, char *var);
+int		ft_change_oldpwd_npwd(t_env **old, int flags);
+int		ft_change_oldpwd_old_exist(t_env **env);
 
 /********************************/
 /*------------EXEC--------------*/
@@ -280,6 +286,8 @@ int		ft_change_OLDPWD(t_env **env);
 
 //	pipex_child.c
 void	ft_pipex_child(t_line *arg, int *fd, int fd_in, t_pipe data);
+int		ft_pipex_check_in(t_line *arg, int fd_in);
+int		ft_pipex_check_out(t_line *arg, int *fd);
 
 //	pipex_main.c
 int		pipex_entry(t_line *arg, t_env **env);
@@ -287,11 +295,12 @@ int		pipex_entry(t_line *arg, t_env **env);
 // pipex_tools.c
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
-int		ft_change_PWD(t_env **env);
 int		ft_cpy_env(t_env **cpy, t_env *origin);
 
-
-int ft_parcous_arg(t_line *arg);
-int	ft_parcours_env_perso(t_env *env);
+//	pipex_child_tools.c
+void	ft_child_check_arg(t_line **arg, t_pipe *data, int *fd_pipe, int fd_in);
+void	ft_pipex_check_cmd(t_line *arg, t_pipe *data, int fd_in, int *fd_pipe);
+void	ft_pipex_child_exit_1(t_line **arg, t_pipe *data, int fd, int *fd_pipe);
+void	ft_pipex_print(char *str, char *error);
 
 #endif

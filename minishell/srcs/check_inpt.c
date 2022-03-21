@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check_inpt.c                                    :+:      :+:    :+:   */
+/*   check_inpt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 09:21:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 17:41:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 20:27:59 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_inpt(char **cmd, char const *inpt)
 
 	if (!cmd || inpt[ft_strlen(inpt) - 1] == '|')
 	{
-		if (inpt[ft_strlen(inpt) - 1] == '|')
+		if (inpt[0] && inpt[ft_strlen(inpt) - 1] == '|')
 		{
 			ft_putendl_fd("syntax error near unexpected token `|'", 2);
 			return (3);

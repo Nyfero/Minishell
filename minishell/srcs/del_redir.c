@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_del_redir.c                                     :+:      :+:    :+:   */
+/*   del_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 13:47:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 17:36:23 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 20:42:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*remove_infile(char *expand, int i)
 	}
 	if (!tmp)
 		return (expand);
+	free(expand);
 	return (tmp);
 }
 
@@ -78,6 +79,7 @@ char	*remove_out(char *expand, int i)
 	}
 	if (!tmp)
 		return (expand);
+	free(expand);
 	return (tmp);
 }
 

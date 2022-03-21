@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsing.c                                       :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 15:37:20 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 20:45:29 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,32 @@ int	parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin)
 	cmd = ft_split_minishell(inpt, '|');
 	i = check_inpt(cmd, inpt);
 	if (i != 0)
+	{
+		if (cmd)
+			ft_free_ls(cmd);
 		return (i - 1);
+	}
 	bin.cmd = cmd;
 	create_list_line(line, ft_lstrlen(cmd), env);
-	if (!line)
+	if (!*line)
+	{
+		ft_free_ls(cmd);
 		return (2);
+	}
 	bin.line = line;
 	ptr = *line;
 	i = 0;
 	while (ptr)
 	{
 		if (fill_line(cmd[i], ptr, env, bin))
+		{
+			ft_free_ls(cmd);
 			return (2);
+		}
 		i++;
 		ptr = ptr->next;
 	}
-	free(cmd);
+	ft_free_ls(cmd);
 	return (0);
 }
 
@@ -54,7 +64,7 @@ int	check_builtin(t_line *line, t_env **env)
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
 		return (ft_cd(tmp, env));
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
-		return (ft_exit(tmp));
+		return (ft_exit(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
 		return (ft_pwd(line, tmp));
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:12:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:16:31 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 21:44:47 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ char	*expand_no_quotes(char *dup, t_env **env)
 		if (dup[i] == '$')
 		{
 			ptr = check_good_expand(&dup[i], env);
-			if (!ptr)
+			if (!ptr || ptr->flags % 2 || !ptr->var)
 				j = i - 1;
 			else
 				j = i + ft_strlen(ptr->name);
 			dup = replace_expand(dup, i, env);
 			i = j;
 		}
-		if (!ptr)
+		if (!ptr || ptr->flags % 2 || !ptr->var)
 			i++;
 	}
 	return (dup);
@@ -104,14 +104,14 @@ char	*expand_with_quotes(char *dup, t_env **env)
 		if (dup[i] == '$')
 		{
 			ptr = check_good_expand(&dup[i], env);
-			if (!ptr)
+			if (!ptr || ptr->flags % 2 || !ptr->var)
 				j = i - 1;
 			else
 				j = i + ft_strlen(ptr->name);
 			dup = replace_expand(dup, i, env);
 			i = j;
 		}
-		if (!ptr)
+		if (!ptr || ptr->flags % 2 || !ptr->var)
 			i++;
 	}
 	return (dup);
@@ -136,7 +136,7 @@ char	*replace_expand(char *dup, int i, t_env **env)
 	if (!after)
 		after = ft_strdup("");
 	free(dup);
-	if (!ptr || ptr->flags % 2)
+	if (!ptr || ptr->flags % 2 || !ptr->var)
 		dup = ft_strjoin_and_free_all(before, after);
 	else
 	{

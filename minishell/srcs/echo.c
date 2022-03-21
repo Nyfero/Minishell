@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 18:00:18 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 21:01:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_echo(char **str, t_line *line)
 			ft_putstr_fd(" ", line->outdir);
 	}
 	if (j == 0)
-		ft_putendl_fd("", line->outdir);
+		ft_putstr_fd("\n", line->outdir);
 	ft_free_ls(str);
 	return (0);
 }

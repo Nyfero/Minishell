@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:47:12 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 17:40:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 19:55:48 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ char	*del_quotes(char *lim)
 		else
 			i++;
 	}
+	if (tmp)
+		free(tmp);
 	if (!lim)
 		return (NULL);
 	return (lim);

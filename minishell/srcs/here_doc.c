@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_here_doc.c                                      :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 17:38:32 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 21:57:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	write_here_doc_on_fd(char *lim, t_garbage bin)
 	int		fd[2];
 	pid_t	child;
 
+	fd[0] = 0;
+	fd[1] = 0;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
@@ -86,13 +88,13 @@ int	put_here_doc(char *cmd, t_garbage bin)
 			i++;
 			compt++;
 		}
-		if (compt == 2)
+		if (compt == 2 && cmd[i])
 		{
 			here = create_here(here, cmd, i, bin);
 			if (here <= 0)
 				return (-2);
 		}
-		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
+		else if (!cmd[i] || (compt > 2 && bool_not_in_quotes(&cmd[i])))
 			return (print_error_syntax(0));
 	}
 	return (here);

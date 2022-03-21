@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:49:56 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 18:01:49 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 20:06:34 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,19 @@ int	fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin)
 	ptr->indir = place_indir(cmd, expand, bin, &infile);
 	if (ptr->indir == -2)
 	{
+		if (expand)
+			free(expand);
 		destroy_dir(&infile);
 		return (1);
 	}
 	ptr->outdir = place_outdir(expand, infile);
 	if (ptr->outdir == -2)
+	{
+		free(expand);
 		return (1);
+	}
 	ptr->cmd = place_cmd(expand);
-	if (!expand)
+	if (!ptr->cmd)
 		return (1);
 	return (0);
 }
@@ -49,7 +54,11 @@ int	place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile)
 		return (here);
 	good_infile = put_infile(infile, expand);
 	if (good_infile == 2)
+	{
+		if (here != 0)
+			close (here);
 		return (-2);
+	}
 	last_indir = check_last_indir(cmd);
 	ptr = go_to_last(infile);
 	if (!ptr && good_infile)
@@ -89,7 +98,7 @@ char	*place_cmd(char *expand)
 	tmp = del_quotes(expand);
 	if (!tmp[0])
 	{
-		ft_putendl_fd("permission denied:", 2);
+		ft_putendl_fd("bash: : command not found", 2);
 		return (NULL);
 	}
 	return (tmp);

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 17:35:28 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 23:09:58 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_env	*ft_cpy_env_2(t_env *origin)
 	new->name = ft_strdup(origin->name);
 	if (!new->name)
 		return (0);
+	new->var = 0;
 	if (origin->var)
 	{
 		new->var = ft_strdup(origin->var);
@@ -63,13 +64,12 @@ int	ft_pipex_close(int *fd, int fd_in, t_pipe *data)
 		if (data->out > 2)
 			close(data->out);
 	}
-	return (0);
+	return (1);
 }
 
 int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 {
 	int	i;
-
 
 	ft_pipex_close(fd, fd_in, data);
 	i = 0;
@@ -92,9 +92,6 @@ int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 		destroy_env(&data->env);
 	if (data->real_env)
 		destroy_env(&data->real_env);
-	//free env et real env
-//printf("bravo 4\n");
 	destroy_list_line(arg);
-//printf("bravo 5\n");
 	return (0);
 }

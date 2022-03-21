@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 17:34:17 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 23:03:09 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,35 @@ void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 	char	*tmp;
 	int		ret_parsing;
 
+	tmp = NULL;
 	ptr = ft_get_var("?", *env);
-	ret_parsing = parsing(env, line, inpt, bin);
-	printf("ret_parsing:%d\n", ret_parsing);
-	tmp = ft_itoa(ret_parsing);
-	if (ret_parsing || g_sig == 0)
+	if (g_sig)
+	{
+		tmp = ft_itoa(g_sig);
 		ptr = mod_env_maillon(tmp, ptr, 2);
+	}
+	g_sig = 0;
+	ret_parsing = parsing(env, line, inpt, bin);
+	if (tmp)
+		free(tmp);
+	tmp = ft_itoa(ret_parsing);
+	if (ret_parsing)
+		ptr = mod_env_maillon(tmp, ptr, 2);
+	else
+		ptr = mod_env_maillon("0", ptr, 2);
 	if (inpt[0])
 		add_history(inpt);
 	reset_bin(bin);
 	if (*line && ret_parsing != 2)
 	{
+		free(tmp);
 		tmp = NULL;
 		exec_line(line, env);
 	}
-	free(tmp);
+	if (ret_parsing == 2)
+		destroy_list_line(line);
+	if (tmp)
+		free(tmp);
 	free(inpt);
 }
 
@@ -97,5 +111,4 @@ void	exec_line(t_line **line, t_env **env)
 	}
 	ptr = mod_env_maillon(tmp, ptr, 2);
 	free(tmp);
-	destroy_list_line(line);
 }
