@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:26:10 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 14:32:55 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:08:36 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_pipex_nopath(t_line **arg, t_pipe *data, int fd_in, int *fd_pipe)
 		ft_pipex_check_cmd(*arg, data, fd_in, fd_pipe);
 	else if (access((*data).path_res, F_OK))
 	{
-		printf("bash: %s: No such file or directory\n", data->cmd_treat[0]);//mettre bon message erreur sur bonne sortie
+		ft_pipex_print(data->cmd_treat[0], ": No such file or directory\n");
 		ft_pipex_clean(arg, data, fd_pipe, fd_in);
 		exit (127);
 	}
@@ -98,18 +98,17 @@ void	ft_pipex_nopath(t_line **arg, t_pipe *data, int fd_in, int *fd_pipe)
 void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 {
 	ft_child_check_arg(&arg, &data, fd_pipe, fd_in);
-	if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
+	if (!ft_strncmp(data.cmd_treat[0], ".", 1)
+		|| !ft_strncmp(data.cmd_treat[0], "/", 1))
 		ft_pipex_check_cmd(arg, &data, fd_in, fd_pipe);
 	else
 	{
 		data.path_res = ft_pipex_path(data.cmd_treat, data.path);
 		if (!data.path)
-		{
 			ft_pipex_nopath(&arg, &data, fd_in, fd_pipe);
-		}
 		else if (data.path && data.path_res == 0)
 		{
-			printf("bash: %s: Command not found\n", data.cmd_treat[0]);//modifier
+			ft_pipex_print(data.cmd_treat[0], ": Command not found\n");
 			ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
 			exit (127);
 		}
@@ -117,9 +116,9 @@ void	ft_pipex_child(t_line *arg, int *fd_pipe, int fd_in, t_pipe data)
 	dup2(data.out, 1);
 	dup2(data.in, 0);
 	ft_pipex_close(fd_pipe, fd_in, &data);
-	if (!ft_strncmp(data.cmd_treat[0], ".", 1) || !ft_strncmp(data.cmd_treat[0], "/", 1))
+	if (!ft_strncmp(data.cmd_treat[0], ".", 1)
+		|| !ft_strncmp(data.cmd_treat[0], "/", 1))
 		execve(data.cmd_treat[0], data.cmd_treat, arg->env);
 	execve(data.path_res, data.cmd_treat, arg->env);
-	ft_pipex_clean(&arg, &data, fd_pipe, fd_in);
-	exit(1);
+	ft_pipex_child_exit_1(&arg, &data, fd_in, fd_pipe);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 20:07:47 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 15:05:34 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ int	parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin)
 	i = check_inpt(cmd, inpt);
 	if (i != 0)
 		return (i - 1);
+	bin.cmd = cmd;
 	create_list_line(line, ft_lstrlen(cmd), env);
 	if (!line)
 		return (2);
-	bin.cmd = cmd;
 	bin.line = line;
-	bin.inpt = (char *)inpt;
 	ptr = *line;
 	i = 0;
 	while (ptr)

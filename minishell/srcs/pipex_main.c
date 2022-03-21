@@ -6,33 +6,12 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 15:07:02 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:40:51 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-int	ft_parcours_env_perso(t_env *env)//asuppra la fin
-{
-	if (env == 0)
-		return (0);
-	printf("(%d) %s = %s\n", env->flags, env->name, env->var);
-	if (env->next)
-		ft_parcours_env_perso(env->next);
-	return (0);
-}
 
-int ft_parcous_arg(t_line *arg)//a suppr a la fin
-{
-	if (!arg)
-		return (0);
-	printf("cmd = %s\n", arg->cmd);
-	printf("indir = %d || outdir = %d\n", arg->indir, arg->outdir);
-	if (arg->next != 0)
-		return (ft_parcous_arg(arg->next));
-	return (0);
-}
-*/
 int	ft_pipex_init(int *fd)
 {
 	fd[0] = 0;
@@ -77,7 +56,7 @@ void	pipex_entry_init(t_pipe *data, t_env **env)
 	data->env = 0;
 	data->path = 0;
 	data->out = -1;
-	data->in= -1;
+	data->in = -1;
 	data->path_res = 0;
 	data->cmd_treat = 0;
 	signal_child();

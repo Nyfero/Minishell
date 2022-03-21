@@ -6,7 +6,7 @@
 #    By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/03/21 15:05:17 by jgourlin         ###   ########.fr        #
+#    Updated: 2022/03/21 17:46:15 by jgourlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,9 +46,10 @@ SRCS_PATH = srcs
 FILES = main.c ft_env_func.c ft_parsing.c ft_split_minishell.c fill_line.c garbage_free.c \
 	ft_line_func.c ft_limiteur.c ft_here_doc.c ft_expand.c ft_infile.c ft_outdir.c \
 	ft_del_redir.c ft_check_inpt.c ft_expand_utils.c ft_outdir_utils.c\
-	echo.c pwd.c env.c unset.c export.c cd.c cd_tools.c ft_export_utils.c exit.c\
+	echo.c pwd.c env.c unset.c export.c ft_export_utils.c exit.c\
 	pipex_main.c pipex_child.c pipex_tools.c pipex_child_tools.c\
 	ft_error.c ft_tools.c ft_quotes.c\
+	cd.c cd_setting.c cd_tools.c\
 	sig_init.c sig_handling.c
 
 #	Compilation

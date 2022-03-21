@@ -6,29 +6,49 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:46:01 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 14:35:18 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:15:48 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	ft_pipex_print(char *str, char *error)
+{
+	char	*res;
+
+	res = ft_strdup("");
+	if (!res)
+		return ;
+	res = ft_strjoin_and_free_s2("bash: ", res);
+	if (!res)
+		return ;
+	res = ft_strjoin_and_free_s1(res, str);
+	if (!res)
+		return ;
+	res = ft_strjoin_and_free_s1(res, error);
+	if (!res)
+		return ;
+	write(2, res, ft_strlen(res));
+	free(res);
+}
+
 void	ft_pipex_check_cmd(t_line *arg, t_pipe *data, int fd_in, int *fd_pipe)
 {
 	if (ft_file_access(data->cmd_treat[0]) == -1)
 	{
-		printf("bash: %s: Is a directory\n", data->cmd_treat[0]);//modif
+		ft_pipex_print(data->cmd_treat[0], ": Is a directory\n");
 		ft_pipex_clean(&arg, data, fd_pipe, fd_in);
 		exit (126);
 	}
 	else if (ft_file_access(data->cmd_treat[0]) == 0)
 	{
-		printf("bash: %s: No such file or directory\n", data->cmd_treat[0]);//mettre bon message erreur sur bonne sortie
+		ft_pipex_print(data->cmd_treat[0], ": No such file or directory\n");
 		ft_pipex_clean(&arg, data, fd_pipe, fd_in);
 		exit (127);
 	}
 	else if (access(data->cmd_treat[0], F_OK | X_OK))
 	{
-		printf("bash: %s: Permission denied\n", data->cmd_treat[0]);//modif
+		ft_pipex_print(data->cmd_treat[0], ": Permission denied\n");
 		ft_pipex_clean(&arg, data, fd_pipe, fd_in);
 		exit (126);
 	}

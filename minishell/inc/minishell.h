@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 15:01:07 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 19:07:45 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,15 @@ typedef struct s_dir
 typedef struct s_garbage
 {
 	t_env	*env;
-	t_line	**line;
-	char	*expand;
 	char	*inpt;
 	char	**cmd;
+	t_line	**line;
+	char	*expand;
 }	t_garbage;
 
 //	main.c
 int		main(int argc, char **argv, char **envp);
-void	parse_line(t_env **env, t_line **line, char const *inpt, t_garbage bin);
+void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin);
 int		exit_ctr_d(t_env *env);
 void	exec_line(t_line **line, t_env **env);
 int		close_minishell(t_env *env, int argc, char **argv);
@@ -260,9 +260,17 @@ t_env	*ft_get_var(char *search, t_env *env);
 //	cd.c
 int		ft_cd(char **str, t_env **env);
 
-//	cd_tools.c
+//	cd_setting.c
 
-int		ft_change_OLDPWD(t_env **env);
+int		ft_change_oldpwd(t_env **env);
+int		ft_change_pwd(t_env **env);
+
+//	cd_tools.c
+int		ft_cd_error_char(char c);
+int		ft_cd_error_double(char *s1, char *s2);
+int		ft_change_oldpwd_pwd(t_env **old, int flags, char *var);
+int		ft_change_oldpwd_npwd(t_env **old, int flags);
+int		ft_change_oldpwd_old_exist(t_env **env);
 
 /********************************/
 /*------------EXEC--------------*/
@@ -279,15 +287,12 @@ int		pipex_entry(t_line *arg, t_env **env);
 // pipex_tools.c
 int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
-int		ft_change_PWD(t_env **env);
 int		ft_cpy_env(t_env **cpy, t_env *origin);
 
 //	pipex_child_tools.c
+void	ft_child_check_arg(t_line **arg, t_pipe *data, int *fd_pipe, int fd_in);
 void	ft_pipex_check_cmd(t_line *arg, t_pipe *data, int fd_in, int *fd_pipe);
 void	ft_pipex_child_exit_1(t_line **arg, t_pipe *data, int fd, int *fd_pipe);
-void	ft_child_check_arg(t_line **arg, t_pipe *data, int *fd_pipe, int fd_in);
-
-int ft_parcous_arg(t_line *arg);
-int	ft_parcours_env_perso(t_env *env);
+void	ft_pipex_print(char *str, char *error);
 
 #endif

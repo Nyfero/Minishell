@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 11:05:05 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 16:32:39 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,20 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		g_sig = 0;
-		bin.env = env;
 		signal_main();
+		bin.env = env;
 		line = NULL;
 		inpt = readline("Prompt> ");
+		bin.inpt = inpt;
 		if (!inpt)
 			return (exit_ctr_d(env));
 		else
-		{
-			parse_line(&env, &line, inpt, bin);
-			if (line)
-				exec_line(&line, &env);
-			free(inpt);
-		}
+			parse_and_exec(&env, &line, inpt, bin);
 	}
 	return (close_minishell(env, argc, argv));
 }
 
-void	parse_line(t_env **env, t_line **line, char const *inpt, t_garbage bin)
+void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 {
 	t_env	*ptr;
 	char	*tmp;
@@ -55,7 +51,15 @@ void	parse_line(t_env **env, t_line **line, char const *inpt, t_garbage bin)
 	if (inpt[0])
 		add_history(inpt);
 	reset_bin(bin);
-	free(tmp);
+	if (*line)
+	{
+		free(tmp);
+		tmp = NULL;
+		exec_line(line, env);
+	}
+	if (tmp)
+		free(tmp);
+	free(inpt);
 }
 
 int	close_minishell(t_env *env, int argc, char **argv)
@@ -70,6 +74,7 @@ int	close_minishell(t_env *env, int argc, char **argv)
 int	exit_ctr_d(t_env *env)
 {
 	ft_putendl_fd("exit", 1);
+	clear_history();
 	destroy_env(&env);
 	return (0);
 }
