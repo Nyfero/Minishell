@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 13:41:29 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 14:58:44 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,15 @@ typedef struct s_dir
 typedef struct s_garbage
 {
 	t_env	*env;
-	t_line	**line;
-	char	*expand;
 	char	*inpt;
 	char	**cmd;
+	t_line	**line;
+	char	*expand;
 }	t_garbage;
 
 //	main.c
 int		main(int argc, char **argv, char **envp);
-void	parse_line(t_env **env, t_line **line, char const *inpt, t_garbage bin);
+void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin);
 int		exit_ctr_d(t_env *env);
 void	exec_line(t_line **line, t_env **env);
 int		close_minishell(t_env *env, int argc, char **argv);
