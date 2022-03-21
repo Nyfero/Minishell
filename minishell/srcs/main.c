@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:25:39 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:34:17 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	exit_ctr_d(t_env *env)
 	return (0);
 }
 
-void    exec_line(t_line **line, t_env **env)
+void	exec_line(t_line **line, t_env **env)
 {
 	t_env	*ptr;
 	char	*tmp;

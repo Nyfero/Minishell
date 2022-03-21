@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 17:22:37 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 18:01:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int		check_infile_access(char *lim);
 int		check_last_indir(char const *cmd);
 
 //	ft_outdir.c
-int		put_outdir(t_dir *infile, char *cmd);
+int		put_outdir(char *cmd);
 int		put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd);
 int		create_out(int out, char *cmd, int i, int flag);
 void	destroy_dir(t_dir **dir);
@@ -245,7 +245,7 @@ int		export_format_key_value(char *str, t_env **env, t_env *ptr);
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
 void	print_flag_0(t_env *ptr, t_line *line);
-int		mod_PWD_custom(t_env *tmp);
+int		mod_pwd_custom(t_env *tmp);
 
 //	unset.c
 int		ft_unset(char **str, t_env **env);

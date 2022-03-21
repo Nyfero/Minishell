@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:47:12 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 17:23:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:40:27 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*del_simple(char *lim)
 {
-	char 	*before;
+	char	*before;
 	int		i;
 
 	i = -1;
@@ -54,7 +54,7 @@ char	*replace_lim(char *lim, char *before, int i)
 
 char	*del_quotes(char *lim)
 {
-	char 	*before;
+	char	*before;
 	char	*tmp;
 	int		i;
 
@@ -81,10 +81,11 @@ char	*del_quotes(char *lim)
 int	little_check(char *lim, int i, char *tmp)
 {
 	if (((lim[i] == '\"' && bool_not_in_simple(&lim[i])) || (lim[i] == '\"'
-		&& !bool_not_in_simple(&lim[i]) && !ft_strchr_quotes(tmp, '\"')))
-			|| ((lim[i] == '\'' && bool_not_in_double(&lim[i]))
-				|| (lim[i] == '\'' && !bool_not_in_double(&lim[i])
-					&& !ft_strchr_quotes(tmp, '\''))))
+				&& !bool_not_in_simple(&lim[i])
+				&& !ft_strchr_quotes(tmp, '\"'))) || ((lim[i] == '\''
+				&& bool_not_in_double(&lim[i])) || (lim[i] == '\''
+				&& !bool_not_in_double(&lim[i])
+				&& !ft_strchr_quotes(tmp, '\''))))
 	{
 		if (tmp)
 			free(tmp);

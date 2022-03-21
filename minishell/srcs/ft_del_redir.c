@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 13:47:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 14:07:24 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:36:23 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*remove_infile(char *expand, int i)
 				compt = i - 1;
 			else
 				compt = i - 2;
-			tmp = blank_replace(tmp, expand, i , compt);
+			tmp = blank_replace(tmp, expand, i, compt);
 		}
 	}
 	if (!tmp)
@@ -73,7 +73,7 @@ char	*remove_out(char *expand, int i)
 				compt = i - 1;
 			else
 				compt = i - 2;
-			tmp = blank_replace(tmp ,expand, i, compt);
+			tmp = blank_replace(tmp, expand, i, compt);
 		}
 	}
 	if (!tmp)
@@ -94,8 +94,8 @@ char	*blank_replace(char *tmp, char *expand, int i, int compt)
 	while (expand[i] == ' ')
 		i++;
 	while (expand[i] && ((expand[i] != ' ' && expand[i] != '|'
-			&& expand[i] != '<' && expand[i] != '>')
-				|| !bool_not_in_quotes(&expand[i])))
+				&& expand[i] != '<' && expand[i] != '>')
+			|| !bool_not_in_quotes(&expand[i])))
 		i++;
 	after = ft_strdup(" ");
 	while (compt++ < i)

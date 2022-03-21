@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:03:36 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 18:02:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:41:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	check_meta(char *s)
 			return (1);
 	return (0);
 }
-
 
 void	del_env_maillon(t_env *ptr, t_env **env)
 {

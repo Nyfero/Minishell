@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:49:56 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:36:24 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 18:01:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	place_outdir(char *expand, t_dir *infile)
 	int		out;
 
 	tmp = go_to_last(&infile);
-	out = put_outdir(tmp, expand);
+	if (infile && infile->fd == -1)
+		out = put_outdir_upto_last_indir(1, infile, expand);
+	else
+		out = put_outdir(expand);
 	destroy_dir(&infile);
 	return (out);
 }

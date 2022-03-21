@@ -6,13 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 19:00:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:38:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern	int g_sig;
+extern int	g_sig;
 
 /*
 **	sigint

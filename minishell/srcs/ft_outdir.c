@@ -6,13 +6,13 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:42:26 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 18:00:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	put_outdir(t_dir *infile, char *cmd)
+int	put_outdir(char *cmd)
 {
 	int		i;
 	int		out;
@@ -20,8 +20,6 @@ int	put_outdir(t_dir *infile, char *cmd)
 
 	i = -1;
 	out = 1;
-	if (infile && infile->fd == -1)
-		return (put_outdir_upto_last_indir(out, infile, cmd));
 	while (cmd[++i])
 	{
 		compt = 0;

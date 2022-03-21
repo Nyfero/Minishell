@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:01:59 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:17:40 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:31:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	print_flag_0(t_env *ptr, t_line *line)
 	ft_putstr_fd("\"", line->outdir);
 }
 
-int	mod_PWD_custom(t_env *tmp)
+int	mod_pwd_custom(t_env *tmp)
 {
 	char	*var;
 
