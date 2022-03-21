@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 17:49:32 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:56:30 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	handle_sigint(int sig)
 	if (sig == 0)
 		;
 	write(1, "\n", 1);
-	rl_replace_line("", 1);
-	rl_on_new_line();
-	rl_redisplay();
+//	rl_replace_line("", 1);
+//	rl_on_new_line();
+//	rl_redisplay();
 	g_sig = 130;
 
 }

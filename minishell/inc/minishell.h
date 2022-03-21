@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:40:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 19:57:47 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,8 @@ int		ft_change_OLDPWD(t_env **env);
 
 //	pipex_child.c
 void	ft_pipex_child(t_line *arg, int *fd, int fd_in, t_pipe data);
+int		ft_pipex_check_in(t_line *arg, int fd_in);
+int		ft_pipex_check_out(t_line *arg, int *fd);
 
 //	pipex_main.c
 int		pipex_entry(t_line *arg, t_env **env);
@@ -257,6 +259,10 @@ int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
 int		ft_change_PWD(t_env **env);
 int		ft_cpy_env(t_env **cpy, t_env *origin);
 
+//	pipex_child_tools.c
+void	ft_pipex_check_cmd(t_line *arg, t_pipe *data, int fd_in, int *fd_pipe);
+void	ft_pipex_child_exit_1(t_line **arg, t_pipe *data, int fd, int *fd_pipe);
+void	ft_child_check_arg(t_line **arg, t_pipe *data, int *fd_pipe, int fd_in);
 
 int ft_parcous_arg(t_line *arg);
 int	ft_parcours_env_perso(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/18 17:35:28 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:33:36 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 {
 	int	i;
 
-
 	ft_pipex_close(fd, fd_in, data);
 	i = 0;
 	if (data->path_res)
@@ -92,9 +91,6 @@ int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 		destroy_env(&data->env);
 	if (data->real_env)
 		destroy_env(&data->real_env);
-	//free env et real env
-//printf("bravo 4\n");
 	destroy_list_line(arg);
-//printf("bravo 5\n");
 	return (0);
 }
