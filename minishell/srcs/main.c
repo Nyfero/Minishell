@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 15:05:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 16:25:39 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,23 @@ void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 {
 	t_env	*ptr;
 	char	*tmp;
+	int		ret_parsing;
 
 	ptr = ft_get_var("?", *env);
-	tmp = ft_itoa(parsing(env, line, inpt, bin));
-	ptr = mod_env_maillon(tmp, ptr, 2);
+	ret_parsing = parsing(env, line, inpt, bin);
+	printf("ret_parsing:%d\n", ret_parsing);
+	tmp = ft_itoa(ret_parsing);
+	if (ret_parsing || g_sig == 0)
+		ptr = mod_env_maillon(tmp, ptr, 2);
 	if (inpt[0])
 		add_history(inpt);
 	reset_bin(bin);
-	if (*line)
+	if (*line && ret_parsing != 2)
 	{
-		free(tmp);
 		tmp = NULL;
 		exec_line(line, env);
 	}
-	if (tmp)
-		free(tmp);
+	free(tmp);
 	free(inpt);
 }
 
@@ -84,7 +86,6 @@ void    exec_line(t_line **line, t_env **env)
 	t_env	*ptr;
 	char	*tmp;
 
-	printf("ptr->indir:%d\nptr->outdir:%d\n", (*line)->indir, (*line)->outdir);
 	ptr = ft_get_var("?", *env);
 	tmp = ft_itoa(pipex_entry(*line, env));
 	if (g_sig)

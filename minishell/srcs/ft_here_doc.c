@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 10:53:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 16:08:06 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int	put_here_doc(char *cmd, t_garbage bin)
 		if (compt == 2)
 		{
 			here = create_here(here, cmd, i, bin);
-			if (!here)
-				return (-1);
+			if (here <= 0)
+				return (-2);
 		}
 		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
 			return (print_error_syntax(0));
@@ -106,7 +106,7 @@ int	create_here(int here, char *cmd, int i, t_garbage bin)
 		close(here);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (print_error_syntax(0));
+		return (-1);
 	here = write_here_doc_on_fd(lim, bin);
 	free(lim);
 	return (here);

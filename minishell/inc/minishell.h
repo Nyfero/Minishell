@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 14:58:44 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 17:22:37 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,12 +135,19 @@ int		ft_file_access(char	*str);
 t_dir	*go_to_last(t_dir **list);
 int		get_dolls(char *dup);
 
-//	ft_quotes.c
+//	quotes_check.c
 int		bool_not_in_quotes(char const *s);
 int		bool_not_in_simple(char const *s);
 int		bool_not_in_double(char const *s);
+char	*get_words_in_quotes(char *str, char c);
+int		ft_strchr_quotes(char const *s, char c);
+
+
+//	quotes_del.c
 char	*del_simple(char *lim);
+char	*replace_lim(char *lim, char *before, int i);
 char	*del_quotes(char *lim);
+int		little_check(char *lim, int i, char *tmp);
 
 /********************************/
 /*---------PARSING--------------*/
@@ -162,8 +169,10 @@ t_line	*create_line(t_env **env);
 void	destroy_list_line(t_line **line);
 
 //	fill_line.c
-void	fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
+int		fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
 int		place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile);
+int		place_outdir(char *expand, t_dir *infile);
+char	*place_cmd(char *expand);
 
 //	ft_limiteur.c
 char	*grep_indir(char const *str);
@@ -236,6 +245,7 @@ int		export_format_key_value(char *str, t_env **env, t_env *ptr);
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
 void	print_flag_0(t_env *ptr, t_line *line);
+int		mod_PWD_custom(t_env *tmp);
 
 //	unset.c
 int		ft_unset(char **str, t_env **env);

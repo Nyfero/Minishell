@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 14:50:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 16:42:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int	put_outdir(t_dir *infile, char *cmd)
 		else if (compt == 2)
 			out = create_out(out, cmd, i, 2);
 		else if (compt > 2)
-			return (ft_error("syntax error near unexpected token `>'\n"));
+			return (print_error_syntax(1));
+		if (out == -2)
+			return (out);
 	}
 	return (out);
 }
@@ -62,6 +64,8 @@ int	put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd)
 			}
 			else
 				return (out);
+			if (out == -2)
+				return (out);
 		}
 	}
 	return (out);
@@ -75,7 +79,7 @@ int	create_out(int out, char *cmd, int i, int flag)
 		close(out);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (print_error_syntax(1));
+		return (-2);
 	if (flag == 1)
 		out = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:41:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 16:31:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 16:16:18 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	export_replace_or_create(char *str, t_env **env)
 {
 	t_env	*tmp;
 	t_env	*ptr;
-	char	*useless;
 
 	ptr = *env;
 	while (ptr->next)
@@ -103,12 +102,7 @@ int	export_replace_or_create(char *str, t_env **env)
 			if (!tmp)
 				ptr->next = create_env_maillon(str, 1);
 			else if (tmp->flags >= 2)
-			{
-				useless = ft_strdup(tmp->var);
-				tmp = mod_env_maillon(useless, tmp, tmp->flags - 2);
-				free(useless);
-				return (0);
-			}
+				return (mod_PWD_custom(tmp));
 			if (!ptr->next)
 				return (1);
 		}

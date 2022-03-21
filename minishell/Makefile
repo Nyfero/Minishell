@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/03/20 19:59:31 by gsap             ###   ########.fr        #
+#    Updated: 2022/03/21 16:49:46 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ FILES = main.c ft_env_func.c ft_parsing.c ft_split_minishell.c fill_line.c garba
 	ft_del_redir.c ft_check_inpt.c ft_expand_utils.c ft_outdir_utils.c\
 	echo.c pwd.c env.c unset.c export.c cd.c cd_tools.c ft_export_utils.c exit.c\
 	pipex_main.c pipex_child.c pipex_tools.c \
-	ft_error.c ft_tools.c ft_quotes.c \
+	ft_error.c ft_tools.c quotes_check.c quotes_del.c\
 	sig_init.c sig_handling.c
 
 #	Compilation
