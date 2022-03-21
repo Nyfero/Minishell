@@ -6,18 +6,19 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 18:15:05 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 18:15:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 13:51:17 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	choice_outdir(int compt, t_dir **out, char *cmd, int i)
+int	choice_outdir(int compt, int out, char *cmd, int i)
 {
 	if (compt == 1 && bool_not_in_quotes(&cmd[i]))
-		create_out_list(out, cmd, i, 1);
+		return (create_out(out, cmd, i, 1));
 	else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
-		create_out_list(out, cmd, i, 2);
+		return (create_out(out, cmd, i, 2));
+	return (-1);
 }
 
 int	close_last_fd(t_dir **out)

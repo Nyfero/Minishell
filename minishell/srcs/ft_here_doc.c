@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 20:23:54 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 10:53:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	write_here_doc_on_fd(char *lim, t_garbage bin)
 	int		fd[2];
 	pid_t	child;
 
-printf("papa ptrcmd = %p (%s)\n",bin.cmd, bin.cmd[0]);
-printf("papa ptrbin = %p\n", &bin);
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
@@ -72,12 +70,14 @@ void	get_here_doc(char *lim, int fd[2])
 	close(fd[0]);
 }
 
-void	put_here_doc(t_dir **here, char *cmd, t_garbage bin)
+int	put_here_doc(char *cmd, t_garbage bin)
 {
-	int		i;
-	int		compt;
+	int	i;
+	int	compt;
+	int	here;
 
 	i = -1;
+	here = 0;
 	while (cmd[++i])
 	{
 		compt = 0;
@@ -88,55 +88,26 @@ void	put_here_doc(t_dir **here, char *cmd, t_garbage bin)
 		}
 		if (compt == 2)
 		{
-			compt = create_here_list(here, cmd, i, bin);
-			if (compt)
-				return ;
+			here = create_here(here, cmd, i, bin);
+			if (!here)
+				return (-1);
 		}
 		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
-		{
-			ft_putendl_fd("syntax error near unexpected token `<'", 2);
-			return ;
-		}
+			return (print_error_syntax(0));
 	}
+	return (here);
 }
 
-int	create_here_list(t_dir **here, char *cmd, int i, t_garbage bin)
-{
-	t_dir	*ptr;
-
-	bin.here = here;
-	if (!*here)
-	{
-		*here = create_here_maillon(cmd, i, bin);
-		if (!*here || (*here)->fd == -1)
-			return (1);
-	}
-	else
-	{
-		ptr = go_to_last(here);
-		close(ptr->fd);
-		ptr->next = create_here_maillon(cmd, i, bin);
-		if (!ptr->next || ptr->next->fd == -1)
-			return (1);
-	}
-	return (0);
-}
-
-t_dir	*create_here_maillon(char *cmd, int i, t_garbage bin)
+int	create_here(int here, char *cmd, int i, t_garbage bin)
 {
 	char	*lim;
-	t_dir	*tmp;
 
-	tmp = ft_calloc(sizeof(t_dir), 1);
-	if (!tmp)
-		return (NULL);
-	tmp->fd = -1;
-	tmp->next = NULL;
+	if (here)
+		close(here);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (tmp);
-	bin.cur_here = tmp;
-	tmp->fd = write_here_doc_on_fd(lim, bin);
+		return (print_error_syntax(0));
+	here = write_here_doc_on_fd(lim, bin);
 	free(lim);
-	return (tmp);
+	return (here);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 19:50:02 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 11:05:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	while (1)
 	{
-		bin.env = env;
 		g_sig = 0;
+		bin.env = env;
 		signal_main();
 		line = NULL;
 		inpt = readline("Prompt> ");
@@ -79,6 +79,7 @@ void    exec_line(t_line **line, t_env **env)
 	t_env	*ptr;
 	char	*tmp;
 
+	printf("ptr->indir:%d\nptr->outdir:%d\n", (*line)->indir, (*line)->outdir);
 	ptr = ft_get_var("?", *env);
 	tmp = ft_itoa(pipex_entry(*line, env));
 	if (g_sig)

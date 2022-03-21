@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 20:11:06 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 13:41:29 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ typedef struct s_garbage
 {
 	t_env	*env;
 	t_line	**line;
-	t_dir	**here;
-	t_dir	*cur_here;
+	char	*expand;
 	char	*inpt;
 	char	**cmd;
 }	t_garbage;
@@ -109,6 +108,7 @@ int		close_minishell(t_env *env, int argc, char **argv);
 int		ft_error(char *err);
 void	print_error_wrpath(char *s);
 void	print_error_idf(char *s);
+int		print_error_syntax(int x);
 void	warning_here_doc(char *s, int x);
 
 //	ft_split_minishell.c
@@ -163,7 +163,7 @@ void	destroy_list_line(t_line **line);
 
 //	fill_line.c
 void	fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
-//t_dir	*select_indir(char *cmd, t_dir *infile, t_dir *here);
+int		place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile);
 
 //	ft_limiteur.c
 char	*grep_indir(char const *str);
@@ -173,9 +173,8 @@ char	*error_limiteur(const char str);
 //	ft_here_doc.c
 int		write_here_doc_on_fd(char *lim, t_garbage bin);
 void	get_here_doc(char *lim, int fd[2]);
-void	put_here_doc(t_dir **here, char *cmd, t_garbage bin);
-int		create_here_list(t_dir **here, char *cmd, int i, t_garbage bin);
-t_dir	*create_here_maillon(char *cmd, int i, t_garbage bin);
+int		put_here_doc(char *cmd, t_garbage bin);
+int		create_here(int here, char *cmd, int i, t_garbage bin);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
@@ -185,14 +184,13 @@ int		check_infile_access(char *lim);
 int		check_last_indir(char const *cmd);
 
 //	ft_outdir.c
-int		put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd);
-int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd);
-void	create_out_list(t_dir **out, char *cmd, int i, int flag);
-t_dir	*create_out_maillon(char *cmd, int i, int flag);
+int		put_outdir(t_dir *infile, char *cmd);
+int		put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd);
+int		create_out(int out, char *cmd, int i, int flag);
 void	destroy_dir(t_dir **dir);
 
 //	ft_outdir_utils.c
-void	choice_outdir(int compt, t_dir **out, char *cmd, int i);
+int		choice_outdir(int compt, int out, char *cmd, int i);
 int		close_last_fd(t_dir **out);
 
 //	ft_expand.c
