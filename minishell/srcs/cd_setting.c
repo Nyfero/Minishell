@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 19:09:39 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:34:42 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_env	*ft_last_env(t_env	*env)
 
 int	ft_change_pwd_2(t_env **pwd, char *cwd, int i)
 {
-	printf("new\n");
 	*pwd = mod_env_maillon(cwd, *pwd, i);
 	if (!*pwd)
 		return (1);

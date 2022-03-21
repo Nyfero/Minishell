@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 18:51:40 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:51:55 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,10 @@ int	ft_cd_path(char *path, t_env **env, char *str)
 	(void)str;
 	if (chdir(path) == -1)
 		return (ft_cd_error_double(path, strerror(errno)));
-	printf("---change old pwd\n");
 	if (ft_change_oldpwd(env))
 		return (1);
-	printf("---change pwd\n");
 	if (ft_change_pwd(env))
 		return (1);
-	printf("---change sub\n");
 	return (0);
 }
 
