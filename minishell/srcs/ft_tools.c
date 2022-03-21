@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:48:50 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/16 12:21:16 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 12:04:04 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_dir	*go_to_last(t_dir **list)
 {
 	t_dir	*ptr;
 
+	if (!*list)
+		return (NULL);
 	ptr = *list;
 	while (ptr->next != NULL)
 		ptr = ptr->next;

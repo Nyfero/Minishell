@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:48:46 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/14 09:03:17 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 10:31:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ void	print_error_idf(char *s)
 	ft_putstr_fd(s, 2);
 	ft_putstr_fd("' ", 2);
 	ft_putendl_fd(WR_IDF, 2);
+}
+
+int	print_error_syntax(int x)
+{
+	char	*err;
+
+	if (x == 0)
+		err = "syntax error near unexpected token `<'";
+	else
+		err = "syntax error near unexpected token `>'";
+	ft_putendl_fd(err, 2);
+	return (-1);
 }
 
 void	warning_here_doc(char *s, int x)

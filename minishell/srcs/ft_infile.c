@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_infile.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/17 19:00:47 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:48:28 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	create_infile_list(t_dir **infile, char *cmd, int i)
 	{
 		*infile = create_infile_maillon(cmd, i);
 		if (!*infile)
-			return (1);
-		if ((*infile)->fd == -1)
 			return (2);
+		if ((*infile)->fd == -1)
+			return (1);
 	}
 	else
 	{
@@ -58,9 +58,9 @@ int	create_infile_list(t_dir **infile, char *cmd, int i)
 		close(ptr->fd);
 		ptr->next = create_infile_maillon(cmd, i);
 		if (!ptr->next)
-			return (1);
-		if (ptr->next->fd == -1)
 			return (2);
+		if (ptr->next->fd == -1)
+			return (1);
 	}
 	return (0);
 }
@@ -72,7 +72,10 @@ t_dir	*create_infile_maillon(char *cmd, int i)
 
 	tmp = ft_calloc(sizeof(t_dir), 1);
 	if (!tmp)
+	{
+		ft_putendl_fd("Malloc failed", 2);
 		return (NULL);
+	}
 	tmp->pos = i - 1;
 	tmp->fd = -1;
 	tmp->next = NULL;
@@ -80,10 +83,7 @@ t_dir	*create_infile_maillon(char *cmd, int i)
 	if (!lim)
 		return (tmp);
 	if (check_infile_access(lim))
-	{
-		free(lim);
 		return (tmp);
-	}
 	tmp->fd = open(lim, O_RDONLY);
 	if (tmp->fd == -1)
 		perror("open");

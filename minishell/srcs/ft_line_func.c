@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 17:04:00 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/20 17:50:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,45 +56,6 @@ t_line	*create_line(t_env **env)
 	return (line);
 }
 
-void	fill_line(char *cmd, t_line *ptr, t_env **env)
-{
-	t_dir	*here;
-	t_dir	*infile;
-	t_dir	*out;
-	t_dir	*tmp;
-	char	*expand;
-	int		ret;
-	int		bis;
-	here = NULL;
-	infile = NULL;
-	out = NULL;
-	put_here_doc(&here, cmd);
-	expand = ft_expand(cmd, env);
- 	bis = put_infile(&infile, expand);
-	ret = check_last_indir(cmd);
-	if (ret)
-	{
-		if (ret == 1)
-			tmp = go_to_last(&infile);
-		else
-			tmp = go_to_last(&here);
-		if (!tmp)
-			ptr->indir = -1;
-	}
-	if (ret && bis != 1)
-		ptr->indir = tmp->fd;
-	ret = put_outdir(&out, &infile, bis, expand);
-	if (!ret)
-	{
-		tmp = go_to_last(&out);
-		ptr->outdir = tmp->fd;
-	}
-	expand = ft_remove_redir(expand);
-	ptr->cmd = del_quotes(expand);
-	printf("line ptr->cmd:%s\n", ptr->cmd);
-	return ;
-}
-
 void	destroy_list_line(t_line **line)
 {
 	t_line	*ptr;
@@ -106,8 +67,10 @@ void	destroy_list_line(t_line **line)
 		aux = ptr;
 		ptr = ptr->next;
 		aux->next = NULL;
-		aux->indir = 0;
-		aux->outdir = 0;
+		if (aux->indir > 0)
+			close(aux->indir);
+		if (aux->outdir > 1)
+			close(aux->outdir);
 		if (aux->cmd)
 			free(aux->cmd);
 		ft_free_ls(aux->env);

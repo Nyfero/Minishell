@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signal.c                                    :+:      :+:    :+:   */
+/*   sig_handling.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 16:56:30 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:09:11 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,41 @@
 
 extern	int g_sig;
 
-void	init_signal(void)
-{
-	struct sigaction	sint;
-	struct sigaction	squit;
-
-	if (sigemptyset(&sint.sa_mask))
-	{
-		printf("Error: %s\n", strerror(errno));
-		return ;
-	}
-	if (sigemptyset(&squit.sa_mask))
-	{
-		printf("Error: %s\n", strerror(errno));
-		return ;
-	}
-
-	sint.sa_handler = &handle_sigint;
-	sint.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sint, NULL);
-	squit.sa_handler = &handle_sigquit;
-	squit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &squit, NULL);
-}
-
 /*
+**	sigint
 **	ctr + c
 **	ret 130
 */
-void	handle_sigint(int sig)
+void	sigint_main(int sig)
 {
-	if (sig == 0)
-		;
+	(void)sig;
 	write(1, "\n", 1);
-//	rl_replace_line("", 1);
-//	rl_on_new_line();
-//	rl_redisplay();
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
 	g_sig = 130;
+}
 
+void	sigint_child(int sig)
+{
+	(void)sig;
+	g_sig = 130;
 }
 
 /*
+**	sigquit
 **	ctr + \
+**	ret 131
 */
-void	handle_sigquit(int sig)
+
+void	sigquit_main(int sig)
 {
+	(void)sig;
 	ft_putstr_fd("\b\b  \b\b", 1);
-	if (sig == 0)
-		;
+}
+
+void	sigquit_child(int sig)
+{
+	(void)sig;
+	g_sig = 131;
 }

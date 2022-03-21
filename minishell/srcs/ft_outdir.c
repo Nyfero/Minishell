@@ -6,19 +6,21 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/16 18:16:56 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 14:37:17 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
+int	put_outdir(t_dir *infile, char *cmd)
 {
 	int		i;
+	int		out;
 	int		compt;
 
 	i = -1;
-	if (bis == 2)
+	out = 1;
+	if (infile && infile->fd == -1)
 		return (put_outdir_upto_last_indir(out, infile, cmd));
 	while (cmd[++i])
 	{
@@ -29,91 +31,73 @@ int	put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd)
 			compt++;
 		}
 		if (compt == 1)
-			create_out_list(out, cmd, i, 1);
+			out = create_out(out, cmd, i, 1);
 		else if (compt == 2)
-			create_out_list(out, cmd, i, 2);
+			out = create_out(out, cmd, i, 2);
 		else if (compt > 2)
 			return (ft_error("syntax error near unexpected token `>'\n"));
 	}
-	if (!*out)
-		return (1);
-	return (0);
+	return (out);
 }
 
-int	put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd)
+int	put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd)
 {
 	int		i;
-	t_dir	*ptr;
 	int		compt;
 
 	i = 0;
-	ptr = go_to_last(infile);
 	while (cmd[i])
 	{
 		compt = 0;
-		while (cmd[i++] == '>')
+		while (cmd[i++] == '>' && bool_not_in_quotes(&cmd[i]))
 			compt++;
-		if (i <= ptr->pos)
-		{	
-			if (compt < 2)
-				choice_outdir(compt, out, cmd, i);
-			if (compt > 2 && bool_not_in_quotes(&cmd[i]))
-				return (ft_error("syntax error near unexpected token `>'\n"));
+		if (compt > 0)
+		{
+			if (i <= infile->pos)
+			{
+				if (compt <= 2)
+					out = choice_outdir(compt, out, cmd, i - 1);
+				if (compt > 2)
+					return (print_error_syntax(1));
+			}
+			else
+				return (out);
 		}
-		else
-			if (*out)
-				return (close_last_fd(out));
 	}
-	if (!*out)
-		return (1);
-	return (0);
+	return (out);
 }
 
-void	create_out_list(t_dir **out, char *cmd, int i, int flag)
-{
-	t_dir	*ptr;
-
-	if (!*out)
-	{
-		if (flag == 1)
-			*out = create_out_maillon(cmd, i, 1);
-		else
-			*out = create_out_maillon(cmd, i, 2);
-		if (!*out)
-			return ;
-	}
-	else
-	{
-		ptr = go_to_last(out);
-		close(ptr->fd);
-		if (flag == 1)
-			ptr->next = create_out_maillon(cmd, i, 1);
-		else
-			ptr->next = create_out_maillon(cmd, i, 2);
-		if (!ptr->next)
-			return ;
-	}
-}
-
-t_dir	*create_out_maillon(char *cmd, int i, int flag)
+int	create_out(int out, char *cmd, int i, int flag)
 {
 	char	*lim;
-	t_dir	*tmp;
 
-	tmp = ft_calloc(sizeof(t_dir), 1);
-	if (!tmp)
-		return (NULL);
-	tmp->fd = -1;
-	tmp->next = NULL;
+	if (out != 1)
+		close(out);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (tmp);
+		return (print_error_syntax(1));
 	if (flag == 1)
-		tmp->fd = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		out = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else
-		tmp->fd = open(lim, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (tmp->fd == -1)
+		out = open(lim, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (out == -1)
 		perror("open");
 	free(lim);
-	return (tmp);
+	return (out);
+}
+
+void	destroy_dir(t_dir **dir)
+{
+	t_dir	*ptr;
+	t_dir	*aux;
+
+	ptr = *dir;
+	while (ptr)
+	{
+		aux = ptr;
+		ptr = ptr->next;
+		aux->next = NULL;
+		free(aux);
+	}
+	*dir = NULL;
 }

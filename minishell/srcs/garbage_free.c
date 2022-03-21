@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_outdir_utils.c                                  :+:      :+:    :+:   */
+/*   garbage_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 18:15:05 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 13:51:17 by gsap             ###   ########.fr       */
+/*   Created: 2022/03/20 19:44:25 by gsap              #+#    #+#             */
+/*   Updated: 2022/03/21 11:56:00 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	choice_outdir(int compt, int out, char *cmd, int i)
+void	reset_bin(t_garbage bin)
 {
-	if (compt == 1 && bool_not_in_quotes(&cmd[i]))
-		return (create_out(out, cmd, i, 1));
-	else if (compt == 2 && bool_not_in_quotes(&cmd[i]))
-		return (create_out(out, cmd, i, 2));
-	return (-1);
+	bin.env = NULL;
+	bin.line = NULL;
+	bin.inpt = NULL;
+	bin.cmd = NULL;
 }
 
-int	close_last_fd(t_dir **out)
+void	free_bin(t_garbage bin)
 {
-	t_dir	*ptr;
+	printf("child ptrbin = %p\n", &bin);
+	printf("child ptrcmd = %p (%s)\n",bin.cmd, bin.cmd[0]);
 
-	ptr = go_to_last(out);
-	close(ptr->fd);
-	return (1);
+	destroy_env(&bin.env);
+	free(bin.expand);
+	destroy_list_line(bin.line);
+	ft_free_ls(bin.cmd);
+	free(bin.inpt);
 }

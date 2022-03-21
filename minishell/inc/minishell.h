@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/20 19:57:47 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:01:07 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,26 +88,46 @@ typedef struct s_dir
 	struct s_dir	*next;
 }	t_dir;
 
+typedef struct s_garbage
+{
+	t_env	*env;
+	t_line	**line;
+	char	*expand;
+	char	*inpt;
+	char	**cmd;
+}	t_garbage;
+
 //	main.c
 int		main(int argc, char **argv, char **envp);
-void	rm_rf_arg(int argc, char **argv);
+void	parse_line(t_env **env, t_line **line, char const *inpt, t_garbage bin);
 int		exit_ctr_d(t_env *env);
-void	exec_line(t_line **line, t_env **env, char *inpt);
-int		close_minishell(t_env *env);
+void	exec_line(t_line **line, t_env **env);
+int		close_minishell(t_env *env, int argc, char **argv);
 
 //	ft_error.c
 int		ft_error(char *err);
 void	print_error_wrpath(char *s);
 void	print_error_idf(char *s);
+int		print_error_syntax(int x);
 void	warning_here_doc(char *s, int x);
 
 //	ft_split_minishell.c
 char	**ft_split_minishell(char const *s, char c);
 
+//	garbage_free.c
+void	reset_bin(t_garbage bin);
+void	free_bin(t_garbage bin);
+
+//	ft_sig_init.c
+void	signal_main(void);
+void	signal_child(void);
+void	signal_here(void);
+
 //	handle_signal.c
-void	init_signal(void);
-void	handle_sigint(int sig);
-void	handle_sigquit(int sig);
+void	sigint_main(int sig);
+void	sigint_child(int sig);
+void	sigquit_main(int sig);
+void	sigquit_child(int sig);
 
 //	ft_tools.c
 int		ft_dir_access(char *str);
@@ -127,10 +147,11 @@ char	*del_quotes(char *lim);
 /********************************/
 
 //	ft_parsing.c
-void	parsing(t_env **env, t_line **line, char const *inpt);
+int		parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin);
 int		check_builtin(t_line *line, t_env **env);
 
 //	ft_check_pipe.c
+int		check_inpt(char **cmd, char const *inpt);
 int		check_pipe(char **cmd, char const *inpt);
 int		check_nbr_pipe(char **cmd, char const *inpt);
 int		check_quotes(char const *inpt);
@@ -138,8 +159,11 @@ int		check_quotes(char const *inpt);
 //	ft_line_func.c
 void	create_list_line(t_line **line, int len, t_env **env);
 t_line	*create_line(t_env **env);
-void	fill_line(char *cmd, t_line *ptr, t_env **env);
 void	destroy_list_line(t_line **line);
+
+//	fill_line.c
+void	fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
+int		place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile);
 
 //	ft_limiteur.c
 char	*grep_indir(char const *str);
@@ -147,11 +171,10 @@ char	*get_limiteur(const char *str);
 char	*error_limiteur(const char str);
 
 //	ft_here_doc.c
-int		write_here_doc_on_fd(char *lim);
+int		write_here_doc_on_fd(char *lim, t_garbage bin);
 void	get_here_doc(char *lim, int fd[2]);
-void	put_here_doc(t_dir **here, char *cmd);
-int		create_here_list(t_dir **here, char *cmd, int i);
-t_dir	*create_here_maillon(char *cmd, int i);
+int		put_here_doc(char *cmd, t_garbage bin);
+int		create_here(int here, char *cmd, int i, t_garbage bin);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
@@ -161,13 +184,13 @@ int		check_infile_access(char *lim);
 int		check_last_indir(char const *cmd);
 
 //	ft_outdir.c
-int		put_outdir(t_dir **out, t_dir **infile, int bis, char *cmd);
-int		put_outdir_upto_last_indir(t_dir **out, t_dir **infile, char *cmd);
-void	create_out_list(t_dir **out, char *cmd, int i, int flag);
-t_dir	*create_out_maillon(char *cmd, int i, int flag);
+int		put_outdir(t_dir *infile, char *cmd);
+int		put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd);
+int		create_out(int out, char *cmd, int i, int flag);
+void	destroy_dir(t_dir **dir);
 
 //	ft_outdir_utils.c
-void	choice_outdir(int compt, t_dir **out, char *cmd, int i);
+int		choice_outdir(int compt, int out, char *cmd, int i);
 int		close_last_fd(t_dir **out);
 
 //	ft_expand.c

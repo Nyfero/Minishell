@@ -6,59 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 14:56:41 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:07:02 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_sig;
-/*
-**	ctr + c
-**	return 130
-*/
-
-void	handle_sigint_2(int sig)
-{
-	(void)sig;
-	g_sig = 130;
-}
-
-/*
-**	ctr + \
-**	^\Quit (core dumped) dans child
-**	return 131
-*/
-
-void	handle_sigquit_2(int sig)
-{
-	(void)sig;
-	g_sig = 131;
-}
-
-void	init_signal_2(void)
-{
-	struct sigaction	sint;
-	struct sigaction	squit;
-
-	if (sigemptyset(&sint.sa_mask))
-	{
-		printf("Error: %s\n", strerror(errno));
-		return ;
-	}
-	if (sigemptyset(&squit.sa_mask))
-	{
-		printf("Error: %s\n", strerror(errno));
-		return ;
-	}
-	sint.sa_handler = &handle_sigint_2;
-	sint.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sint, NULL);
-	squit.sa_handler = &handle_sigquit_2;
-	squit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &squit, NULL);
-}
-
 /*
 int	ft_parcours_env_perso(t_env *env)//asuppra la fin
 {
@@ -81,7 +33,6 @@ int ft_parcous_arg(t_line *arg)//a suppr a la fin
 	return (0);
 }
 */
-
 int	ft_pipex_init(int *fd)
 {
 	fd[0] = 0;
@@ -129,7 +80,7 @@ void	pipex_entry_init(t_pipe *data, t_env **env)
 	data->in= -1;
 	data->path_res = 0;
 	data->cmd_treat = 0;
-	init_signal_2();
+	signal_child();
 }
 
 int	pipex_entry(t_line *arg, t_env **env)

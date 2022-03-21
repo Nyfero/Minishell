@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:36:51 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 10:53:52 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,29 @@
 **	Ouvre un pipe et écrit le here doc dedans puis renvoie fd[0]
 */
 
-int	write_here_doc_on_fd(char *lim)
+int	write_here_doc_on_fd(char *lim, t_garbage bin)
 {
 	int		fd[2];
-
+	pid_t	child;
 
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		return (-1);
 	}
-	//signal_custom_here();
-	write(1, "here_doc>", 9);
-	get_here_doc(lim, fd);
-	//init_signal();
+	child = fork();
+	if (child == -1)
+		return (-1);
+	if (!child)
+	{
+		signal_here();
+		get_here_doc(lim, fd);
+		free_bin(bin);
+		exit(0);
+	}
+	signal_child();
+	wait(&child);
+	signal_main();
 	close(fd[1]);
 	return (fd[0]);
 }
@@ -41,31 +50,34 @@ void	get_here_doc(char *lim, int fd[2])
 	int		x;
 
 	x = 1;
-	line = get_next_line(0);
-	if (!line)
-		return (warning_here_doc(lim, x));
-	while (ft_strncmp(line, lim, ft_strlen(lim) + 1))
+	while (1)
 	{
+		line = readline("here_doc> ");
+		if (!line)
+			return (warning_here_doc(lim, x));
+		x++;
+		if (!ft_strncmp(line, lim, ft_strlen(lim) + 1))
+			break;
 		i = 0;
 		while (line[i])
 			write(fd[1], line + i++, 1);
 		write(fd[1], "\n", 1);
 		free(line);
-		write(1, "here_doc>", 9);
-		x++;
-		line = get_next_line(0);
-		if (!line)
-			return (warning_here_doc(lim, x));
 	}
+	free(lim);
 	free(line);
+	close(fd[1]);
+	close(fd[0]);
 }
 
-void	put_here_doc(t_dir **here, char *cmd)
+int	put_here_doc(char *cmd, t_garbage bin)
 {
-	int		i;
-	int		compt;
+	int	i;
+	int	compt;
+	int	here;
 
 	i = -1;
+	here = 0;
 	while (cmd[++i])
 	{
 		compt = 0;
@@ -76,53 +88,26 @@ void	put_here_doc(t_dir **here, char *cmd)
 		}
 		if (compt == 2)
 		{
-			compt = create_here_list(here, cmd, i);
-			if (compt)
-				return ;
+			here = create_here(here, cmd, i, bin);
+			if (!here)
+				return (-1);
 		}
 		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
-		{
-			ft_putendl_fd("syntax error near unexpected token `<'", 2);
-			return ;
-		}
+			return (print_error_syntax(0));
 	}
+	return (here);
 }
 
-int	create_here_list(t_dir **here, char *cmd, int i)
-{
-	t_dir	*ptr;
-
-	if (!*here)
-	{
-		*here = create_here_maillon(cmd, i);
-		if (!*here || (*here)->fd == -1)
-			return (1);
-	}
-	else
-	{
-		ptr = go_to_last(here);
-		close(ptr->fd);
-		ptr->next = create_here_maillon(cmd, i);
-		if (!ptr->next || ptr->next->fd == -1)
-			return (1);
-	}
-	return (0);
-}
-
-t_dir	*create_here_maillon(char *cmd, int i)
+int	create_here(int here, char *cmd, int i, t_garbage bin)
 {
 	char	*lim;
-	t_dir	*tmp;
 
-	tmp = ft_calloc(sizeof(t_dir), 1);
-	if (!tmp)
-		return (NULL);
-	tmp->fd = -1;
-	tmp->next = NULL;
+	if (here)
+		close(here);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (tmp);
-	tmp->fd = write_here_doc_on_fd(lim);
+		return (print_error_syntax(0));
+	here = write_here_doc_on_fd(lim, bin);
 	free(lim);
-	return (tmp);
+	return (here);
 }
