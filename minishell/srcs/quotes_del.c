@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:47:12 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:55:48 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 11:48:58 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*replace_lim(char *lim, char *before, int i)
 		lim = ft_strdup(before);
 		free(before);
 	}
+	if (!lim)
+		return (NULL);
 	return (lim);
 }
 

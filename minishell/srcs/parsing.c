@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 10:47:46 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 13:45:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin)
 	return (0);
 }
 
-int	check_builtin(t_line *line, t_env **env)
+int	check_builtin(t_line *line, t_env **env, int x)
 {
 	char	**tmp;
 
@@ -56,7 +56,7 @@ int	check_builtin(t_line *line, t_env **env)
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
 		return (ft_cd(tmp, env));
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
-		return (ft_exit(tmp, env, line));
+		return (ft_exit(tmp, env, line, x));
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
 		return (ft_pwd(line, tmp));
 	else if (ft_strncmp(tmp[0], "echo", 5) == 0)
@@ -97,4 +97,11 @@ int	parse(t_env **env, t_line **line, char *inpt, t_garbage bin)
 	reset_bin(bin);
 	free(tmp);
 	return (ret_parsing);
+}
+
+int	check_only_redir(t_line *line)
+{
+	if (!ft_strlen(line->cmd) && (line->outdir > 1 || line->indir > 0))
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 10:46:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 11:58:13 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,14 @@ void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 	int	ret_parsing;
 
 	ret_parsing = parse(env, line, inpt, bin);
+	printf("0\n");
+	if (*line)
+		if (check_only_redir(*line))
+			ret_parsing = 2;
+	printf("1\n");
 	if (*line && ret_parsing != 2)
 		exec_line(line, env);
+	printf("2\n");
 	if (ret_parsing == 2)
 		destroy_list_line(line);
 	free(inpt);

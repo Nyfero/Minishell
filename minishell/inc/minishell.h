@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 10:55:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 14:02:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,10 @@ int		little_check(char *lim, int i, char *tmp);
 
 //	ft_parsing.c
 int		parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin);
-int		check_builtin(t_line *line, t_env **env);
+int		check_builtin(t_line *line, t_env **env, int x);
 int		close_wrong_inpt(char **cmd, int i);
 int		parse(t_env **env, t_line **line, char *inpt, t_garbage bin);
+int		check_only_redir(t_line *line);
 
 //	ft_check_pipe.c
 int		check_inpt(char **cmd, char const *inpt);
@@ -231,7 +232,7 @@ int		return_compt(int compt, int i);
 int		ft_echo(char **str, t_line *line);
 
 //	exit.c
-int		ft_exit(char **tmp, t_env **env, t_line *line);
+int		ft_exit(char **tmp, t_env **env, t_line *line, int x);
 int		ft_exit_arg(char **str, t_env **env, t_line *line);
 void	clean_exit_memory(char **str, t_env **env, t_line *line);
 
@@ -299,8 +300,9 @@ int		ft_pipex_check_out(t_line *arg, int *fd);
 int		pipex_entry(t_line *arg, t_env **env);
 
 // pipex_tools.c
-int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
+void	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
+int		ft_pipex_free_return(t_line *arg, int ret);
 int		ft_cpy_env(t_env **cpy, t_env *origin);
 
 //	pipex_child_tools.c

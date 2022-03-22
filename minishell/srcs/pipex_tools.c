@@ -6,11 +6,17 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:16:57 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 23:09:58 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 14:01:54 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_pipex_free_return(t_line *arg, int ret)
+{
+	destroy_list_line(&arg);
+	return (ret);
+}
 
 t_env	*ft_cpy_env_2(t_env *origin)
 {
@@ -67,7 +73,7 @@ int	ft_pipex_close(int *fd, int fd_in, t_pipe *data)
 	return (1);
 }
 
-int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
+void	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 {
 	int	i;
 
@@ -92,6 +98,6 @@ int	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in)
 		destroy_env(&data->env);
 	if (data->real_env)
 		destroy_env(&data->real_env);
-	destroy_list_line(arg);
-	return (0);
+	if (arg)
+		destroy_list_line(arg);
 }

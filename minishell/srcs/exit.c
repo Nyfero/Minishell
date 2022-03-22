@@ -6,19 +6,24 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:14:04 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 10:40:02 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 13:48:15 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(char **tmp, t_env **env, t_line *line)
+int	ft_exit(char **tmp, t_env **env, t_line *line, int x)
 {
 	if (!tmp[1])
 	{
-		clean_exit_memory(tmp, env, line);
 		ft_putendl_fd("exit", 1);
-		exit(0);
+		if (!x)
+		{
+			clean_exit_memory(tmp, env, line);
+			exit(0);
+		}
+		ft_free_ls(tmp);
+		return (0);
 	}
 	else if (ft_lstrlen(tmp) > 2)
 	{
@@ -27,7 +32,12 @@ int	ft_exit(char **tmp, t_env **env, t_line *line)
 		return (1);
 	}
 	else
-		exit(ft_exit_arg(tmp, env, line));
+	{
+		if (!x)
+			exit(ft_exit_arg(tmp, env, line));
+		ft_free_ls(tmp);
+		return (ft_exit_arg(tmp, env, line));
+	}
 }
 
 int	ft_exit_arg(char **str, t_env **env, t_line *line)
@@ -35,7 +45,7 @@ int	ft_exit_arg(char **str, t_env **env, t_line *line)
 	int	i;
 
 	i = -1;
-	if (str[1][0] == '-')
+	if (str[1][0] == '-' || str[1][0] == '+')
 		i++;
 	while (str[1][++i])
 	{

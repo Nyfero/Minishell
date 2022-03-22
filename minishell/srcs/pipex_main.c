@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 23:10:17 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 14:01:57 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ int	pipex_entry(t_line *arg, t_env **env)
 	pipex_entry_init(&data, env);
 	if (!arg->next)
 	{
-		ret = check_builtin(arg, env);
+		ret = check_builtin(arg, env, 0);
 		if (ret != -1)
-			return (ret);
+			return (ft_pipex_free_return(arg, ret));
+		//return (ret);
 	}
 	if (*env)
 	{

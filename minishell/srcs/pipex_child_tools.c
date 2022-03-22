@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:46:01 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 23:07:29 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 13:44:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,12 @@ void	ft_child_check_arg(t_line **arg, t_pipe *data, int *fd_pipe, int fd_in)
 	(*arg)->indir = data->in;
 	if ((*arg)->outdir == -1 || (*arg)->indir == -1)
 		ft_pipex_child_exit_1(arg, data, fd_in, fd_pipe);
-	ret = check_builtin(*arg, &data->env);
+	ret = check_builtin(*arg, &data->env, 1);
 	if (ret != -1)
 	{
+		printf("built in\n");
 		ft_pipex_clean(arg, data, fd_pipe, fd_in);
+		printf("sub built in\n");
 		exit(ret);
 	}
 }
