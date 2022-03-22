@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 20:47:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 19:06:17 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,10 @@ int		little_check(char *lim, int i, char *tmp);
 
 //	ft_parsing.c
 int		parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin);
-int		check_builtin(t_line *line, t_env **env);
+int		check_builtin(t_line *line, t_env **env, int x);
+int		close_wrong_inpt(char **cmd, int i);
+int		parse(t_env **env, t_line **line, char *inpt, t_garbage bin);
+int		check_only_redir(t_line *line, t_env **env, char *inpt);
 
 //	ft_check_pipe.c
 int		check_inpt(char **cmd, char const *inpt);
@@ -171,6 +174,7 @@ int		fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
 int		place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile);
 int		place_outdir(char *expand, t_dir *infile);
 char	*place_cmd(char *expand);
+int		close_wrong_indir(char *expand, t_dir *infile);
 
 //	ft_limiteur.c
 char	*grep_indir(char const *str);
@@ -182,6 +186,7 @@ int		write_here_doc_on_fd(char *lim, t_garbage bin);
 void	get_here_doc(char *lim, int fd[2]);
 int		put_here_doc(char *cmd, t_garbage bin);
 int		create_here(int here, char *cmd, int i, t_garbage bin);
+int		close_here(int here);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
@@ -217,6 +222,7 @@ char	*ft_remove_redir(char *expand);
 char	*remove_infile(char *expand, int i);
 char	*remove_out(char *expand, int i);
 char	*blank_replace(char *tmp, char *expand, int i, int compt);
+int		return_compt(int compt, int i);
 
 /********************************/
 /*---------BUILTIN--------------*/
@@ -226,8 +232,10 @@ char	*blank_replace(char *tmp, char *expand, int i, int compt);
 int		ft_echo(char **str, t_line *line);
 
 //	exit.c
-int		ft_exit(char **tmp, t_env **env, t_line *line);
-int		ft_exit_arg(char **str, t_env **env, t_line *line);
+int		ft_exit(char **tmp, t_env **env, t_line *line, int x);
+int		ft_exit_arg(char **str, t_env **env, t_line *line, int x);
+void	clean_exit_memory(char **str, t_env **env, t_line *line, int x);
+void	print_error_exit(char *str);
 
 //	pwd.c
 int		ft_pwd(t_line *line, char **str);
@@ -293,8 +301,9 @@ int		ft_pipex_check_out(t_line *arg, int *fd);
 int		pipex_entry(t_line *arg, t_env **env);
 
 // pipex_tools.c
-int		ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
+void	ft_pipex_clean(t_line **arg, t_pipe *data, int *fd, int fd_in);
 int		ft_pipex_close(int *fd, int fd_in, t_pipe *data);
+int		ft_pipex_free_return(t_line *arg, int ret);
 int		ft_cpy_env(t_env **cpy, t_env *origin);
 
 //	pipex_child_tools.c

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 21:57:05 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 10:23:11 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,11 @@ int	create_here(int here, char *cmd, int i, t_garbage bin)
 	here = write_here_doc_on_fd(lim, bin);
 	free(lim);
 	return (here);
+}
+
+int	close_here(int here)
+{
+	if (here > 0)
+		close(here);
+	return (-2);
 }

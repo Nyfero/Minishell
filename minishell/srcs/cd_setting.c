@@ -6,20 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:22:12 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 23:15:41 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/22 14:10:18 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-**	printf("search new pwd\n");
-**	pwd = ft_get_var("PWD", *env);
-**	printf("pwd->flags = %d\n", pwd->flags);
-**	printf("pwd->name = %s\n", pwd->name);
-**	printf("pwd->var = %s\n", pwd->var);
-**	printf("end search new pwd\n");
-*/
 
 t_env	*ft_last_env(t_env	*env)
 {
@@ -66,15 +57,6 @@ int	ft_change_pwd(t_env **env)
 		return (ft_change_pwd_2(&pwd, cwd, 0));
 	return (0);
 }
-
-/*
-**	printf("search new oldpwd\n");
-**	old = ft_get_var("OLDPWD", *env);
-**	printf("old->flags = %d\n", old->flags);
-**	printf("old->name = %s\n", old->name);
-**	printf("old->var = %s\n", old->var);
-**	printf("end search new oldpwd\n");
-*/
 
 int	ft_change_oldpwd(t_env **env)
 {

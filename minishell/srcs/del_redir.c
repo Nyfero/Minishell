@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 13:47:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 20:42:00 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 10:55:03 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ char	*remove_infile(char *expand, int i)
 		}
 		if (compt)
 		{
-			if (compt == 1)
-				compt = i - 1;
-			else
-				compt = i - 2;
+			compt = return_compt(compt, i);
 			tmp = blank_replace(tmp, expand, i, compt);
 		}
 	}
@@ -70,10 +67,7 @@ char	*remove_out(char *expand, int i)
 		}
 		if (compt)
 		{
-			if (compt == 1)
-				compt = i - 1;
-			else
-				compt = i - 2;
+			compt = return_compt(compt, i);
 			tmp = blank_replace(tmp, expand, i, compt);
 		}
 	}
@@ -107,4 +101,13 @@ char	*blank_replace(char *tmp, char *expand, int i, int compt)
 	if (after)
 		tmp = ft_strjoin_and_free_all(tmp, after);
 	return (tmp);
+}
+
+int	return_compt(int compt, int i)
+{
+	if (compt == 1)
+		compt = i - 1;
+	else
+		compt = i - 2;
+	return (compt);
 }

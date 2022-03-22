@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_del.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:47:12 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:55:48 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 18:37:20 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,16 @@ char	*replace_lim(char *lim, char *before, int i)
 	else
 	{
 		free(lim);
-		lim = ft_strdup(before);
-		free(before);
+		if (before)
+		{
+			lim = ft_strdup(before);
+			free(before);
+		}
+		else
+			return (NULL);
 	}
+	if (!lim)
+		return (NULL);
 	return (lim);
 }
 
