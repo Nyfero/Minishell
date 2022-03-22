@@ -6,7 +6,7 @@
 #    By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/20 14:07:19 by gsap              #+#    #+#              #
-#    Updated: 2022/03/21 19:24:17 by gsap             ###   ########.fr        #
+#    Updated: 2022/03/22 10:14:49 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCS_PATH = srcs
 #	Files
 FILES = main.c \
 	echo.c pwd.c env.c unset.c export.c cd.c exit.c \
-	ft_env_func.c ft_export_utils.c cd_setting.c cd_tools.c \
+	env_func.c export_utils.c cd_setting.c cd_tools.c \
 	parsing.c check_inpt.c line_func.c fill_line.c garbage_free.c \
 	expand.c expand_utils.c \
 	here_doc.c infile.c outdir.c outdir_utils.c limiteur.c del_redir.c \

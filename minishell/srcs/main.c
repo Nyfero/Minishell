@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 23:03:09 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 10:46:35 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,39 +42,13 @@ int	main(int argc, char **argv, char **envp)
 
 void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 {
-	t_env	*ptr;
-	char	*tmp;
-	int		ret_parsing;
+	int	ret_parsing;
 
-	tmp = NULL;
-	ptr = ft_get_var("?", *env);
-	if (g_sig)
-	{
-		tmp = ft_itoa(g_sig);
-		ptr = mod_env_maillon(tmp, ptr, 2);
-	}
-	g_sig = 0;
-	ret_parsing = parsing(env, line, inpt, bin);
-	if (tmp)
-		free(tmp);
-	tmp = ft_itoa(ret_parsing);
-	if (ret_parsing)
-		ptr = mod_env_maillon(tmp, ptr, 2);
-	else
-		ptr = mod_env_maillon("0", ptr, 2);
-	if (inpt[0])
-		add_history(inpt);
-	reset_bin(bin);
+	ret_parsing = parse(env, line, inpt, bin);
 	if (*line && ret_parsing != 2)
-	{
-		free(tmp);
-		tmp = NULL;
 		exec_line(line, env);
-	}
 	if (ret_parsing == 2)
 		destroy_list_line(line);
-	if (tmp)
-		free(tmp);
 	free(inpt);
 }
 

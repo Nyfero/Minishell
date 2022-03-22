@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 20:47:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/22 10:55:42 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int		little_check(char *lim, int i, char *tmp);
 //	ft_parsing.c
 int		parsing(t_env **env, t_line **line, char const *inpt, t_garbage bin);
 int		check_builtin(t_line *line, t_env **env);
+int		close_wrong_inpt(char **cmd, int i);
+int		parse(t_env **env, t_line **line, char *inpt, t_garbage bin);
 
 //	ft_check_pipe.c
 int		check_inpt(char **cmd, char const *inpt);
@@ -171,6 +173,7 @@ int		fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
 int		place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile);
 int		place_outdir(char *expand, t_dir *infile);
 char	*place_cmd(char *expand);
+int		close_wrong_indir(char *expand, t_dir *infile);
 
 //	ft_limiteur.c
 char	*grep_indir(char const *str);
@@ -182,6 +185,7 @@ int		write_here_doc_on_fd(char *lim, t_garbage bin);
 void	get_here_doc(char *lim, int fd[2]);
 int		put_here_doc(char *cmd, t_garbage bin);
 int		create_here(int here, char *cmd, int i, t_garbage bin);
+int		close_here(int here);
 
 //	ft_infile.c
 int		put_infile(t_dir **infile, char *cmd);
@@ -217,6 +221,7 @@ char	*ft_remove_redir(char *expand);
 char	*remove_infile(char *expand, int i);
 char	*remove_out(char *expand, int i);
 char	*blank_replace(char *tmp, char *expand, int i, int compt);
+int		return_compt(int compt, int i);
 
 /********************************/
 /*---------BUILTIN--------------*/
@@ -228,6 +233,7 @@ int		ft_echo(char **str, t_line *line);
 //	exit.c
 int		ft_exit(char **tmp, t_env **env, t_line *line);
 int		ft_exit_arg(char **str, t_env **env, t_line *line);
+void	clean_exit_memory(char **str, t_env **env, t_line *line);
 
 //	pwd.c
 int		ft_pwd(t_line *line, char **str);
