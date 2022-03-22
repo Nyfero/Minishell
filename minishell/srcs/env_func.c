@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_func.c                                      :+:      :+:    :+:   */
+/*   env_func.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 17:44:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 19:24:40 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_env	*create_env_maillon(char *str, int flags)
 {
 	t_env	*tmp;
 	int		i;
-	int		j;
 
 	tmp = ft_calloc(sizeof(t_env), 1);
 	if (!tmp)
@@ -64,13 +63,10 @@ t_env	*create_env_maillon(char *str, int flags)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
-	j = i + 1;
-	while (str[j])
-		j++;
 	tmp->name = ft_substr(str, 0, i);
 	tmp->var = NULL;
 	if (flags == 0 || flags == 2)
-		tmp->var = ft_substr(str, i + 1, j);
+		tmp->var = ft_substr(str, i + 1, ft_strlen(str));
 	tmp->flags = flags;
 	tmp->next = NULL;
 	return (tmp);

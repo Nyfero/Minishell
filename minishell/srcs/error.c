@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:48:46 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 10:31:35 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 19:24:59 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	print_error_syntax(int x)
 	else
 		err = "syntax error near unexpected token `>'";
 	ft_putendl_fd(err, 2);
-	return (-1);
+	return (-2);
 }
 
 void	warning_here_doc(char *s, int x)

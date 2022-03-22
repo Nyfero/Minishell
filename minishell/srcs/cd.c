@@ -6,28 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 20:51:55 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 23:16:00 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-**!ft_strncmp(str, "--", 3) || !ft_strncmp(str, "~", 1) \
-**				|| !ft_strncmp(str, "", 1)
-**
-**bash: cd: OLDPWD not set											erreur = 1
-**bash: cd: sdfgyhuikjv: No such file or directory 					erreur = 1
-**jgourlin@e2r4p15:~$ cd -re
-**bash: cd: -r: invalid option  afficher premiere lettre apes '-' 	erreur = 2
-**
-**verifier si path valide apres car meme sortie cd?
-**Verifier si DOSSIER (sinon error 1)
-**
-**Verifier droit exec
-**
-**cd "" = rien (juste gerer les PWD OLDPWD)
-*/
 
 char	*ft_cd_cdpath(char *str, char **path)
 {

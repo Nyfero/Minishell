@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:32:39 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 23:03:09 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,35 @@ void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 {
 	t_env	*ptr;
 	char	*tmp;
+	int		ret_parsing;
 
+	tmp = NULL;
 	ptr = ft_get_var("?", *env);
-	tmp = ft_itoa(parsing(env, line, inpt, bin));
-	ptr = mod_env_maillon(tmp, ptr, 2);
+	if (g_sig)
+	{
+		tmp = ft_itoa(g_sig);
+		ptr = mod_env_maillon(tmp, ptr, 2);
+	}
+	g_sig = 0;
+	ret_parsing = parsing(env, line, inpt, bin);
+	if (tmp)
+		free(tmp);
+	tmp = ft_itoa(ret_parsing);
+	if (ret_parsing)
+		ptr = mod_env_maillon(tmp, ptr, 2);
+	else
+		ptr = mod_env_maillon("0", ptr, 2);
 	if (inpt[0])
 		add_history(inpt);
 	reset_bin(bin);
-	if (*line)
+	if (*line && ret_parsing != 2)
 	{
 		free(tmp);
 		tmp = NULL;
 		exec_line(line, env);
 	}
+	if (ret_parsing == 2)
+		destroy_list_line(line);
 	if (tmp)
 		free(tmp);
 	free(inpt);
@@ -79,12 +95,11 @@ int	exit_ctr_d(t_env *env)
 	return (0);
 }
 
-void    exec_line(t_line **line, t_env **env)
+void	exec_line(t_line **line, t_env **env)
 {
 	t_env	*ptr;
 	char	*tmp;
 
-	printf("ptr->indir:%d\nptr->outdir:%d\n", (*line)->indir, (*line)->outdir);
 	ptr = ft_get_var("?", *env);
 	tmp = ft_itoa(pipex_entry(*line, env));
 	if (g_sig)
@@ -96,5 +111,4 @@ void    exec_line(t_line **line, t_env **env)
 	}
 	ptr = mod_env_maillon(tmp, ptr, 2);
 	free(tmp);
-	destroy_list_line(line);
 }

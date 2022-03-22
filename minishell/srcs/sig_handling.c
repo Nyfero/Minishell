@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handling.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:43:17 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 19:15:30 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern	int g_sig;
+extern int	g_sig;
 
 /*
 **	sigint

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_outdir.c                                        :+:      :+:    :+:   */
+/*   outdir.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 14:50:53 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 19:25:54 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	put_outdir(t_dir *infile, char *cmd)
+int	put_outdir(char *cmd)
 {
 	int		i;
 	int		out;
@@ -20,8 +20,6 @@ int	put_outdir(t_dir *infile, char *cmd)
 
 	i = -1;
 	out = 1;
-	if (infile && infile->fd == -1)
-		return (put_outdir_upto_last_indir(out, infile, cmd));
 	while (cmd[++i])
 	{
 		compt = 0;
@@ -35,7 +33,9 @@ int	put_outdir(t_dir *infile, char *cmd)
 		else if (compt == 2)
 			out = create_out(out, cmd, i, 2);
 		else if (compt > 2)
-			return (ft_error("syntax error near unexpected token `>'\n"));
+			return (print_error_syntax(1));
+		if (out == -2)
+			return (out);
 	}
 	return (out);
 }
@@ -62,6 +62,8 @@ int	put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd)
 			}
 			else
 				return (out);
+			if (out == -2)
+				return (out);
 		}
 	}
 	return (out);
@@ -75,7 +77,7 @@ int	create_out(int out, char *cmd, int i, int flag)
 		close(out);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (print_error_syntax(1));
+		return (-2);
 	if (flag == 1)
 		out = open(lim, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else

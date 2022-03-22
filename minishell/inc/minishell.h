@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:07:45 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:47:43 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -135,12 +134,18 @@ int		ft_file_access(char	*str);
 t_dir	*go_to_last(t_dir **list);
 int		get_dolls(char *dup);
 
-//	ft_quotes.c
+//	quotes_check.c
 int		bool_not_in_quotes(char const *s);
 int		bool_not_in_simple(char const *s);
 int		bool_not_in_double(char const *s);
+char	*get_words_in_quotes(char *str, char c);
+int		ft_strchr_quotes(char const *s, char c);
+
+//	quotes_del.c
 char	*del_simple(char *lim);
+char	*replace_lim(char *lim, char *before, int i);
 char	*del_quotes(char *lim);
+int		little_check(char *lim, int i, char *tmp);
 
 /********************************/
 /*---------PARSING--------------*/
@@ -162,8 +167,10 @@ t_line	*create_line(t_env **env);
 void	destroy_list_line(t_line **line);
 
 //	fill_line.c
-void	fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
+int		fill_line(char *cmd, t_line *ptr, t_env **env, t_garbage bin);
 int		place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile);
+int		place_outdir(char *expand, t_dir *infile);
+char	*place_cmd(char *expand);
 
 //	ft_limiteur.c
 char	*grep_indir(char const *str);
@@ -184,7 +191,7 @@ int		check_infile_access(char *lim);
 int		check_last_indir(char const *cmd);
 
 //	ft_outdir.c
-int		put_outdir(t_dir *infile, char *cmd);
+int		put_outdir(char *cmd);
 int		put_outdir_upto_last_indir(int out, t_dir *infile, char *cmd);
 int		create_out(int out, char *cmd, int i, int flag);
 void	destroy_dir(t_dir **dir);
@@ -219,8 +226,8 @@ char	*blank_replace(char *tmp, char *expand, int i, int compt);
 int		ft_echo(char **str, t_line *line);
 
 //	exit.c
-int		ft_exit(char **tmp);
-int		ft_exit_arg(char **str);
+int		ft_exit(char **tmp, t_env **env, t_line *line);
+int		ft_exit_arg(char **str, t_env **env, t_line *line);
 
 //	pwd.c
 int		ft_pwd(t_line *line, char **str);
@@ -236,6 +243,7 @@ int		export_format_key_value(char *str, t_env **env, t_env *ptr);
 int		check_valid_export(char *str);
 int		format_key_value(char *str);
 void	print_flag_0(t_env *ptr, t_line *line);
+int		mod_pwd_custom(t_env *tmp);
 
 //	unset.c
 int		ft_unset(char **str, t_env **env);

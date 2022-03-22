@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_here_doc.c                                      :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 16:43:13 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 21:57:05 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	write_here_doc_on_fd(char *lim, t_garbage bin)
 	int		fd[2];
 	pid_t	child;
 
+	fd[0] = 0;
+	fd[1] = 0;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
@@ -57,7 +59,7 @@ void	get_here_doc(char *lim, int fd[2])
 			return (warning_here_doc(lim, x));
 		x++;
 		if (!ft_strncmp(line, lim, ft_strlen(lim) + 1))
-			break;
+			break ;
 		i = 0;
 		while (line[i])
 			write(fd[1], line + i++, 1);
@@ -86,13 +88,13 @@ int	put_here_doc(char *cmd, t_garbage bin)
 			i++;
 			compt++;
 		}
-		if (compt == 2)
+		if (compt == 2 && cmd[i])
 		{
 			here = create_here(here, cmd, i, bin);
-			if (!here)
-				return (-1);
+			if (here <= 0)
+				return (-2);
 		}
-		else if (compt > 2 && bool_not_in_quotes(&cmd[i]))
+		else if (!cmd[i] || (compt > 2 && bool_not_in_quotes(&cmd[i])))
 			return (print_error_syntax(0));
 	}
 	return (here);
@@ -106,7 +108,7 @@ int	create_here(int here, char *cmd, int i, t_garbage bin)
 		close(here);
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (print_error_syntax(0));
+		return (-1);
 	here = write_here_doc_on_fd(lim, bin);
 	free(lim);
 	return (here);

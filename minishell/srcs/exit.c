@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 15:14:04 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 17:33:26 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:47:46 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(char **tmp)
+int	ft_exit(char **tmp, t_env **env, t_line *line)
 {
 	if (!tmp[1])
 	{
 		ft_free_ls(tmp);
+		destroy_env(env);
+		destroy_list_line(&line);
 		ft_putendl_fd("exit", 1);
 		exit(0);
 	}
@@ -27,10 +29,10 @@ int	ft_exit(char **tmp)
 		return (1);
 	}
 	else
-		exit(ft_exit_arg(tmp));
+		exit(ft_exit_arg(tmp, env, line));
 }
 
-int	ft_exit_arg(char **str)
+int	ft_exit_arg(char **str, t_env **env, t_line *line)
 {
 	int	i;
 
@@ -45,6 +47,8 @@ int	ft_exit_arg(char **str)
 			ft_putstr_fd(str[1], 2);
 			ft_putendl_fd(": numeric arguments required", 2);
 			ft_free_ls(str);
+			destroy_env(env);
+			destroy_list_line(&line);
 			return (2);
 		}
 	}
@@ -55,5 +59,7 @@ int	ft_exit_arg(char **str)
 	if (i > 256)
 		i = i % 256;
 	ft_free_ls(str);
+	destroy_env(env);
+	destroy_list_line(&line);
 	return (i);
 }

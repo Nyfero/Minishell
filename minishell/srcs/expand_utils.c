@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_utils.c                                  :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:51:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 18:40:45 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 19:21:59 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern	int g_sig;
+extern int	g_sig;
 
 t_env	*check_good_expand(char *str, t_env **env)
 {
@@ -59,7 +59,7 @@ char	*replace_dolls(char *str, char *before, int i)
 		if (str[i] == '$')
 			compt++;
 		else
-			break;
+			break ;
 	}
 	after = ft_substr(str, i, ft_strlen(str));
 	if (!after)

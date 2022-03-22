@@ -6,13 +6,11 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:10:59 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 19:08:55 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 19:29:08 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-	//printf("bash: cd: %s: %s\n", path, strerror(errno));
 
 int	ft_cd_error_double(char *s1, char *s2)
 {
@@ -79,7 +77,6 @@ int	ft_change_oldpwd_pwd(t_env **old, int flags, char *var)
 
 int	ft_change_oldpwd_npwd(t_env **old, int flags)
 {
-	printf("PWD autre\n");
 	*old = mod_env_maillon("", *old, flags);
 	if (!old)
 		return (1);

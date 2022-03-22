@@ -6,11 +6,31 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 15:40:51 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/21 23:10:17 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_line	*ft_pipex_destroy_actual_line(t_line **arg)
+{
+	t_line	*ptr;
+	t_line	*ret;
+
+	ptr = *arg;
+	ret = ptr->next;
+	if (ptr->cmd)
+		free (ptr->cmd);
+	if (ptr->env)
+		ft_free_ls(ptr->env);
+	if (ptr->indir > 1)
+		close(ptr->indir);
+	if (ptr->outdir > 2)
+		close(ptr->outdir);
+	ptr->next = 0;
+	free(ptr);
+	return (ret);
+}
 
 int	ft_pipex_init(int *fd)
 {
@@ -27,25 +47,24 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	int		fd[2];
 	int		status;
 	int		ret;
+	t_line	*test;
 
 	if (ft_pipex_init(fd))
 		return (1);
 	child = fork();
 	if (child == -1)
-	{
-		ft_pipex_close(fd, fd_in, 0);
-		return (1);
-	}
+		return (ft_pipex_close(fd, fd_in, 0));
 	if (child == 0)
 		ft_pipex_child(arg, fd, fd_in, data);
 	if (fd_in > 0)
 		close(fd_in);
 	close(fd[1]);
-	if (arg->next)
-		ret = ft_pipex(arg->next, fd[0], data);
+	test = ft_pipex_destroy_actual_line(&arg);
+	if (test)
+		ret = ft_pipex(test, fd[0], data);
 	close(fd[0]);
 	waitpid(child, &status, 0);
-	if (!arg->next)
+	if (!test)
 		ret = WEXITSTATUS(status);
 	return (ret);
 }

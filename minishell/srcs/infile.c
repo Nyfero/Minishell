@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_infile.c                                        :+:      :+:    :+:   */
+/*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:01:52 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 13:48:28 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/21 20:40:25 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	put_infile(t_dir **infile, char *cmd)
 	int		i;
 	int		compt;
 
+	if (!cmd)
+		return (2);
 	i = -1;
 	while (cmd[++i])
 	{
@@ -81,7 +83,10 @@ t_dir	*create_infile_maillon(char *cmd, int i)
 	tmp->next = NULL;
 	lim = get_limiteur(&cmd[i]);
 	if (!lim)
-		return (tmp);
+	{
+		free(tmp);
+		return (NULL);
+	}
 	if (check_infile_access(lim))
 		return (tmp);
 	tmp->fd = open(lim, O_RDONLY);
