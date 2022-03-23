@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:10:59 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/21 19:29:08 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/23 11:57:56 by jgourlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ft_cd_error_double(char *s1, char *s2)
 	if (!res)
 		return (1);
 	write(2, res, ft_strlen(res));
+	free(res);
 	return (1);
 }
 
