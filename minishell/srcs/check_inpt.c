@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_inpt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 09:21:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 18:38:06 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/23 13:40:55 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_pipe(char **cmd, char const *inpt)
 		compt = 0;
 		while (cmd[i][++j])
 		{
-			if (cmd[i][j] != ' ' && cmd[i][j] != ';')
+			if (cmd[i][j] == ' ' || cmd[i][j] == ';')
 				compt++;
 		}
 		if ((size_t)compt == ft_strlen(cmd[i]))

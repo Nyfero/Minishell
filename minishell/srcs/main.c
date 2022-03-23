@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 18:10:43 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:10:25 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	exec_line(t_line **line, t_env **env)
 	if (g_sig)
 	{
 		if (g_sig == 131)
-			ft_putendl_fd("^\\Quit (core dumped)", 2);
+			ft_putendl_fd("Quit (core dumped)", 2);
 		free(tmp);
 		tmp = ft_itoa(g_sig);
 	}
