@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 19:06:17 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/23 17:21:40 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,10 +261,10 @@ void	del_env_maillon(t_env *ptr, t_env **env);
 
 //	env.c
 int		ft_env(char **str, t_env **env, t_line *line);
-int		ft_env_arg(char **str, t_line *line);
 char	**env_to_str(t_env **env);
 t_env	*create_env_flags(char *envp, t_env **env);
 t_env	*create_env_var(t_env **env);
+int		create_only_var(t_env **env);
 
 //	ft_env_func.c
 int		init_env(t_env **env, char **envp);

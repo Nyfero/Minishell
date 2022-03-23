@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:30:08 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:24:40 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/23 17:20:38 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	init_env(t_env **env, char **envp)
 	t_env	*ptr;
 
 	i = -1;
-	if (!envp)
-		return (0);
+	if (!envp || !envp[0])
+		return (create_only_var(env));
 	while (envp[++i])
 	{
 		if (!*env)

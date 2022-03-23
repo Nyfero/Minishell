@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:20:03 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/19 16:15:43 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/23 17:21:45 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,34 @@ t_env	*create_env_var(t_env **env)
 {
 	t_env	*ptr;
 
-	ptr = *env;
-	while (ptr->next)
+	if (!*env)
+	{
+		*env = create_env_maillon("?=0", 2);
+		if (!(*env))
+			return (0);
+		(*env)->next = create_env_maillon("!=$", 2);
+		if (!(*env)->next)
+			return (0);
+		return (*env);
+	}
+	else
+	{
+		ptr = *env;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = create_env_maillon("?=0", 2);
+		if (!ptr->next)
+			return (0);
 		ptr = ptr->next;
-	ptr->next = create_env_maillon("?=0", 2);
-	if (!ptr->next)
-		return (0);
-	ptr = ptr->next;
-	ptr->next = create_env_maillon("!=$", 2);
-	if (!ptr->next)
-		return (0);
-	return (ptr->next);
+		ptr->next = create_env_maillon("!=$", 2);
+		return (ptr->next);
+	}
+}
+
+int	create_only_var(t_env **env)
+{
+	*env = create_env_var(env);
+	if (!(*env))
+		return (1);
+	return (0);
 }

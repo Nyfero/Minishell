@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 18:39:38 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:05:03 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	check_only_redir(t_line *line, t_env **env, char *inpt)
 
 	ptr = ft_get_var("?", *env);
 	if (!line->cmd)
-	{	
+	{
 		i = -1;
 		while (inpt[++i])
 		{

@@ -6,7 +6,7 @@
 #    By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 18:36:37 by jgourlin          #+#    #+#              #
-#    Updated: 2022/03/22 18:41:06 by jgourlin         ###   ########.fr        #
+#    Updated: 2022/03/23 16:16:53 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,12 +71,12 @@ OBJS = $(patsubst $(SRCS_PATH)%.c,    $(OBJS_PATH)%.o, $(SRCS))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_PATH) $(OBJS) $(INC)/minishell.h
-	@ echo "$(BLUE)\n         Make $(NAME) \n$(END)"
+	@ echo "$(BLUE)\n         ***Make $(NAME) ***\n$(END)"
 	$(HIDE) $(CC) $(CFLAGS) -lreadline $(OBJS) -o $(NAME) $(LIBFT)
 	@ echo "$(GREEN)\n        ---$(NAME) created ---\n$(END)"
 
 $(LIBFT): libft/Makefile
-	@ echo "$(BLUE)\n         Make Libft \n$(END)"
+	@ echo "$(BLUE)\n        ***Make Libft ***\n$(END)"
 	$(HIDE) make -C $(LIBFT_DIR)
 
 $(OBJS_PATH):
