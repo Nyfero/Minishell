@@ -6,11 +6,20 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:29:50 by gsap              #+#    #+#             */
-/*   Updated: 2021/06/30 15:16:29 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/26 18:06:09 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
+
+void	*check_who_is_not_null(char *s1, char *s2)
+{
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	return (NULL);
+}
 
 char	*ft_strjoin_and_free_all(char *s1, char *s2)
 {
@@ -20,12 +29,12 @@ char	*ft_strjoin_and_free_all(char *s1, char *s2)
 	char	*strcopie;
 
 	if (!s1 || !s2)
-		return (NULL);
+		return (check_who_is_not_null(s1, s2));
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	strcopie = (char *)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
 	if (!strcopie)
-		return (NULL);
+		return (check_who_is_not_null(s1, s2));
 	i = -1;
 	while (++i < len_s1)
 		strcopie[i] = s1[i];
@@ -35,7 +44,6 @@ char	*ft_strjoin_and_free_all(char *s1, char *s2)
 		i++;
 	}
 	strcopie[i] = 0;
-	free(s1);
-	free(s2);
+	check_who_is_not_NULL(s1, s2);
 	return (strcopie);
 }

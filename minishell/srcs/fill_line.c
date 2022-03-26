@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:49:56 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 18:11:47 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/26 18:11:59 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	place_indir(char *cmd, char	*expand, t_garbage bin, t_dir **infile)
 		return (close_here(here));
 	last_indir = check_last_indir(cmd);
 	ptr = go_to_last(infile);
-	if (!ptr && good_infile)
+	if (ptr && good_infile)
 		return (-1);
 	if (last_indir == 1)
 	{
@@ -68,8 +68,8 @@ int	place_outdir(char *expand, t_dir *infile)
 	int		out;
 
 	tmp = go_to_last(&infile);
-	if (infile && infile->fd == -1)
-		out = put_outdir_upto_last_indir(1, infile, expand);
+	if (tmp && tmp->fd == -1)
+		out = put_outdir_upto_last_indir(1, tmp, expand);
 	else
 		out = put_outdir(expand);
 	destroy_dir(&infile);

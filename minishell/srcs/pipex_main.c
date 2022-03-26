@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/22 18:09:59 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/26 18:04:25 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ t_line	*ft_pipex_destroy_actual_line(t_line **arg)
 		close(ptr->outdir);
 	ptr->next = 0;
 	if (ptr)
+	{
 		free(ptr);
+		ptr = NULL;
+	}
 	return (ret);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:42 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 18:38:24 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/26 17:34:50 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ void	destroy_list_line(t_line **line)
 			ft_free_ls(aux->path);
 		free(aux);
 	}
-	*line = NULL;
+	line = NULL;
 }

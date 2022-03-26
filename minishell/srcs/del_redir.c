@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 13:47:33 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 10:55:03 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/26 18:11:26 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,30 @@ char	*remove_out(char *expand, int i)
 	return (tmp);
 }
 
-char	*blank_replace(char *tmp, char *expand, int i, int compt)
+char	*blank_replace(char *tmp, char *s, int i, int compt)
 {
 	char	*after;
 
 	if (!tmp)
-		tmp = ft_substr(expand, 0, compt);
+		tmp = ft_substr(s, 0, compt);
 	else
-		tmp = ft_substr(tmp, 0, compt);
-	while (expand[i] == '>')
+	{
+		after = tmp;
+		tmp = ft_substr(after, 0, compt);
+		free(after);
+	}
+	while (s[i] == '>')
 		i++;
-	while (expand[i] == ' ')
+	while (s[i] == ' ')
 		i++;
-	while (expand[i] && ((expand[i] != ' ' && expand[i] != '|'
-				&& expand[i] != '<' && expand[i] != '>')
-			|| !bool_not_in_quotes(&expand[i])))
+	while (s[i] && ((s[i] != ' ' && s[i] != '|' && s[i] != '<' && s[i] != '>')
+			|| !bool_not_in_quotes(&s[i])))
 		i++;
 	after = ft_strdup(" ");
 	while (compt++ < i)
 		after = ft_strjoin_and_free_s1(after, " ");
 	tmp = ft_strjoin_and_free_all(tmp, after);
-	after = ft_substr(expand, i, ft_strlen(expand) - i);
+	after = ft_substr(s, i, ft_strlen(s));
 	if (after)
 		tmp = ft_strjoin_and_free_all(tmp, after);
 	return (tmp);

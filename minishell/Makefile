@@ -6,7 +6,7 @@
 #    By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 18:36:37 by jgourlin          #+#    #+#              #
-#    Updated: 2022/03/23 16:16:53 by gsap             ###   ########.fr        #
+#    Updated: 2022/03/26 15:57:46 by gsap             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,14 +43,14 @@ SRCS_PATH = srcs
 
 #    Files
 FILES = main.c \
-    echo.c pwd.c env.c unset.c export.c cd.c exit.c \
-    env_func.c export_utils.c cd_setting.c cd_tools.c \
-    parsing.c check_inpt.c line_func.c fill_line.c garbage_free.c \
-    expand.c expand_utils.c \
-    here_doc.c infile.c outdir.c outdir_utils.c limiteur.c del_redir.c \
-    pipex_main.c pipex_child.c pipex_tools.c pipex_child_tools.c \
-    ft_split_minishell.c error.c tools.c quotes_check.c quotes_del.c\
-    sig_init.c sig_handling.c
+	echo.c pwd.c env.c unset.c export.c cd.c exit.c \
+	env_func.c export_utils.c cd_setting.c cd_tools.c \
+	parsing.c check_inpt.c line_func.c fill_line.c garbage_free.c \
+	expand.c expand_utils.c \
+	here_doc.c infile.c outdir.c outdir_utils.c limiteur.c del_redir.c \
+	pipex_main.c pipex_child.c pipex_tools.c pipex_child_tools.c \
+	ft_split_minishell.c error.c tools.c quotes_check.c quotes_del.c\
+	sig_init.c sig_handling.c
 
 #    Compilation
 NAME = minishell
@@ -61,11 +61,11 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -rf
 
-SRCS = $(addprefix $(SRCS_PATH)/, $(FILES))
+SRCS = $(addprefix $(SRCS_PATH)/,	$(FILES))
 
 OBJS_PATH = objs/
 
-OBJS = $(patsubst $(SRCS_PATH)%.c,    $(OBJS_PATH)%.o, $(SRCS))
+OBJS = $(patsubst $(SRCS_PATH)%.c,	$(OBJS_PATH)%.o,	$(SRCS))
 
 #    Rules
 all: $(NAME)
@@ -89,12 +89,12 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC)/$(NAME).h Makefile
 clean:
 	$(HIDE) $(RM) $(OBJS_PATH)
 	$(HIDE) make clean -C $(LIBFT_DIR)
-	@ echo "$(PURPLE)\n         Clean objects \n$(END)"
+	@ echo "$(PURPLE)\n        *** Clean objects ***\n$(END)"
 
 fclean: clean
 	$(HIDE) $(RM) $(NAME)
 	$(HIDE) make fclean -C $(LIBFT_DIR)
-	@ echo "$(RED)\n         Remove $(NAME) \n$(END)"
+	@ echo "$(RED)\n        *** Remove $(NAME) ***\n$(END)"
 
 re: fclean all
 

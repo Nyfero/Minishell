@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:19:34 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/18 19:11:42 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/26 14:23:37 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static char	**ft_alloc_tmp(char const *s, char c)
 		compt++;
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] && (s[i] == c || s[i] == 9))
 			i++;
 		if (s[i] && bool_not_in_quotes(&s[i]))
 			if (s[i + 1])
 				compt++;
-		while (s[i] && s[i] != c)
+		while (s[i] && s[i] != c && s[i] != 9)
 			i++;
 	}
 	if (compt == 0)
@@ -73,9 +73,9 @@ static char	**ft_split_tmp(char const *s, char c, char **split)
 	while (*s)
 	{
 		i = 0;
-		while (*s && *s == c)
+		while (*s && (*s == c || *s == 9))
 			s++;
-		while (*s && (*s != c || !bool_not_in_quotes(s)))
+		while (*s && ((*s != c && *s != 9) || !bool_not_in_quotes(s)))
 		{
 			i++;
 			s++;
