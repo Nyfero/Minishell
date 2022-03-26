@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:48:46 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:24:59 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/26 19:53:01 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ int	print_error_syntax(int x)
 	return (-2);
 }
 
-void	warning_here_doc(char *s, int x)
+void	warning_here_doc(char *s, int x, int fd[2])
 {
 	ft_putstr_fd("warning: here-document at line ", 2);
 	ft_putnbr_fd(x, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(s, 2);
 	ft_putendl_fd("')", 2);
+	free(s);
+	clear_history();
+	close(fd[1]);
+	close(fd[0]);
 }

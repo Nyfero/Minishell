@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:29:50 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/26 18:06:09 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/26 18:14:30 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ char	*ft_strjoin_and_free_all(char *s1, char *s2)
 		i++;
 	}
 	strcopie[i] = 0;
-	check_who_is_not_NULL(s1, s2);
+	check_who_is_not_null(s1, s2);
 	return (strcopie);
 }

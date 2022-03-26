@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:19 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/25 12:34:52 by gsap             ###   ########.fr       */
+/*   Updated: 2022/03/26 19:52:47 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	get_here_doc(char *lim, int fd[2])
 	{
 		line = readline("here_doc> ");
 		if (!line)
-			return (warning_here_doc(lim, x));
+			return (warning_here_doc(lim, x, fd));
 		x++;
 		if (!ft_strncmp(line, lim, ft_strlen(lim) + 1))
 			break ;

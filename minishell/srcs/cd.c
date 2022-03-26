@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:52:30 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/23 11:57:49 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/03/26 19:18:45 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	ft_cd_parse_2(char *str, t_env **env)
 		if (!cdpath)
 			return (ft_error("Malloc failed\n"));
 		temp = ft_cd_cdpath(str, cdpath);
+		ft_free_ls(cdpath);
 		if (temp)
 		{
 			ret = ft_cd_path(temp, env, str);
