@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:49:56 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/26 18:11:59 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 11:10:16 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,19 @@ int	place_outdir(char *expand, t_dir *infile)
 char	*place_cmd(char *expand)
 {
 	char	*tmp;
+	char	*before;
+	char	*after;
+	int		i;
 
-	expand = ft_remove_redir(expand);
-	if (!expand)
+	tmp = ft_remove_redir(expand);
+	if (!tmp)
 		return (NULL);
-	tmp = del_quotes(expand);
-	if (!tmp[0])
-	{
-		free(tmp);
+	i = 0;
+	before = NULL;
+	after = NULL;
+	tmp = del_quotes_first_arg(tmp, i, before, after);
+	if (!tmp)
 		return (NULL);
-	}
 	return (tmp);
 }
 

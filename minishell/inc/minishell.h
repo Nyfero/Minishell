@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 09:30:11 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/26 19:53:27 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 11:21:54 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,12 @@ void	signal_main(void);
 void	signal_child(void);
 void	signal_here(void);
 
-//	handle_signal.c
+//	sig_handling.c
 void	sigint_main(int sig);
 void	sigint_child(int sig);
 void	sigquit_main(int sig);
 void	sigquit_child(int sig);
+int		check_segfault(int ret, int status);
 
 //	ft_tools.c
 int		ft_dir_access(char *str);
@@ -168,6 +169,7 @@ int		close_wrong_indir(char *expand, t_dir *infile);
 char	*grep_indir(char const *str);
 char	*get_limiteur(const char *str);
 char	*error_limiteur(const char str);
+char	**split_cmd(t_line *line);
 
 //	here_doc.c
 int		write_here_doc_on_fd(char *lim, t_garbage bin);
@@ -224,7 +226,7 @@ char	*del_simple(char *lim);
 char	*replace_lim(char *lim, char *before, int i);
 char	*del_quotes(char *lim);
 int		little_check(char *lim, int i, char *tmp);
-
+char	*del_quotes_first_arg(char *tmp, int i, char *before, char *after);
 /********************************/
 /*---------BUILTIN--------------*/
 /********************************/

@@ -6,7 +6,7 @@
 /*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:00:25 by jgourlin          #+#    #+#             */
-/*   Updated: 2022/03/26 18:04:25 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 10:57:17 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	ft_pipex(t_line *arg, int fd_in, t_pipe data)
 	waitpid(child, &status, 0);
 	if (!test)
 		ret = WEXITSTATUS(status);
+	ret = check_segfault(ret, status);
 	return (ret);
 }
 

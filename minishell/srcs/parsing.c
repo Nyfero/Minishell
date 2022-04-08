@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:29:02 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/26 18:12:34 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 11:21:19 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,8 @@ int	check_builtin(t_line *line, t_env **env, int x)
 
 	if (!line->cmd)
 		return (-1);
-	tmp = ft_split_minishell(line->cmd, ' ');
-	if (!tmp[0])
-	{
-		free(tmp);
-		return (-1);
-	}
-	else if (ft_strncmp(tmp[0], "env", 4) == 0)
+	tmp = split_cmd(line);
+	if (ft_strncmp(tmp[0], "env", 4) == 0)
 		return (ft_env(tmp, env, line));
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
 		return (ft_unset(tmp, env));

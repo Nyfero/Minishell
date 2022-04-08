@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:29:38 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:15:30 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 10:56:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,22 @@ void	sigquit_child(int sig)
 {
 	(void)sig;
 	g_sig = 131;
+}
+
+/*
+** segfault
+*/
+
+int	check_segfault(int ret, int status)
+{
+	if (WIFSIGNALED(status))
+	{
+		ret = WTERMSIG(status);
+		if (ret == 11)
+		{
+			ft_putendl_fd("segmentation fault (core dumped)", 2);
+			ret = 139;
+		}
+	}
+	return (ret);
 }

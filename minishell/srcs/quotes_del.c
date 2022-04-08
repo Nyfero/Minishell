@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_del.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourlin <jgourlin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:47:12 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/22 18:37:20 by jgourlin         ###   ########.fr       */
+/*   Updated: 2022/04/08 11:11:02 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,31 @@ int	little_check(char *lim, int i, char *tmp)
 		return (1);
 	}
 	return (0);
+}
+
+char	*del_quotes_first_arg(char *tmp, int i, char *before, char *after)
+{
+	while (tmp[i] && tmp[i] != ' ')
+	{
+		if (tmp [i] == '\"' || tmp[i] == '\'')
+		{
+			before = ft_substr(tmp, 0, i);
+			after = ft_substr(tmp, i + 1, ft_strlen(tmp));
+			free(tmp);
+			if (!before && !after)
+				return (NULL);
+			tmp = ft_strdup("");
+			if (before)
+				tmp = ft_strjoin_and_free_all(before, tmp);
+			if (!tmp)
+				return (NULL);
+			if (after)
+				tmp = ft_strjoin_and_free_all(tmp, after);
+			if (!tmp)
+				return (NULL);
+		}
+		else
+			i++;
+	}
+	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:53:48 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 21:01:28 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 10:22:49 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_echo(char **str, t_line *line)
 	while (str[++i])
 	{
 		ft_putstr_fd(str[i], line->outdir);
-		if (str[i])
+		if (str[i + 1])
 			ft_putstr_fd(" ", line->outdir);
 	}
 	if (j == 0)

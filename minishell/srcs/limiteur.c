@@ -6,7 +6,7 @@
 /*   By: gsap <gsap@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 11:53:43 by gsap              #+#    #+#             */
-/*   Updated: 2022/03/21 19:25:34 by gsap             ###   ########.fr       */
+/*   Updated: 2022/04/08 11:21:47 by gsap             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,28 @@ char	*error_limiteur(const char str)
 	else if (str == '>')
 		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
 	return (NULL);
+}
+
+char	**split_cmd(t_line *line)
+{
+	char	**tmp;
+	int		i;
+
+	tmp = ft_split_minishell(line->cmd, ' ');
+	if (!tmp[0])
+	{
+		free(tmp);
+		return (NULL);
+	}
+	i = -1;
+	while (tmp[++i])
+	{
+		tmp[i] = del_quotes(tmp[i]);
+		if (!tmp[i])
+		{
+			ft_free_ls(tmp);
+			return (NULL);
+		}
+	}
+	return (tmp);
 }
