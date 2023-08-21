@@ -22,18 +22,18 @@ int	main(int argc, char **argv, char **envp)
 	t_garbage	bin;
 
 	env = NULL;
-	if (init_env(&env, envp))
+	if (init_env(&env, envp))			// récupère les variables d'environnement
 		exit(1);
 	while (1)
 	{
 		g_sig = 0;
-		signal_main();
-		bin.env = env;
+		signal_main();					// (ré)initialise les signaux
+		bin.env = env;					// garbage collector
 		line = NULL;
-		inpt = readline("Prompt> ");
+		inpt = readline("Prompt> ");	// récupère l'input
 		bin.inpt = inpt;
 		if (!inpt)
-			return (exit_ctr_d(env));
+			return (exit_ctr_d(env));	// si ctrl + D
 		else
 			parse_and_exec(&env, &line, inpt, bin);
 	}
@@ -54,7 +54,7 @@ void	parse_and_exec(t_env **env, t_line **line, char *inpt, t_garbage bin)
 	test = ft_strncmp(ptr->var, "127", ft_strlen(ptr->var));
 	if ((*line && ret_parsing != 2) || !test)
 		exec_line(line, env);
-	if (ret_parsing == 2 && test)
+	if (ret_parsing == 2 && test)	// si CTRL + C
 	{
 		destroy_list_line(line);
 	}

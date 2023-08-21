@@ -10,6 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
+# this command is for check every leaks exept from readline
 # valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --show-leak-kinds=all --suppressions=.ignore_readline -q ./minishell
 
 #    Colors

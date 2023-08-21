@@ -13,18 +13,18 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <fcntl.h>
-# include <sys/wait.h>
 # include <signal.h>
 # include <dirent.h>
 # include <string.h>
 # include <errno.h>
-# include <sys/ioctl.h>
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
@@ -32,27 +32,27 @@
 # include <readline/readline.h>
 # include "../libft/inc/libft.h"
 
-//	message d'erreur
+//	messages d'erreur
 # define WR_PATH ": No such file or directory"
 # define WR_IDF ": not a valid identifier"
 # define OLDPWD_UNSET "OLDPWD not set"
 
-// stock une commande et pointe sur la commande suivante
+// enregistre une commande et pointe sur la commande suivante
 typedef struct s_line
 {
-	char			*cmd;
-	char			**env;
-	char			**path;
-	int				indir;
-	int				outdir;
-	struct s_line	*next;
+	char			*cmd;	// commande
+	char			**env;	// environnement
+	char			**path;	// path
+	int				indir;	// redirection d'entrée
+	int				outdir;	// redirection de sortie
+	struct s_line	*next;	// commande suivante
 }	t_line;
+
 /*
-**	indir flags:
-**	0 no < or <<
-**	1 = <
-**	2 = <<
-**	outdir same things
+**	flags de redirection:
+**	0 pas de redirection
+**	1 un seul > ou <
+**	2 >> ou <<
 */
 
 typedef struct s_pipe
@@ -66,6 +66,7 @@ typedef struct s_pipe
 	int				out;
 }	t_pipe;
 
+// structure de l'environnement
 typedef struct s_env
 {
 	char			*name;
@@ -73,6 +74,7 @@ typedef struct s_env
 	int				flags;
 	struct s_env	*next;
 }	t_env;
+
 /*
 **	flags:
 **	0 affichage env, export et echo
@@ -80,6 +82,7 @@ typedef struct s_env
 **	2 affichage echo
 */
 
+// structure pour les redirections
 typedef struct s_dir
 {
 	int				pos;
@@ -87,6 +90,7 @@ typedef struct s_dir
 	struct s_dir	*next;
 }	t_dir;
 
+// garbage collector, pour free les variables si here_doc
 typedef struct s_garbage
 {
 	t_env	*env;
@@ -227,6 +231,7 @@ char	*replace_lim(char *lim, char *before, int i);
 char	*del_quotes(char *lim);
 int		little_check(char *lim, int i, char *tmp);
 char	*del_quotes_first_arg(char *tmp, int i, char *before, char *after);
+
 /********************************/
 /*---------BUILTIN--------------*/
 /********************************/
